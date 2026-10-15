@@ -168,16 +168,7 @@ def write(path, content):
 # ---------------------------------------------------------------------------
 # Shared fragments
 # ---------------------------------------------------------------------------
-CARD_ICONS = {
- "books": '<path d="M3 8c5-2 9-2 14 1 5-3 9-3 14-1v19c-5-2-9-2-14 1-5-3-9-3-14-1Z M17 9v20"/>',
- "philosophy": '<circle cx="17" cy="12" r="8"/><circle cx="12" cy="21" r="8"/><circle cx="22" cy="21" r="8"/>',
- "lectures": '<path d="M8 3h13l6 6v22H8Z M21 3v6h6 M12 15h10 M12 20h10 M12 25h6"/>',
- "ceu": '<path d="M3 13 17 7l14 6-14 6Z M9 16v7c0 2 4 4 8 4s8-2 8-4v-7 M31 13v8"/>',
- "bipp": '<circle cx="11" cy="11" r="4"/><circle cx="23" cy="11" r="4"/><path d="M3 27c0-5 4-8 8-8s8 3 8 8 M15 27c0-5 4-8 8-8s8 3 8 8"/>',
- "anger": '<path d="M3 28 13 10l5 9 4-5 9 14Z"/>',
- "cognitive": '<path d="M12 4c-5 0-8 4-7 8-3 2-3 7 0 9 0 4 3 7 7 7h4V4Z M22 4c5 0 8 4 7 8 3 2 3 7 0 9 0 4-3 7-7 7h-4V4Z M17 4v24"/>',
- "workshops": '<rect x="3" y="5" width="28" height="18" rx="1"/><path d="M17 23v6 M10 29h14 M9 17l5-5 4 3 7-6"/>',
-}
+# Card icons are Sam's own filled-gold illustrations, cut from the homepage art (assets/img/icons/icon-<key>.png).
 CARDS = [
  ("books", "books/index.html", "Books", "Explore our publications", "cards/card-1.jpg", "A stack of leather-bound books with an open volume on top."),
  ("philosophy", "philosophy.html", "Philosophy", "Principles for conscious living", "cards/card-2.jpg", "Balanced stones stacked at the water's edge at sunrise."),
@@ -195,7 +186,7 @@ def program_cards(root):
         out.append(f"""      <li class="card">
         <img class="art" src="{root}assets/img/{img}" width="480" height="281" alt="{esc(alt)}" loading="lazy">
         <div class="body">
-          <svg class="icon" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">{CARD_ICONS[key]}</svg>
+          <img class="icon" src="{root}assets/img/icons/icon-{key}.png" width="128" height="128" alt="" loading="lazy">
           <h3><a href="{root}{href}">{title}</a></h3>
           <p class="desc">{desc}</p>
           <span class="more" aria-hidden="true">Learn more <span class="arrow">→</span></span>
@@ -1018,14 +1009,14 @@ def build_coming_soon():
 {mini}
     </ul>
 
-    <div class="capture-wrap frame">
+    <div class="capture-wrap">
       <div class="qr">
         <!-- QR: the code from the author's own teaser art. COPY NEEDED: confirm the URL it encodes points at
              this page on the final domain (Q1) BEFORE anything is printed. Regenerate if not. -->
-        <img src="assets/img/brand/qr-from-sam.png" alt="QR code linking to the early access mailing list." width="150" height="150">
-        <small>Scan to join</small>
+        <img src="assets/img/brand/qr-from-sam.png" alt="QR code linking to the early access mailing list." width="228" height="228">
+        <img class="qr-arrow" src="assets/img/brand/qr-arrow.png" alt="" width="314" height="158" aria-hidden="true">
       </div>
-      <div>
+      <div class="capture-copy">
         <p class="capture-head"><small>Scan to join our</small>Early Access Mailing List</p>
         <p class="capture-sub">Be the first to receive updates, new programs, book releases, workshops and launch information.</p>
         <form class="capture" name="early-access" method="POST" action="coming-soon.html?sent=1" data-netlify="true" netlify-honeypot="bot-field">
@@ -1038,9 +1029,12 @@ def build_coming_soon():
         <p class="capture-ok" role="status">Thank you. You are on the list. We will write when the Institute opens.</p>
         <p class="capture-note">Your address is used only to send launch news from The Capelli Institute{TM}. No tracking, no third parties.</p>
       </div>
+      <!-- The stone tablet is cut from Sam's teaser poster; the carved words are repeated as text for readers and screen readers. -->
+      <figure class="tablet">
+        <img src="assets/img/brand/tablet.jpg" alt="" width="224" height="336" loading="lazy">
+        <figcaption class="vh">Knowledge Regulates. Responsibility Transforms. Education Creates a Higher Human Potential.</figcaption>
+      </figure>
     </div>
-
-    <p class="teaser-rail">Knowledge Regulates. Responsibility Transforms. <em>Education</em> Creates a Higher Human Potential.</p>
   </div>
 </main>
 <footer class="teaser-foot">&copy; 2026 The Capelli Institute{TM} · El Paso, Texas · <a href="index.html" style="color:inherit">Enter the site</a></footer>
