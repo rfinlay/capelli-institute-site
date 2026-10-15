@@ -166,7 +166,7 @@ p:last-child{margin-bottom:0;}
    1920×441 after the text was lifted out. Desktop shows the WHOLE photo at the art's own aspect ratio,
    with the title set in navy on the bright sky exactly as his mockup has it. Below 1024px the photo is
    still shown complete (never cropped) as a band above the text. */
-.hero{position:relative; aspect-ratio:1920 / 441; min-height:0; display:grid; align-items:center; color:var(--ink); isolation:isolate; background:var(--navy); overflow:hidden;}
+.hero{position:relative; aspect-ratio:1920 / 441; display:grid; align-items:center; color:var(--ink); isolation:isolate; background:var(--navy); overflow:hidden;}
 /* min-height is exactly the photo's own proportion at this width, with no pixel floor: any floor taller than
    the photo would make `cover` crop the panorama's edges. The text is sized so it fits inside that band at
    every width the overlay layout is used (1200px and up); below that the photo is a band above the text. */
