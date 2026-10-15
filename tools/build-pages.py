@@ -17,10 +17,22 @@ transcribed in catalog.json and DESIGN-SPEC.md, or from facts he already publish
 thecapelligroup.com. Where copy is missing the page carries a visible .needs-copy block and
 an HTML comment beginning "COPY NEEDED:". Nothing is written in his voice.
 """
-import json, os, re, html
+import json, os, re, html, hashlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CAT = json.load(open(os.path.join(ROOT, "assets/data/catalog.json")))
+CAT_VERSION = hashlib.sha1(open(os.path.join(ROOT, "assets/data/catalog.json"), "rb").read()).hexdigest()[:8]
+
+# Where the site is served. GitHub Pages serves this repo under a project path, so the one page
+# that must use absolute URLs (404.html, served at any depth) is built against it. Change to "/"
+# when the site moves to its own domain.
+BASE_PATH = "/capelli-institute-site/"
+
+# Form delivery. None = preview build: the three forms submit nowhere, the page says so, and
+# nothing is lost silently. At launch set this to the endpoint of the chosen form service
+# (e.g. a Formspree or Basin URL) and every form posts there; no other code changes.
+FORM_ENDPOINT = None
+PREVIEW_NOTE = "This is the preview build: the form is not yet connected, so nothing was sent. Delivery is switched on at launch."
 PHONE = "915-799-0614"
 PHONE_TEL = "+19157990614"
 ADDRESS = "9739 Socorro Rd, El Paso, TX 79927"
@@ -44,12 +56,27 @@ def esc(s): return html.escape(s, quote=True)
 def seps(words, sep="·"):
     return f' <span class="sep">{sep}</span> '.join(esc(w) for w in words)
 
+def form_origin():
+    if not FORM_ENDPOINT: return ""
+    m = re.match(r"^(https?://[^/]+)", FORM_ENDPOINT)
+    return " " + m.group(1) if m else ""
+
+def form_open(cls, name, back):
+    """Opening <form> tag. Preview build posts back to the page (and JS intercepts); live build posts to FORM_ENDPOINT."""
+    if FORM_ENDPOINT:
+        return f'<form class="{cls}" name="{name}" method="POST" action="{esc(FORM_ENDPOINT)}" data-form="live">'
+    return f'<form class="{cls}" name="{name}" method="POST" action="{back}?sent=1" data-form="preview">'
+
 def head(title, desc, root, body_class=""):
+    # GitHub Pages cannot set response headers, so the content security policy ships as a meta tag.
+    # (frame-ancestors is header-only and is omitted; everything else holds.)
+    csp = f"default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; form-action 'self'{form_origin()}; base-uri 'self'; object-src 'none'"
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="{csp}">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 <meta name="theme-color" content="#000C1E">
@@ -136,7 +163,7 @@ def footer(root):
     </div>
   </div>
 </footer>
-<script src="{root}assets/data/catalog.js"></script>
+<script src="{root}assets/data/catalog.js?v={CAT_VERSION}"></script>
 <script src="{root}assets/js/institute.js"></script>
 </body>
 </html>
@@ -772,9 +799,9 @@ def build_ceu():
       <h2 id="register-title">Register for a CEU workshop</h2>
       <div class="rule left" aria-hidden="true"><span class="dia"></span></div>
       <p class="lede" style="margin:20px 0 28px">This is the Institute's one program with online registration. Your registration is sent to the Institute, which confirms your place by email.</p>
-      <!-- Netlify Forms: works on the Netlify deploy with no backend code. On WordPress or another host,
-           replace with that platform's form handler. No payment is collected here (Q5, Q14 open). -->
-      <form class="form" name="ceu-registration" method="POST" action="ceu.html?sent=1" data-netlify="true" netlify-honeypot="bot-field">
+      <!-- FORM: delivery endpoint is FORM_ENDPOINT in tools/build-pages.py (none on the preview build).
+           No payment is collected here (Q5, Q14 open). -->
+      {form_open("form", "ceu-registration", "ceu.html")}
         <input type="hidden" name="form-name" value="ceu-registration">
         <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="row">
@@ -799,7 +826,7 @@ def build_ceu():
           <span class="small dim">No payment is taken online. <!-- COPY NEEDED: whether the fee is paid at registration or at the door (Q14). --></span>
         </div>
       </form>
-      <div class="form-ok" role="status">Thank you. Your registration has been sent to The Capelli Institute. You will receive a confirmation by email.</div>
+      <div class="form-ok" role="status" data-preview="{esc(PREVIEW_NOTE)}">Thank you. Your registration has been sent to The Capelli Institute. You will receive a confirmation by email.</div>
     </div>
   </section>
 """
@@ -949,7 +976,7 @@ def build_workshops():
         <p class="eyebrow">Request a workshop</p>
         <h2 style="font-size:24px;margin-bottom:18px">Tell us about your organization</h2>
         <!-- Netlify Forms inquiry. Delivered to the Institute by email. Not a purchase, not a registration. -->
-        <form class="form" name="workshop-inquiry" method="POST" action="workshops.html?sent=1" data-netlify="true" netlify-honeypot="bot-field">
+        {form_open("form", "workshop-inquiry", "workshops.html")}
           <input type="hidden" name="form-name" value="workshop-inquiry">
           <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
           <div><label for="w-org">Organization<span class="req" aria-hidden="true">*</span></label><input id="w-org" name="organization" type="text" required autocomplete="organization"></div>
@@ -968,7 +995,7 @@ def build_workshops():
           <div><label for="w-msg">Message</label><textarea id="w-msg" name="message" placeholder="Where, who is attending, and what you hope they take away"></textarea></div>
           <div class="actions"><button class="btn solid" type="submit">Send inquiry <span class="arrow" aria-hidden="true">→</span></button></div>
         </form>
-        <div class="form-ok" role="status">Thank you. Your inquiry has been sent to The Capelli Institute. We will reply by email.</div>
+        <div class="form-ok" role="status" data-preview="{esc(PREVIEW_NOTE)}">Thank you. Your inquiry has been sent to The Capelli Institute. We will reply by email.</div>
       </div>
     </div>
   </section>
@@ -1019,14 +1046,14 @@ def build_coming_soon():
       <div class="capture-copy">
         <p class="capture-head"><small>Scan to join our</small>Early Access Mailing List</p>
         <p class="capture-sub">Be the first to receive updates, new programs, book releases, workshops and launch information.</p>
-        <form class="capture" name="early-access" method="POST" action="coming-soon.html?sent=1" data-netlify="true" netlify-honeypot="bot-field">
+        {form_open("capture", "early-access", "coming-soon.html")}
           <input type="hidden" name="form-name" value="early-access">
           <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
           <label class="vh" for="t-email">Email address</label>
           <input id="t-email" name="email" type="email" required autocomplete="email" placeholder="Your email address">
           <button class="btn solid" type="submit">Join the list</button>
         </form>
-        <p class="capture-ok" role="status">Thank you. You are on the list. We will write when the Institute opens.</p>
+        <p class="capture-ok" role="status" data-preview="{esc(PREVIEW_NOTE)}">Thank you. You are on the list. We will write when the Institute opens.</p>
         <p class="capture-note">Your address is used only to send launch news from The Capelli Institute{TM}. No tracking, no third parties.</p>
       </div>
       <!-- The stone tablet is cut from Sam's teaser poster; the carved words are repeated as text for readers and screen readers. -->
@@ -1045,17 +1072,17 @@ def build_coming_soon():
     write("coming-soon.html", content)
 
 def build_404():
-    root = "/"
-    # Absolute paths: a 404 is served at any depth.
+    root = BASE_PATH
+    # Absolute paths: a 404 is served at any depth, so it is built against BASE_PATH.
     body = f"""  <section class="simple" aria-labelledby="nf-title">
     <div class="wrap" style="text-align:center">
       <div class="big-404" aria-hidden="true">404</div>
       <h1 id="nf-title">That page is not here</h1>
       <p class="lede" style="margin:0 auto 28px">The address may be mistyped, or the page may have moved. Everything the Institute publishes is reachable from the menu above.</p>
       <div class="btn-row" style="justify-content:center">
-        <a class="btn" href="/index.html">Home <span class="arrow" aria-hidden="true">→</span></a>
-        <a class="btn ghost" href="/books/index.html">Books</a>
-        <a class="btn ghost" href="/lectures/index.html">Lectures in Print{TM}</a>
+        <a class="btn" href="{root}index.html">Home <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn ghost" href="{root}books/index.html">Books</a>
+        <a class="btn ghost" href="{root}lectures/index.html">Lectures in Print{TM}</a>
       </div>
     </div>
   </section>

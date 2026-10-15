@@ -1,7 +1,11 @@
 # The Capelli Institute™ — website
 
 Static HTML, CSS and vanilla JavaScript. No framework, no build step, no npm, no tracking.
-Opens from `file://` and from any static host. Deployed as a Netlify preview.
+Opens from `file://` and from any static host. Deployed on GitHub Pages at
+https://rfinlay.github.io/capelli-institute-site/ (branch `main`, root). Pages serves whatever is on `main`,
+so a push is a deploy. `BASE_PATH` in `tools/build-pages.py` is the Pages project path; `404.html` is built
+against it because Pages serves that page at any depth. Pages cannot set response headers, so the content
+security policy ships as a `<meta>` tag in every page.
 
 ## Layout
 
@@ -36,4 +40,9 @@ Opens from `file://` and from any static host. Deployed as a Netlify preview.
   The nav has no global call-to-action for the same reason.
 - No AI-written prose in the client's voice. All visible copy is transcribed from his art and sheets.
 - Palette and type are his: navy ground, single gold accent, Cinzel + EB Garamond (self-hosted, OFL).
-- Forms post to Netlify Forms on the Netlify deploy. On another host, swap the form handler.
+- Forms: GitHub Pages has no form backend. `FORM_ENDPOINT` in `tools/build-pages.py` is `None` on the preview
+  build, so the three forms (CEU registration, workshop inquiry, early-access list) are stopped in the browser
+  and the status box says nothing was sent. At launch set `FORM_ENDPOINT` to the chosen form service's URL,
+  regenerate, and every form posts there. Nothing is ever silently discarded.
+- `assets/data/catalog.js` is linked with a content-hash query string, so a catalog change is never served stale
+  from a browser cache.

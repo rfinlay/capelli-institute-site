@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; form-action 'self'; base-uri 'self'; object-src 'none'">
 <title>Coming Soon · Early January 2027 | The Capelli Institute™</title>
 <meta name="description" content="The Capelli Institute is coming early January 2027. A comprehensive educational platform for clinicians, professionals, and seekers of knowledge. Join the early access mailing list.">
 <meta name="theme-color" content="#000C1E">
@@ -57,14 +58,14 @@
       <div class="capture-copy">
         <p class="capture-head"><small>Scan to join our</small>Early Access Mailing List</p>
         <p class="capture-sub">Be the first to receive updates, new programs, book releases, workshops and launch information.</p>
-        <form class="capture" name="early-access" method="POST" action="coming-soon.html?sent=1" data-netlify="true" netlify-honeypot="bot-field">
+        <form class="capture" name="early-access" method="POST" action="coming-soon.html?sent=1" data-form="preview">
           <input type="hidden" name="form-name" value="early-access">
           <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
           <label class="vh" for="t-email">Email address</label>
           <input id="t-email" name="email" type="email" required autocomplete="email" placeholder="Your email address">
           <button class="btn solid" type="submit">Join the list</button>
         </form>
-        <p class="capture-ok" role="status">Thank you. You are on the list. We will write when the Institute opens.</p>
+        <p class="capture-ok" role="status" data-preview="This is the preview build: the form is not yet connected, so nothing was sent. Delivery is switched on at launch.">Thank you. You are on the list. We will write when the Institute opens.</p>
         <p class="capture-note">Your address is used only to send launch news from The Capelli Institute<span class="tm">™</span>. No tracking, no third parties.</p>
       </div>
       <!-- The stone tablet is cut from Sam's teaser poster; the carved words are repeated as text for readers and screen readers. -->

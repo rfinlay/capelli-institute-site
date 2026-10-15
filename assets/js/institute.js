@@ -35,6 +35,7 @@
     for (var i = 0; i < pool.length; i++) { if (pool[i].slug === slug) { item = pool[i]; break; } }
     var panel = document.querySelector('[data-variant-panel]');
     var cover = document.querySelector('[data-cover]');
+    var caption = document.querySelector('.cover-stage figcaption');
     var thumbs = document.querySelectorAll('.thumbs button');
 
     var money = function (n) {
@@ -83,6 +84,8 @@
       }
       panel.setAttribute('data-current', key);
       if (ed.image) setCover(ed.image.replace(/^assets\//, variants.getAttribute('data-root') + 'assets/'), ed.imageAlt);
+      /* Book captions name the edition shown; lecture captions carry the lecture number and stay put. */
+      if (caption && kind === 'book') caption.textContent = ed.name;
       thumbs.forEach(function (t) { t.setAttribute('aria-pressed', t.getAttribute('data-key') === key ? 'true' : 'false'); });
     };
 
@@ -104,19 +107,26 @@
   }
 
   /* ---- Forms (CEU registration, workshop inquiry, coming-soon capture) ----
-     These post to Netlify Forms when deployed there (data-netlify attribute). From file:// or
-     a host without form handling, we prevent the submit and show the confirmation so the
-     page still demonstrates the flow. The in-person program pages contain no form at all. */
-  var forms = document.querySelectorAll('form[data-netlify]');
+     The generator stamps each form with data-form="preview" or data-form="live" (FORM_ENDPOINT in
+     tools/build-pages.py). Live forms post to their endpoint untouched. Preview forms are stopped
+     here and the status box says plainly that nothing was sent, so no submission is ever lost
+     silently. The in-person program pages contain no form at all. */
+  var forms = document.querySelectorAll('form[data-form="preview"]');
   forms.forEach(function (f) {
     f.addEventListener('submit', function (e) {
-      var local = location.protocol === 'file:' || !/netlify|capelli/i.test(location.hostname);
-      if (local) { e.preventDefault(); f.classList.add('sent'); var ok = f.nextElementSibling; if (ok) { ok.setAttribute('tabindex', '-1'); ok.focus(); } }
+      e.preventDefault();
+      f.classList.add('sent');
+      var ok = f.nextElementSibling;
+      if (ok) {
+        var note = ok.getAttribute('data-preview');
+        if (note) ok.textContent = note;
+        ok.setAttribute('tabindex', '-1'); ok.focus();
+      }
     });
   });
-  /* Netlify redirects back with ?sent=1 after a successful post (see action attributes). */
+  /* A live endpoint that redirects back with ?sent=1 lands here and shows the real confirmation. */
   if (/[?&]sent=1/.test(location.search)) {
-    var sentForm = document.querySelector('form[data-netlify]');
+    var sentForm = document.querySelector('form[data-form="live"]');
     if (sentForm) { sentForm.classList.add('sent'); }
   }
 })();

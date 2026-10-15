@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; form-action 'self'; base-uri 'self'; object-src 'none'">
 <title>CEU&#x27;s | Continuing Education Units | The Capelli Institute™</title>
 <meta name="description" content="Continuing Education Units at The Capelli Institute, El Paso, Texas. State of Texas CEU Provider. Monthly workshops with online registration.">
 <meta name="theme-color" content="#000C1E">
@@ -103,9 +104,9 @@
       <h2 id="register-title">Register for a CEU workshop</h2>
       <div class="rule left" aria-hidden="true"><span class="dia"></span></div>
       <p class="lede" style="margin:20px 0 28px">This is the Institute's one program with online registration. Your registration is sent to the Institute, which confirms your place by email.</p>
-      <!-- Netlify Forms: works on the Netlify deploy with no backend code. On WordPress or another host,
-           replace with that platform's form handler. No payment is collected here (Q5, Q14 open). -->
-      <form class="form" name="ceu-registration" method="POST" action="ceu.html?sent=1" data-netlify="true" netlify-honeypot="bot-field">
+      <!-- FORM: delivery endpoint is FORM_ENDPOINT in tools/build-pages.py (none on the preview build).
+           No payment is collected here (Q5, Q14 open). -->
+      <form class="form" name="ceu-registration" method="POST" action="ceu.html?sent=1" data-form="preview">
         <input type="hidden" name="form-name" value="ceu-registration">
         <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="row">
@@ -130,7 +131,7 @@
           <span class="small dim">No payment is taken online. <!-- COPY NEEDED: whether the fee is paid at registration or at the door (Q14). --></span>
         </div>
       </form>
-      <div class="form-ok" role="status">Thank you. Your registration has been sent to The Capelli Institute. You will receive a confirmation by email.</div>
+      <div class="form-ok" role="status" data-preview="This is the preview build: the form is not yet connected, so nothing was sent. Delivery is switched on at launch.">Thank you. Your registration has been sent to The Capelli Institute. You will receive a confirmation by email.</div>
     </div>
   </section>
 </main>
@@ -168,7 +169,7 @@
     </div>
   </div>
 </footer>
-<script src="assets/data/catalog.js"></script>
+<script src="assets/data/catalog.js?v=e450bf88"></script>
 <script src="assets/js/institute.js"></script>
 </body>
 </html>
