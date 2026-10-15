@@ -166,8 +166,10 @@ p:last-child{margin-bottom:0;}
    1920×441 after the text was lifted out. Desktop shows the WHOLE photo at the art's own aspect ratio,
    with the title set in navy on the bright sky exactly as his mockup has it. Below 1024px the photo is
    still shown complete (never cropped) as a band above the text. */
-.hero{position:relative; min-height:max(300px, calc(100vw * 441 / 1920)); display:grid; align-items:center; color:var(--ink); isolation:isolate; background:var(--navy); overflow:hidden;}
-/* min-height, not aspect-ratio: the band is the photo's own proportion, and grows if the text needs more. */
+.hero{position:relative; min-height:calc(100vw * 441 / 1920); display:grid; align-items:center; color:var(--ink); isolation:isolate; background:var(--navy); overflow:hidden;}
+/* min-height is exactly the photo's own proportion at this width, with no pixel floor: any floor taller than
+   the photo would make `cover` crop the panorama's edges. The text is sized so it fits inside that band at
+   every width the overlay layout is used (1200px and up); below that the photo is a band above the text. */
 .hero::before{content:""; position:absolute; inset:0; z-index:-1; background:url("../img/hero.jpg") no-repeat center / cover;}
 .hero .wrap{position:relative; z-index:1; display:grid; grid-template-columns:minmax(170px,1fr) minmax(0,3.2fr) minmax(0,1fr); gap:24px; align-items:center; padding-top:14px; padding-bottom:14px;}
 .hero .rail{font-style:italic; font-size:clamp(14px,1.25vw,21px); line-height:1.3; color:var(--parchment); align-self:center; max-width:17ch; text-shadow:0 1px 10px rgba(0,0,0,.55);}
@@ -184,7 +186,7 @@ p:last-child{margin-bottom:0;}
 .hero .rule::before,.hero .rule::after{background:linear-gradient(90deg,transparent,var(--gold-deep) 30%,var(--gold-deep) 70%,transparent);}
 .hero .btn{min-height:40px; padding:9px 24px; font-size:12.5px; background:var(--navy); border-color:var(--gold); color:var(--gold); box-shadow:0 0 0 2px rgba(0,12,30,.35), 0 8px 24px rgba(0,0,0,.35);}
 .hero .btn:hover{background:var(--gold); color:var(--navy);}
-@media(max-width:1023px){
+@media(max-width:1199px){
   .hero{aspect-ratio:auto; min-height:0; display:block; color:var(--parchment);}
   .hero::before{content:""; position:static; display:block; width:100%; aspect-ratio:1920/441; background:url("../img/hero.jpg") no-repeat center / 100% auto;}
   .hero .wrap{display:grid; grid-template-columns:1fr; text-align:center; padding-top:var(--s6); padding-bottom:var(--s6); gap:0;}

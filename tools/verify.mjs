@@ -18,7 +18,15 @@ async function loadPlaywright() {
   const candidates = [process.env.PLAYWRIGHT_DIR, 'playwright'].filter(Boolean);
   const req = createRequire(join(ROOT, 'package.json'));
   for (const c of candidates) {
-    try { return await import(c.includes('/') ? c : req.resolve(c)); } catch {}
+    try {
+      if (c.includes('/')) {
+        // A directory (the documented form) or a file path.
+        const entry = existsSync(c) && statSync(c).isDirectory() ? ['index.mjs', 'index.js'].map(f => join(c, f)).find(existsSync) : c;
+        if (entry) return await import(entry);
+      } else {
+        return await import(req.resolve(c));
+      }
+    } catch {}
   }
   // Common global locations, last resort.
   for (const g of ['/opt/homebrew/lib/node_modules/playwright/index.mjs', '/usr/local/lib/node_modules/playwright/index.mjs', '/usr/lib/node_modules/playwright/index.mjs']) {
@@ -59,7 +67,7 @@ const urlFor = p => ORIGIN + BASE + p.slice(ROOT.length + 1);
 
 const bands = [[360, 'm'], [768, 't'], [1920, 'd']];
 const browser = await chromium.launch();
-let overflow = 0, blank = 0, brokenImgs = 0;
+let overflow = 0, blank = 0, brokenImgs = 0, unstyled = 0;
 for (const [w, tag] of bands) {
   mkdirSync(join(ROOT, '_verify', tag), { recursive: true });
   const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, deviceScaleFactor: 1 });
@@ -83,6 +91,7 @@ for (const [w, tag] of bands) {
     if (r.sw > r.iw) overflow++;
     if (r.text < 200) blank++;
     if (r.imgs.length) brokenImgs++;
+    if (!r.css) unstyled++;
     if (w === 360 || flag || r.imgs.length) console.log(`${w}px ${rel.padEnd(52)} scrollWidth=${r.sw} text=${r.text}${flag}${r.imgs.length ? ' BROKEN-IMG ' + r.imgs.join(',') : ''}`);
     await page.screenshot({ path: join(ROOT, '_verify', tag, rel.replace(/\//g, '__').replace(/\.html$/, '.png')), fullPage: true });
   }
@@ -118,9 +127,9 @@ for (const p of pages) {
 await page.goto(ORIGIN + BASE + 'books/does-not-exist/deep.html');
 const nf = await page.evaluate(() => ({ styled: getComputedStyle(document.body).fontFamily.includes('Garamond'), imgs: [...document.images].filter(i => !i.complete || i.naturalWidth === 0).length, text: document.body.innerText.includes('not here') }));
 console.log(`\n404 served at depth: styled=${nf.styled} brokenImgs=${nf.imgs} text=${nf.text}`);
-console.log(`Pages rendered: ${pages.length}  blank pages: ${blank}  overflow cases: ${overflow}  pages with broken images: ${brokenImgs}`);
+console.log(`Pages rendered: ${pages.length}  blank pages: ${blank}  overflow cases: ${overflow}  pages with broken images: ${brokenImgs}  unstyled renders: ${unstyled}`);
 console.log(`Links checked: ${checked}, broken: ${broken.length}`);
 broken.forEach(b => console.log('  BROKEN ' + b));
 await browser.close();
 server.close();
-if (!nf.styled || nf.imgs || broken.length || overflow || blank || brokenImgs) process.exitCode = 1;
+if (!nf.styled || nf.imgs || broken.length || overflow || blank || brokenImgs || unstyled) process.exitCode = 1;

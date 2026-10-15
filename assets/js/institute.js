@@ -83,9 +83,13 @@
         }
       }
       panel.setAttribute('data-current', key);
-      if (ed.image) setCover(ed.image.replace(/^assets\//, variants.getAttribute('data-root') + 'assets/'), ed.imageAlt);
-      /* Book captions name the edition shown; lecture captions carry the lecture number and stay put. */
-      if (caption && kind === 'book') caption.textContent = ed.name;
+      /* Book captions name the cover actually shown, so they only change when the edition has its own
+         cover art; an edition without art leaves the previous cover and its caption in place.
+         Lecture captions carry the lecture number and stay put. */
+      if (ed.image) {
+        setCover(ed.image.replace(/^assets\//, variants.getAttribute('data-root') + 'assets/'), ed.imageAlt);
+        if (caption && kind === 'book') caption.textContent = ed.name;
+      }
       thumbs.forEach(function (t) { t.setAttribute('aria-pressed', t.getAttribute('data-key') === key ? 'true' : 'false'); });
     };
 
