@@ -303,6 +303,8 @@ def build_home():
     </ul>
   </section>
 
+{pillar_band(root)}
+
   <section class="featured" aria-labelledby="featured-title">
     <div class="wrap">
       <div>
@@ -319,9 +321,7 @@ def build_home():
 {shelf}
       </div>
     </div>
-  </section>
-
-{pillar_band(root)}"""
+  </section>"""
     write("index.html", head(f"{SITE}™ | Education · Research · Certification · Publishing",
         "The Capelli Institute, El Paso, Texas. Books, Lectures in Print, philosophy, continuing education units, and clinical programs. Advancing clinical education through research, innovation, and psychological science.", root)
         + header(root, "home") + body + footer(root))
@@ -990,7 +990,7 @@ def build_workshops():
 # ---------------------------------------------------------------------------
 def build_coming_soon():
     root = ""
-    mini = "\n".join(f'        <li><img src="assets/img/{img}" alt="" width="200" height="200" loading="lazy"><b>{title}</b></li>' for _, _, title, _, img, _ in CARDS)
+    mini = "\n".join(f'        <li><img src="assets/img/{img}" alt="" width="200" height="200" loading="lazy"><b>{title}</b><i>{desc}</i></li>' for _, _, title, desc, img, _ in CARDS)
     content = f"""{head(f"Coming Soon · Early January 2027 | {SITE}™", "The Capelli Institute is coming early January 2027. A comprehensive educational platform for clinicians, professionals, and seekers of knowledge. Join the early access mailing list.", root, "teaser-page")}
 <header class="band" style="border-bottom:none">
   <div class="wrap">
