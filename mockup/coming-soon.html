@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Coming January 2027 | The Capelli Institute™ | Mockup</title>
+<meta name="description" content="Mockup pre-launch teaser. The Capelli Institute is coming January 2027. Leave your email to be notified at launch.">
+<meta name="theme-color" content="#000C1E">
+<script>document.documentElement.className+=' js';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap">
+<link rel="stylesheet" href="assets/css/institute.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="mockup-flag" role="note">Design mockup · pre-launch teaser · the email form has no backend yet · QR code is a sized placeholder</div>
+
+<!-- The teaser is a single screen. It ships BEFORE the main site (SCOPE §2.8) and is its own deliverable.
+     Launch month comes from Sam's own file name: Capelli_Institute_Coming_Soon_January_2027_QR.pdf.
+     Sam's teaser PDF is image-only; his art replaces this background once the vector/PNG is available. -->
+<main id="main" class="teaser" data-needs-asset="coming-soon-teaser-art">
+  <span class="ph-sun" aria-hidden="true" style="bottom:0;width:min(60vw,560px);opacity:.55"></span>
+  <span class="asset-tag" aria-hidden="true">Art slot: Sam's Coming Soon teaser</span>
+  <div class="inner">
+    <div class="crest" data-needs-asset="crest-emblem" role="img" aria-label="The Capelli crest placeholder">
+      <svg viewBox="0 0 112 112" fill="none" stroke="#FCB367" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M56 12 L86 22 V58 C86 78 72 92 56 100 C40 92 26 78 26 58 V22 Z"/><path d="M56 24 V88 M30 56 H82"/><path d="M40 48 V36 M35 40 C38 32 44 32 46 40 M35 40 C39 44 44 43 46 40"/><path d="M70 48 C64 42 68 36 70 32 C72 36 76 42 70 48 Z"/><path d="M33 72 C37 68 41 68 45 72 C41 76 37 76 33 72"/><path d="M62 80 L70 66 L78 80 Z"/><path d="M16 60 C12 44 20 30 30 24 M96 60 C100 44 92 30 82 24"/><path d="M44 12 L46 6 L52 10 L56 4 L60 10 L66 6 L68 12 Z"/></svg>
+    </div>
+    <h1>The Capelli Institute<span class="tm">™</span></h1>
+    <p class="caps" style="font-size:clamp(10px,1.2vw,13.5px);letter-spacing:.26em;color:var(--parchment);margin:10px 0 0">Education <span style="color:var(--gold)">•</span> Research <span style="color:var(--gold)">•</span> Certification <span style="color:var(--gold)">•</span> Publishing</p>
+    <div class="rule" style="max-width:360px;margin:20px auto" aria-hidden="true"><span class="dia"></span></div>
+    <p class="when">Coming January 2027</p>
+
+    <!-- Headline copy for the teaser is Sam's to supply (SCOPE Q13). Nothing written in his voice. -->
+    <p class="needs-copy" style="max-width:56ch;margin:0 auto 28px;text-align:left">the one or two lines the teaser says, in his words. The call only says "something is coming early January."</p>
+
+    <!-- EMAIL CAPTURE. Non-functional in the mockup: submit is prevented in institute.js.
+         Production needs a mailing-list backend (Mailchimp / Buttondown / WP plugin) and the final domain (Q1). -->
+    <form class="capture" action="#" method="post" novalidate aria-labelledby="capture-label">
+      <label id="capture-label" class="vh" for="email">Email address</label>
+      <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="your@email.com" required>
+      <button class="btn solid" type="submit">Notify me <span class="arrow" aria-hidden="true">→</span></button>
+    </form>
+    <p class="capture-ok" role="status">Thank you. In the live version this address joins the launch list.</p>
+    <p class="capture-note"><b>Mockup note</b> · this form stores nothing. The live page needs a mailing-list service connected before the QR code is printed.</p>
+
+    <!-- QR CODE. Sized for print: 1.25 in square (120 px on screen at 96 dpi), minimum for an arm's-length scan
+         on a flyer or card. The code must encode the FINAL domain (SCOPE Q1 / R9); generate only after Sam
+         confirms the exact string. A printed QR with the wrong domain cannot be recalled. -->
+    <div class="qr" data-needs-asset="qr-code-final-domain">
+      <div class="code" role="img" aria-label="QR code placeholder. Generated after the domain is confirmed.">QR<br>1.25 in</div>
+      <small>Scan to join the launch list</small>
+    </div>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap" style="justify-content:center">
+    <span>&copy; 2026 The Capelli Institute<span class="tm">™</span> · El Paso, Texas</span>
+  </div>
+</footer>
+<script src="assets/js/institute.js"></script>
+</body>
+</html>
