@@ -70,14 +70,14 @@ def header(root, current):
     return f"""<header class="band">
   <div class="wrap">
     <a class="crest" href="{root}index.html" aria-label="The Capelli Institute, home">
-      <img src="{root}assets/img/brand/crest.png" width="180" height="185" alt="The Capelli crest: a shield quartered with a tree, a flame, a wave and a mountain, under a crown and laurel, with the name Capelli on a banner.">
+      <img src="{root}assets/img/brand/crest.png" width="260" height="267" alt="The Capelli crest: a shield quartered with a tree, a flame, a wave and a mountain, under a crown and laurel, with the name Capelli on a banner.">
     </a>
     <a class="wordmark" href="{root}index.html">
       <span class="name">The Capelli Institute{TM}</span>
       <span class="pillars">Education <span class="sep">•</span> Research <span class="sep">•</span> Certification <span class="sep">•</span> Publishing</span>
     </a>
     <div class="motto">
-      <img class="roundel" src="{root}assets/img/brand/roundel.png" width="140" height="140" alt="Gold tree-of-life roundel.">
+      <img class="roundel" src="{root}assets/img/brand/roundel.png" width="200" height="200" alt="Gold tree-of-life roundel.">
       <p>Know Thyself<br>Master Thy Life<br>Ascend to Higher<br>Frequencies</p>
     </div>
   </div>
@@ -493,8 +493,7 @@ def build_book(b):
         {f'<div class="thumbs">{thumbs}</div>' if thumbs else ''}
       </figure>
       <div>
-        <h2 style="font-size:clamp(26px,3.4vw,44px)">{esc(b['title'])}</h2>
-        <p class="sub">{esc(b['subtitle'])}</p>
+        <h2 class="vh">Editions and details</h2>
         {sub2}
         <p class="author">{esc(CAT['author']['coverName'])}</p>
         <p class="kw" style="margin-bottom:24px">{seps(b['keywords'])}</p>
@@ -716,8 +715,7 @@ def build_lecture(it):
       </figure>
       <div>
         <p class="eyebrow">{esc(L['tagline'])}</p>
-        <h2 style="font-size:clamp(26px,3.4vw,44px)">{esc(it['title'])}</h2>
-        {f'<p class="sub">{esc(it["subtitle"])}</p>' if it.get('subtitle') else ''}
+        <h2 class="vh">Editions and details</h2>
         <p class="author">{esc(CAT['author']['coverName'])}</p>
         <h3 style="color:var(--parchment);font-size:14px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px">Introduction</h3>
         {syn}
@@ -996,13 +994,13 @@ def build_coming_soon():
     content = f"""{head(f"Coming Soon · Early January 2027 | {SITE}™", "The Capelli Institute is coming early January 2027. A comprehensive educational platform for clinicians, professionals, and seekers of knowledge. Join the early access mailing list.", root, "teaser-page")}
 <header class="band" style="border-bottom:none">
   <div class="wrap">
-    <div class="crest"><img src="assets/img/brand/crest.png" width="180" height="185" alt="The Capelli crest."></div>
+    <div class="crest"><img src="assets/img/brand/crest.png" width="260" height="267" alt="The Capelli crest."></div>
     <div class="wordmark">
       <span class="name">The Capelli Institute{TM}</span>
       <span class="pillars">Education <span class="sep">•</span> Research <span class="sep">•</span> Certification <span class="sep">•</span> Publishing</span>
     </div>
     <div class="motto">
-      <img class="roundel" src="assets/img/brand/roundel.png" width="140" height="140" alt="Gold tree-of-life roundel.">
+      <img class="roundel" src="assets/img/brand/roundel.png" width="200" height="200" alt="Gold tree-of-life roundel.">
       <p>Know Thyself<br>Master Thy Life<br>Ascend to Higher<br>Frequencies</p>
     </div>
   </div>
