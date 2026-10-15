@@ -265,6 +265,9 @@ p:last-child{margin-bottom:0;}
 .crumbs li+li::before{content:"\00B7"; color:var(--gold); margin:0 6px 0 0;}
 main > section{padding:var(--section) 0; border-bottom:1px solid var(--hair);}
 main > section.tight{padding:var(--s7) 0;}
+/* The home hero, program cards and pillar band are flush bands: no section padding, so the photo keeps its own aspect. */
+main > section.hero,main > section.programs,main > section.pillar-band{padding:0;}
+main > section.programs{padding:6px 6px 10px;}
 main > section.alt{background:var(--navy-deep);}
 .two{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start;}
 .two.wide-left{grid-template-columns:1.4fr 1fr;}
