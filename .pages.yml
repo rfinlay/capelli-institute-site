@@ -329,6 +329,9 @@ content:
           - name: phone
             label: Phone, as shown
             type: string
+            pattern:
+              regex: "^[0-9 ().+-]{7,20}$"
+              message: "Digits, spaces, dots, dashes and parentheses only, for example 915-799-0614"
           - name: phoneTel
             label: Phone, dialable (+1 and digits only)
             type: string

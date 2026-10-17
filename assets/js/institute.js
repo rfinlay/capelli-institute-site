@@ -98,8 +98,17 @@
       }
       var amz = panel.querySelector('[data-amazon]');
       if (amz) {
-        if (amazonUrl) { amz.setAttribute('href', amazonUrl); amz.hidden = false; }
-        else { amz.removeAttribute('href'); amz.hidden = true; }
+        if (amazonUrl) {
+          amz.setAttribute('href', amazonUrl);
+          amz.setAttribute('rel', 'noopener');
+          amz.setAttribute('target', '_blank');
+          amz.hidden = false;
+        } else {
+          amz.removeAttribute('href');
+          amz.removeAttribute('rel');
+          amz.removeAttribute('target');
+          amz.hidden = true;
+        }
       }
       var payNote = panel.querySelector('[data-pay-note]');
       if (payNote) payNote.hidden = !buyUrl;

@@ -114,7 +114,41 @@ def load_json(rel):
         return json.load(f)
 
 CAT = validate(normalize(load_json("assets/data/catalog.json")))
-COPY = load_json("assets/data/copy.json")
+
+# Page copy. Pages CMS drops a field the client clears, so every value falls back to the launch
+# wording below rather than failing the build. The two phone values go into text and into a tel:
+# href on every page, so they are held to a strict character set instead of being escaped case by case.
+COPY_DEFAULTS = {
+    "contact": {"phone": "915-799-0614", "phoneTel": "+19157990614", "address": "9739 Socorro Rd, El Paso, TX 79927"},
+    "home": {"thesis": "Advancing clinical education through research, innovation, and psychological science.",
+             "featuredHeading": "Five titles. Each in more than one edition.",
+             "featuredLede": "Paperback and hardback for everyday readers. Leather-bound, gold-foil collector's editions for the shelf. Every book is published by The Capelli Institute™ and written by its founder."},
+    "ceu": {"lede": "State of Texas CEU Provider for Continuing Education.",
+            "registerLede": "This is the Institute's one program with online registration. Your registration is sent to the Institute, which confirms your place by email."},
+    "workshops": {"lede": "Organizations can request a workshop or seminar delivered at their own location."},
+    "comingSoon": {"thesis": "Advancing Clinical Education Through Research, Innovation, and Psychological Science.",
+                   "when": "Early January 2027",
+                   "platform": "A comprehensive educational platform for clinicians, professionals, and seekers of knowledge."},
+}
+
+def load_copy():
+    raw = load_json("assets/data/copy.json")
+    out = {}
+    for section, defaults in COPY_DEFAULTS.items():
+        got = raw.get(section) or {}
+        out[section] = {k: (got[k].strip() if isinstance(got.get(k), str) and got[k].strip() else v) for k, v in defaults.items()}
+    errors = []
+    if not re.fullmatch(r"[0-9 ().+-]{7,20}", out["contact"]["phone"]):
+        errors.append(f"copy.json contact.phone must be digits, spaces, dots, dashes or parentheses (got {out['contact']['phone']!r})")
+    if not re.fullmatch(r"\+[0-9]{8,15}", out["contact"]["phoneTel"]):
+        errors.append(f"copy.json contact.phoneTel must be + followed by 8 to 15 digits (got {out['contact']['phoneTel']!r})")
+    if errors:
+        print("copy.json has problems; nothing was built:", file=sys.stderr)
+        for e in errors: print("  - " + e, file=sys.stderr)
+        sys.exit(1)
+    return out
+
+COPY = load_copy()
 CAT_VERSION = hashlib.sha1(open(os.path.join(ROOT, "assets/data/catalog.json"), "rb").read()).hexdigest()[:8]
 
 # Where the site is served. GitHub Pages serves this repo under a project path, so the one page
@@ -1122,7 +1156,8 @@ def build_workshops():
 def build_coming_soon():
     root = ""
     mini = "\n".join(f'        <li><img src="assets/img/{img}" alt="" width="200" height="200" loading="lazy"><b>{title}</b><i>{desc}</i></li>' for _, _, title, desc, img, _ in CARDS)
-    content = f"""{head(f"Coming Soon · Early January 2027 | {SITE}™", "The Capelli Institute is coming early January 2027. A comprehensive educational platform for clinicians, professionals, and seekers of knowledge. Join the early access mailing list.", root, "teaser-page")}
+    cs = COPY["comingSoon"]
+    content = f"""{head(f"Coming Soon · {cs['when']} | {SITE}™", f"The Capelli Institute is coming {cs['when'][0].lower() + cs['when'][1:]}. {cs['platform']} Join the early access mailing list.", root, "teaser-page")}
 <header class="band" style="border-bottom:none">
   <div class="wrap">
     <div class="crest"><img src="assets/img/brand/crest.png" width="260" height="267" alt="The Capelli crest."></div>
