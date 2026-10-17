@@ -1157,7 +1157,7 @@ def build_coming_soon():
     root = ""
     mini = "\n".join(f'        <li><img src="assets/img/{img}" alt="" width="200" height="200" loading="lazy"><b>{title}</b><i>{desc}</i></li>' for _, _, title, desc, img, _ in CARDS)
     cs = COPY["comingSoon"]
-    content = f"""{head(f"Coming Soon · {cs['when']} | {SITE}™", f"The Capelli Institute is coming {cs['when'][0].lower() + cs['when'][1:]}. {cs['platform']} Join the early access mailing list.", root, "teaser-page")}
+    content = f"""{head(f"Coming Soon · {cs['when']} | {SITE}™", f"The Capelli Institute is coming: {cs['when']}. {cs['platform']} Join the early access mailing list.", root, "teaser-page")}
 <header class="band" style="border-bottom:none">
   <div class="wrap">
     <div class="crest"><img src="assets/img/brand/crest.png" width="260" height="267" alt="The Capelli crest."></div>
