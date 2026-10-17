@@ -30,8 +30,8 @@
         "center": {"name": "The Central Diamond", "kicker": "The Self and Gnosis", "line": "Represents the conscious individual and the realized state achieved through the integration of all five elements. The point of balance where awareness becomes action, and potential becomes purpose.", "image": "assets/img/symbols/diamond.png"}
       },
       "editions": [
-        {"sku": "FEP-PB", "key": "paperback", "name": "Paperback Edition", "tagline": "Accessible · Professional · For Everyday Readers", "binding": "Paperback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "image": "assets/img/covers/five-elemental-paperback.jpg", "imageAlt": "A Five Elemental Philosophy, paperback edition. Five elemental roundels, Void, Wind, Fire, Water and Earth, arranged around a seated figure within a glowing diamond, above a mountain lake at sunrise."},
-        {"sku": "FEP-CE", "key": "collector", "name": "Collector's Edition (Signed)", "tagline": "Leather Bound · Gold Foil · Limited Edition · For Collectors", "binding": "Leather bound, gold foil, signed by the author", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "image": "assets/img/covers/five-elemental-collector.jpg", "imageAlt": "A Five Elemental Philosophy, Collector's Edition. Black leather binding with the five elemental symbols and central diamond stamped in gold foil."}
+        {"sku": "FEP-PB", "key": "paperback", "name": "Paperback Edition", "tagline": "Accessible · Professional · For Everyday Readers", "binding": "Paperback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/five-elemental-paperback.jpg", "imageAlt": "A Five Elemental Philosophy, paperback edition. Five elemental roundels, Void, Wind, Fire, Water and Earth, arranged around a seated figure within a glowing diamond, above a mountain lake at sunrise."},
+        {"sku": "FEP-CE", "key": "collector", "name": "Collector's Edition (Signed)", "tagline": "Leather Bound · Gold Foil · Limited Edition · For Collectors", "binding": "Leather bound, gold foil, signed by the author", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/five-elemental-collector.jpg", "imageAlt": "A Five Elemental Philosophy, Collector's Edition. Black leather binding with the five elemental symbols and central diamond stamped in gold foil."}
       ]
     },
     {
@@ -46,8 +46,8 @@
       "pullQuote": null,
       "feature": null,
       "editions": [
-        {"sku": "TCD-HB", "key": "hardback", "name": "Hardback Edition", "tagline": null, "binding": "Hardback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "image": "assets/img/covers/doctrine-hardback.jpg", "imageAlt": "The Capelli Doctrine, 37 Principles to Live By. A cloaked figure stands between two stone pillars facing a sunlit valley, beneath the five elemental symbols around a central diamond.", "_note": "COPY NEEDED: edition list for this title. Sam's sheet shows one cover and names no editions; hardback is assumed from his stated hardback + leather model."},
-        {"sku": "TCD-LB", "key": "collector", "name": "Leather Bound Edition", "tagline": null, "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "image": null, "imageAlt": null, "_note": "COPY NEEDED: no leather-bound cover art was sent for this title."}
+        {"sku": "TCD-HB", "key": "hardback", "name": "Hardback Edition", "tagline": null, "binding": "Hardback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/doctrine-hardback.jpg", "imageAlt": "The Capelli Doctrine, 37 Principles to Live By. A cloaked figure stands between two stone pillars facing a sunlit valley, beneath the five elemental symbols around a central diamond.", "_note": "COPY NEEDED: edition list for this title. Sam's sheet shows one cover and names no editions; hardback is assumed from his stated hardback + leather model."},
+        {"sku": "TCD-LB", "key": "collector", "name": "Leather Bound Edition", "tagline": null, "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": null, "imageAlt": null, "_note": "COPY NEEDED: no leather-bound cover art was sent for this title."}
       ]
     },
     {
@@ -65,9 +65,9 @@
       "backCoverImage": "assets/img/covers/architecture-back.jpg",
       "feature": null,
       "editions": [
-        {"sku": "AUO-HB", "key": "hardback", "name": "Hardback Edition", "tagline": null, "binding": "Hardback", "isbn": "978-1-7360000-0-0", "_isbnNote": "Printed on the back-cover art Sam sent. Open question Q20: real or placeholder art? Confirm before any Amazon listing.", "price": null, "stock": "preorder", "buyUrl": null, "image": "assets/img/covers/architecture-hardback.jpg", "imageAlt": "The Architecture of Universal Order, hardback. A seated figure before a golden tree of light framed by stone pillars, mountains and a sunlit valley beyond."},
-        {"sku": "AUO-SE", "key": "collector", "name": "Special Edition — Leather Bound", "tagline": "Collector's Edition", "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "image": "assets/img/covers/architecture-collector.jpg", "imageAlt": "The Architecture of Universal Order, Special Edition. Black leather binding with a gold-foil tree of life and crown."},
-        {"sku": "AUO-PB", "key": "paperback", "name": "Paperback Edition", "tagline": "More Affordable", "binding": "Paperback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "image": "assets/img/covers/architecture-paperback.jpg", "imageAlt": "The Architecture of Universal Order, paperback edition, same cover art as the hardback."}
+        {"sku": "AUO-HB", "key": "hardback", "name": "Hardback Edition", "tagline": null, "binding": "Hardback", "isbn": "978-1-7360000-0-0", "_isbnNote": "Printed on the back-cover art Sam sent. Open question Q20: real or placeholder art? Confirm before any Amazon listing.", "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/architecture-hardback.jpg", "imageAlt": "The Architecture of Universal Order, hardback. A seated figure before a golden tree of light framed by stone pillars, mountains and a sunlit valley beyond."},
+        {"sku": "AUO-SE", "key": "collector", "name": "Special Edition — Leather Bound", "tagline": "Collector's Edition", "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/architecture-collector.jpg", "imageAlt": "The Architecture of Universal Order, Special Edition. Black leather binding with a gold-foil tree of life and crown."},
+        {"sku": "AUO-PB", "key": "paperback", "name": "Paperback Edition", "tagline": "More Affordable", "binding": "Paperback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/architecture-paperback.jpg", "imageAlt": "The Architecture of Universal Order, paperback edition, same cover art as the hardback."}
       ]
     },
     {
@@ -92,8 +92,8 @@
         ]
       },
       "editions": [
-        {"sku": "VST-HB", "key": "hardback", "name": "Hardback Edition", "tagline": null, "binding": "Hardback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "image": "assets/img/covers/void-paperback.jpg", "imageAlt": "The Void in Separation Theory, hardback. An eclipse replaces the O of VOID above an ancient stone terrace, an olive tree and a misty valley at sunrise."},
-        {"sku": "VST-LB", "key": "collector", "name": "Leather Bound Edition", "tagline": null, "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "image": "assets/img/covers/void-collector.jpg", "imageAlt": "The Void in Separation Theory, leather bound edition. Navy leather with a gold-foil eclipse over a pillared gateway and stepping stones across still water."}
+        {"sku": "VST-HB", "key": "hardback", "name": "Hardback Edition", "tagline": null, "binding": "Hardback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/void-paperback.jpg", "imageAlt": "The Void in Separation Theory, hardback. An eclipse replaces the O of VOID above an ancient stone terrace, an olive tree and a misty valley at sunrise."},
+        {"sku": "VST-LB", "key": "collector", "name": "Leather Bound Edition", "tagline": null, "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/void-collector.jpg", "imageAlt": "The Void in Separation Theory, leather bound edition. Navy leather with a gold-foil eclipse over a pillared gateway and stepping stones across still water."}
       ],
       "_editionNote": "Sam's sheet shows two bindings unlabeled. Hardback + leather follow his stated model; confirm names."
     },
@@ -128,8 +128,8 @@
         ]
       },
       "editions": [
-        {"sku": "ZEN-HB", "key": "hardback", "name": "Hardback Edition", "tagline": null, "binding": "Hardback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "image": "assets/img/covers/zenpai-paperback.jpg", "imageAlt": "ZenPai, Balanced Conscious Movement, hardback. A martial artist holds a wide stance on a rocky summit above cloud-filled valleys at sunrise."},
-        {"sku": "ZEN-LB", "key": "collector", "name": "Leather Bound Edition", "tagline": null, "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "image": "assets/img/covers/zenpai-collector.jpg", "imageAlt": "ZenPai, leather bound edition. Black leather with a gold-foil martial figure inside a brushed enso circle and the zen character in red."}
+        {"sku": "ZEN-HB", "key": "hardback", "name": "Hardback Edition", "tagline": null, "binding": "Hardback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/zenpai-paperback.jpg", "imageAlt": "ZenPai, Balanced Conscious Movement, hardback. A martial artist holds a wide stance on a rocky summit above cloud-filled valleys at sunrise."},
+        {"sku": "ZEN-LB", "key": "collector", "name": "Leather Bound Edition", "tagline": null, "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/zenpai-collector.jpg", "imageAlt": "ZenPai, leather bound edition. Black leather with a gold-foil martial figure inside a brushed enso circle and the zen character in red."}
       ],
       "_editionNote": "Sam's sheet shows two bindings unlabeled. Confirm names."
     }

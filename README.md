@@ -1,11 +1,19 @@
 # The Capelli Institute™ — website
 
-Static HTML, CSS and vanilla JavaScript. No framework, no build step, no npm, no tracking.
-Opens from `file://` and from any static host. Deployed on GitHub Pages at
-https://rfinlay.github.io/capelli-institute-site/ (branch `main`, root). Pages serves whatever is on `main`,
-so a push is a deploy. `BASE_PATH` in `tools/build-pages.py` is the Pages project path; `404.html` is built
-against it because Pages serves that page at any depth. Pages cannot set response headers, so the content
-security policy ships as a `<meta>` tag in every page.
+Static HTML, CSS and vanilla JavaScript. No framework, no npm, no tracking. Opens from `file://` and from
+any static host. Deployed on GitHub Pages at https://rfinlay.github.io/capelli-institute-site/.
+
+**How a change goes live.** Every push to `main` runs `.github/workflows/pages.yml`: it regenerates the pages
+from `assets/data/catalog.json` and `assets/data/copy.json` with `tools/build-pages.py`, commits the
+regenerated HTML back to `main` (so the repository always holds what is live), and publishes the site to
+Pages. If the catalog fails validation the build exits non-zero, nothing is published, and the last good
+site stays up. The client edits the two data files through **Pages CMS** (`.pages.yml`, app.pagescms.org);
+a CMS save is a commit, so it rebuilds and publishes by itself. Guides for him: `SAM-EDITOR-GUIDE.md` and
+`STRIPE-SETUP-FOR-SAM.md`.
+
+`BASE_PATH` in `tools/build-pages.py` is the Pages project path; `404.html` is built against it because
+Pages serves that page at any depth. Pages cannot set response headers, so the content security policy
+ships as a `<meta>` tag in every page.
 
 ## Layout
 
@@ -21,14 +29,21 @@ security policy ships as a `<meta>` tag in every page.
 | `coming-soon.html` | Standalone launch teaser with QR and email capture |
 | `404.html`, `legal/privacy.html`, `legal/terms.html` | Not-found page and client-supplied legal placeholders |
 | `assets/data/catalog.json` | **Single source of truth** for books, editions, SKUs, ISBNs, prices, buy links and lectures |
+| `assets/data/copy.json` | Editable page copy: contact details, home page lines, CEU / workshops / launch intros |
 | `assets/data/catalog.js` | Derived from the JSON for the in-page edition selector. Do not edit by hand. |
+| `.pages.yml` | Pages CMS form definitions for the two data files. Every catalog key must be declared here (the CMS drops undeclared keys and empty values on save; the generator restores defaults) |
+| `.github/workflows/pages.yml` | Build, commit-back and publish on every push to `main` |
 | `assets/img/` | Optimized crops of the client's own art. Originals stay in `../assets-from-sam/` (not in this repo). |
 | `tools/build-pages.py` | Regenerates every page from `catalog.json` and the shared header/nav/footer. |
 
 ## Editing
 
-- **Add or change a book, edition, price, ISBN or purchase link:** edit `assets/data/catalog.json`, then run
-  `python3 tools/build-pages.py` and commit. Prices are numbers; `buyUrl` is the outbound (Amazon or other) link.
+- **Add or change a book, edition, price, ISBN or purchase link:** edit `assets/data/catalog.json` (or let
+  the client do it in Pages CMS), then run `python3 tools/build-pages.py` and commit. Prices are numbers.
+  Per edition, `buyUrl` is the client's **Stripe Payment Link** (gold "Buy this edition" button; the money
+  goes to his Stripe account) and `amazonUrl` is an optional secondary "Also on Amazon" link. An edition
+  with no `buyUrl` renders "Available soon" with no href at all, never a placeholder link. Both must be
+  `https://` or the build refuses.
 - **Header, nav, footer:** edit the functions at the top of `tools/build-pages.py`, regenerate, commit.
 - **™ → ®:** when the registration is granted, replace `™` inside `<span class="tm">` across the site (one find-and-replace).
 - **Copy the client still owes:** every spot is marked with an HTML comment starting `COPY NEEDED:` and a visible

@@ -103,11 +103,14 @@
             <dt>ISBN</dt><dd data-field="isbn" data-placeholder="isbn">To be assigned</dd>
             <dt>Price</dt><dd><span class="price" data-field="price" data-placeholder="price">$—</span></dd>
           </dl>
-          <a class="btn solid" data-buy href="#" aria-disabled="true">Purchase link available at launch</a>
-          <!-- COMMERCE: outbound purchase link per edition (Amazon or other channel). Set "buyUrl" in
-               assets/data/catalog.json. No cart or checkout exists on this site by decision; the SKU
-               structure above is what a checkout would bind to later. -->
-          <p class="ph-note">Prices, ISBNs and purchase links are published at launch. <!-- COPY NEEDED: price, ISBN and purchase URL for each edition --></p>
+          <a class="btn solid" data-buy aria-disabled="true">Available soon</a>
+          <a class="btn ghost" data-amazon hidden>Also on Amazon <span class="arrow" aria-hidden="true">→</span></a>
+          <p class="pay-note" data-pay-note hidden>Secure card checkout. Opens in a new tab.</p>
+          <!-- COMMERCE: one Stripe Payment Link per edition ("buyUrl" in assets/data/catalog.json, pasted
+               by the client in Pages CMS). The money goes to the client's own Stripe account. An optional
+               "amazonUrl" per edition adds the secondary Amazon link. No cart or checkout exists on this
+               site by decision; an edition with no buyUrl shows "Available soon", never a placeholder link. -->
+          <p class="ph-note" data-ph-note>Prices, ISBNs and purchase links are published at launch. <!-- COPY NEEDED: price, ISBN and purchase URL for each edition --></p>
           <p class="channels">Also available through Amazon and other booksellers at launch.</p>
         </div>
       </div>
@@ -149,7 +152,7 @@
     </div>
   </div>
 </footer>
-<script src="../assets/data/catalog.js?v=e450bf88"></script>
+<script src="../assets/data/catalog.js?v=4af97171"></script>
 <script src="../assets/js/institute.js"></script>
 </body>
 </html>

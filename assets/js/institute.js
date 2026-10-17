@@ -69,19 +69,42 @@
       set('isbn', ed.isbn, 'To be assigned');
       set('sku', ed.sku, '');
       set('price', money(ed.price), '$—');
+      /* Purchase controls. Only an https address becomes a link; anything else is the honest
+         "Available soon" state with no href at all. The Amazon link is hidden when the edition
+         has none. The two notes follow the same facts. */
+      var safeUrl = function (u) { return typeof u === 'string' && /^https:\/\/\S+$/.test(u) ? u : null; };
+      var arrow = function () {
+        var s = document.createElement('span');
+        s.className = 'arrow'; s.setAttribute('aria-hidden', 'true'); s.textContent = '→';
+        return s;
+      };
+      var buyUrl = safeUrl(ed.buyUrl), amazonUrl = safeUrl(ed.amazonUrl);
       var buy = panel.querySelector('[data-buy]');
       if (buy) {
-        if (ed.buyUrl) {
-          buy.setAttribute('href', ed.buyUrl);
+        if (buyUrl) {
+          buy.setAttribute('href', buyUrl);
           buy.removeAttribute('aria-disabled');
           buy.setAttribute('rel', 'noopener');
           buy.setAttribute('target', '_blank');
+          buy.textContent = 'Buy this edition ';
+          buy.appendChild(arrow());
         } else {
-          buy.setAttribute('href', '#');
-          buy.setAttribute('aria-disabled', 'true');
+          buy.removeAttribute('href');
+          buy.removeAttribute('rel');
           buy.removeAttribute('target');
+          buy.setAttribute('aria-disabled', 'true');
+          buy.textContent = 'Available soon';
         }
       }
+      var amz = panel.querySelector('[data-amazon]');
+      if (amz) {
+        if (amazonUrl) { amz.setAttribute('href', amazonUrl); amz.hidden = false; }
+        else { amz.removeAttribute('href'); amz.hidden = true; }
+      }
+      var payNote = panel.querySelector('[data-pay-note]');
+      if (payNote) payNote.hidden = !buyUrl;
+      var phNote = panel.querySelector('[data-ph-note]');
+      if (phNote) phNote.hidden = !!(buyUrl && ed.price !== null && ed.price !== undefined && ed.price !== '');
       panel.setAttribute('data-current', key);
       /* Book captions name the cover actually shown, so they only change when the edition has its own
          cover art; an edition without art leaves the previous cover and its caption in place.

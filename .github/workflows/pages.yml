@@ -1,0 +1,73 @@
+# Build and publish the site.
+#
+# Every push to main (a hand commit, or a Pages CMS save) regenerates the pages from
+# assets/data/catalog.json and assets/data/copy.json, publishes the result to GitHub Pages,
+# and commits the regenerated HTML back so the repository always holds what is live.
+# If the catalog has a problem, tools/build-pages.py exits non-zero, nothing is published,
+# and the previously published site stays up.
+
+name: Build and publish
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate pages from the catalog
+        run: python3 tools/build-pages.py
+
+      - name: Commit regenerated pages
+        # Only when a build changed something, and never on top of our own commit (the second
+        # run finds nothing to commit, so there is no loop).
+        if: github.actor != 'github-actions[bot]'
+        run: |
+          if git diff --quiet; then
+            echo "Pages already match the catalog."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- . ':!_site'
+          git commit -m "Rebuild pages from catalog edit"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Stage the deployable site
+        # Everything the browser needs, nothing else: no generator, no CMS config, no guides.
+        run: |
+          mkdir -p _site
+          rsync -a ./ _site/ \
+            --exclude '.git' --exclude '.github' --exclude '.neo' --exclude '_verify' \
+            --exclude '_site' --exclude 'tools' --exclude '.pages.yml' --exclude '*.md' \
+            --exclude '.gitignore' --exclude '.DS_Store'
+          test -f _site/index.html && test -f _site/.nojekyll
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

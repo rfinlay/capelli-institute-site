@@ -17,10 +17,104 @@ transcribed in catalog.json and DESIGN-SPEC.md, or from facts he already publish
 thecapelligroup.com. Where copy is missing the page carries a visible .needs-copy block and
 an HTML comment beginning "COPY NEEDED:". Nothing is written in his voice.
 """
-import json, os, re, html, hashlib
+import json, os, re, sys, html, hashlib, copy as _copy
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CAT = json.load(open(os.path.join(ROOT, "assets/data/catalog.json")))
+
+# ---------------------------------------------------------------------------
+# Catalog loading: normalize, then validate.
+#
+# The catalog is edited two ways: by hand, and through Pages CMS (.pages.yml). The CMS drops
+# every null or empty value when it saves, so "price": null simply disappears from the file.
+# Normalization puts every expected key back with its default, so the generator and the
+# in-page selector can rely on the shape. Validation then refuses to build on a value that
+# would ship a broken page (a non-https purchase link, a price that is not a number, a
+# duplicate edition key), naming the exact title and edition in the message. A failed build
+# in the GitHub Action leaves the previously published site untouched.
+# ---------------------------------------------------------------------------
+EDITION_DEFAULTS = {"tagline": None, "binding": "", "isbn": None, "price": None, "stock": "preorder",
+                    "buyUrl": None, "amazonUrl": None, "image": None, "imageAlt": None}
+BOOK_DEFAULTS = {"subtitle": "", "subtitle2": None, "keywords": [], "seriesLine": None, "description": None,
+                 "descriptionHeading": None, "pullQuote": None, "backCoverImage": None, "feature": None, "editions": []}
+LECTURE_DEFAULTS = {"subtitle": None, "synopsis": None, "excerpt": None, "video": None,
+                    "collectorImage": None, "collectorImageAlt": None, "editions": []}
+URL_FIELDS = ("buyUrl", "amazonUrl", "video")
+HTTPS = re.compile(r"^https://[^\s/]+\.[^\s]+$")
+
+def _fill(d, defaults):
+    for k, v in defaults.items():
+        if d.get(k) is None or d.get(k) == "":
+            d[k] = _copy.deepcopy(v)
+    for k in URL_FIELDS:
+        if isinstance(d.get(k), str):
+            d[k] = d[k].strip() or None
+
+def normalize(cat):
+    cat.setdefault("author", {}).setdefault("coverName", "")
+    cat.setdefault("books", []); cat.setdefault("lectures", {}).setdefault("items", [])
+    for b in cat["books"]:
+        _fill(b, BOOK_DEFAULTS)
+        for e in b["editions"]: _fill(e, EDITION_DEFAULTS)
+    for it in cat["lectures"]["items"]:
+        _fill(it, LECTURE_DEFAULTS)
+        for e in it["editions"]: _fill(e, EDITION_DEFAULTS)
+    return cat
+
+def validate(cat):
+    errors = []
+    def check_item(label, item, needs_image):
+        if not item.get("slug") or not re.match(r"^[a-z0-9-]+$", item["slug"]):
+            errors.append(f"{label}: slug must be lowercase letters, digits and hyphens (got {item.get('slug')!r})")
+        if not item.get("title"): errors.append(f"{label}: title is required")
+        if not item["editions"]: errors.append(f"{label}: at least one edition is required")
+        if needs_image and not any(e.get("image") for e in item["editions"]):
+            errors.append(f"{label}: at least one edition needs cover art")
+        keys = [e.get("key") for e in item["editions"]]
+        if len(set(keys)) != len(keys): errors.append(f"{label}: edition keys must be unique (got {keys})")
+        for e in item["editions"]:
+            el = f"{label}, edition {e.get('name') or e.get('sku') or '?'}"
+            for req in ("sku", "key", "name"):
+                if not e.get(req): errors.append(f"{el}: {req} is required")
+            p = e.get("price")
+            if p is not None:
+                try:
+                    p = float(p); assert p >= 0
+                    e["price"] = p
+                except (TypeError, ValueError, AssertionError):
+                    errors.append(f"{el}: price must be a number of dollars, like 29.95 (got {e.get('price')!r})")
+            for f in ("buyUrl", "amazonUrl"):
+                if e.get(f) is not None and not HTTPS.match(e[f]):
+                    errors.append(f"{el}: {f} must be a full https:// address (got {e[f]!r})")
+            if e.get("isbn") is not None and not isinstance(e["isbn"], str):
+                errors.append(f"{el}: isbn must be text, like 978-1-2345-6789-0")
+    slugs = []
+    for b in cat["books"]:
+        check_item(f"Book '{b.get('title') or b.get('slug')}'", b, needs_image=True); slugs.append(b.get("slug"))
+    lslugs = []
+    for it in cat["lectures"]["items"]:
+        label = f"Lecture No. {it.get('number')} '{it.get('title') or it.get('slug')}'"
+        if not it.get("number"): errors.append(f"{label}: number is required")
+        if not it.get("image"): errors.append(f"{label}: image is required")
+        if it.get("video") is not None and not HTTPS.match(it["video"]):
+            errors.append(f"{label}: video must be a full https:// address")
+        check_item(label, it, needs_image=False); lslugs.append(it.get("slug"))
+    if len(set(slugs)) != len(slugs): errors.append(f"Book slugs must be unique (got {slugs})")
+    if len(set(lslugs)) != len(lslugs): errors.append(f"Lecture slugs must be unique (got {lslugs})")
+    for lbl, path in (("book", "books/{}.html"), ("lecture", "lectures/{}.html")):
+        for s in (slugs if lbl == "book" else lslugs):
+            if s == "index": errors.append(f"A {lbl} cannot use the slug 'index'")
+    if errors:
+        print("catalog.json has problems; nothing was built:", file=sys.stderr)
+        for e in errors: print("  - " + e, file=sys.stderr)
+        sys.exit(1)
+    return cat
+
+def load_json(rel):
+    with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
+        return json.load(f)
+
+CAT = validate(normalize(load_json("assets/data/catalog.json")))
+COPY = load_json("assets/data/copy.json")
 CAT_VERSION = hashlib.sha1(open(os.path.join(ROOT, "assets/data/catalog.json"), "rb").read()).hexdigest()[:8]
 
 # Where the site is served. GitHub Pages serves this repo under a project path, so the one page
@@ -33,11 +127,15 @@ BASE_PATH = "/capelli-institute-site/"
 # (e.g. a Formspree or Basin URL) and every form posts there; no other code changes.
 FORM_ENDPOINT = None
 PREVIEW_NOTE = "This is the preview build: the form is not yet connected, so nothing was sent. Delivery is switched on at launch."
-PHONE = "915-799-0614"
-PHONE_TEL = "+19157990614"
-ADDRESS = "9739 Socorro Rd, El Paso, TX 79927"
+PHONE = COPY["contact"]["phone"]
+PHONE_TEL = COPY["contact"]["phoneTel"]
+ADDRESS = COPY["contact"]["address"]
 SITE = "The Capelli Institute"
 TM = '<span class="tm">™</span>'
+
+def tm(s):
+    """Escape client copy for a text node and turn every ™ into the small superscript mark."""
+    return html.escape(s, quote=False).replace("™", TM)
 
 NAV = [
     ("home", "index.html", "Home"),
@@ -261,13 +359,11 @@ def product_block(root, kind, item, editions, cover_alt_default):
                 {tag}
               </label>""")
     price = money(first.get("price"))
-    price_html = f'<span class="price">{price}</span>' if price else '<span class="price" data-field="price" data-placeholder="price">$—</span>'
-    if price: price_html = price_html.replace('class="price"', 'class="price" data-field="price"')
+    price_html = f'<span class="price" data-field="price">{price}</span>' if price else '<span class="price" data-field="price" data-placeholder="price">$—</span>'
     isbn = first.get("isbn")
     isbn_html = f'<dd data-field="isbn">{esc(isbn)}</dd>' if isbn else '<dd data-field="isbn" data-placeholder="isbn">To be assigned</dd>'
-    buy = first.get("buyUrl")
-    buy_html = (f'<a class="btn solid" data-buy href="{esc(buy)}" target="_blank" rel="noopener">Buy this edition <span class="arrow" aria-hidden="true">→</span></a>'
-                if buy else '<a class="btn solid" data-buy href="#" aria-disabled="true">Purchase link available at launch</a>')
+    buy_html = buy_controls(first)
+    channels = "" if any(e.get("amazonUrl") for e in editions) else '\n          <p class="channels">Also available through Amazon and other booksellers at launch.</p>'
     tagline = first.get("tagline") or "—"
     return f"""        <div class="variants" data-variants data-kind="{kind}" data-slug="{item['slug']}" data-root="{root}">
           <fieldset>
@@ -286,13 +382,28 @@ def product_block(root, kind, item, editions, cover_alt_default):
             <dt>ISBN</dt>{isbn_html}
             <dt>Price</dt><dd>{price_html}</dd>
           </dl>
-          {buy_html}
-          <!-- COMMERCE: outbound purchase link per edition (Amazon or other channel). Set "buyUrl" in
-               assets/data/catalog.json. No cart or checkout exists on this site by decision; the SKU
-               structure above is what a checkout would bind to later. -->
-          <p class="ph-note">Prices, ISBNs and purchase links are published at launch. <!-- COPY NEEDED: price, ISBN and purchase URL for each edition --></p>
-          <p class="channels">Also available through Amazon and other booksellers at launch.</p>
+{buy_html}
+          <!-- COMMERCE: one Stripe Payment Link per edition ("buyUrl" in assets/data/catalog.json, pasted
+               by the client in Pages CMS). The money goes to the client's own Stripe account. An optional
+               "amazonUrl" per edition adds the secondary Amazon link. No cart or checkout exists on this
+               site by decision; an edition with no buyUrl shows "Available soon", never a placeholder link. -->
+          <p class="ph-note" data-ph-note{" hidden" if (first.get("buyUrl") and first.get("price") is not None) else ""}>Prices, ISBNs and purchase links are published at launch. <!-- COPY NEEDED: price, ISBN and purchase URL for each edition --></p>{channels}
         </div>"""
+
+def buy_controls(ed):
+    """The purchase controls for one edition. Honest states only: a real https link, or 'Available soon'
+    with no href at all (an <a> without href is not a link to the browser or to a screen reader)."""
+    buy, amz = ed.get("buyUrl"), ed.get("amazonUrl")
+    if buy:
+        buy_html = f'<a class="btn solid" data-buy href="{esc(buy)}" target="_blank" rel="noopener">Buy this edition <span class="arrow" aria-hidden="true">→</span></a>'
+    else:
+        buy_html = '<a class="btn solid" data-buy aria-disabled="true">Available soon</a>'
+    if amz:
+        amz_html = f'<a class="btn ghost" data-amazon href="{esc(amz)}" target="_blank" rel="noopener">Also on Amazon <span class="arrow" aria-hidden="true">→</span></a>'
+    else:
+        amz_html = '<a class="btn ghost" data-amazon hidden>Also on Amazon <span class="arrow" aria-hidden="true">→</span></a>'
+    pay = f'<p class="pay-note" data-pay-note{"" if buy else " hidden"}>Secure card checkout. Opens in a new tab.</p>'
+    return f"          {buy_html}\n          {amz_html}\n          {pay}"
 
 # ---------------------------------------------------------------------------
 # HOME
@@ -306,7 +417,7 @@ def build_home():
       <div class="center">
         <h1 id="hero-title">The Capelli Institute{TM}</h1>
         <div class="rule" aria-hidden="true"><span class="dia"></span></div>
-        <p class="thesis">Advancing clinical education through research, innovation, and psychological science.</p>
+        <p class="thesis">{tm(COPY['home']['thesis'])}</p>
         <p class="pillars">Education <span class="sep">•</span> Research <span class="sep">•</span> Certification <span class="sep">•</span> Publishing</p>
         <a class="btn" href="#programs">Explore our programs <span class="arrow" aria-hidden="true">→</span></a>
       </div>
@@ -327,9 +438,9 @@ def build_home():
     <div class="wrap">
       <div>
         <p class="eyebrow">Publishing</p>
-        <h2 id="featured-title">Five titles. Each in more than one edition.</h2>
+        <h2 id="featured-title">{tm(COPY['home']['featuredHeading'])}</h2>
         <div class="rule left" aria-hidden="true"><span class="dia"></span></div>
-        <p class="lede">Paperback and hardback for everyday readers. Leather-bound, gold-foil collector's editions for the shelf. Every book is published by The Capelli Institute{TM} and written by its founder.</p>
+        <p class="lede">{tm(COPY['home']['featuredLede'])}</p>
         <div class="btn-row">
           <a class="btn" href="books/index.html">Browse the books <span class="arrow" aria-hidden="true">→</span></a>
           <a class="btn ghost" href="lectures/index.html">Lectures in Print{TM} <span class="arrow" aria-hidden="true">→</span></a>
@@ -718,11 +829,13 @@ def build_lecture(it):
     if it.get("collectorImage"):
         thumbs = f'<div class="thumbs"><button type="button" data-key="print" aria-pressed="true" aria-label="Show the print cover"><img src="{root}{it["image"]}" alt="" width="58"></button><button type="button" data-key="collector" aria-pressed="false" aria-label="Show the leather bound cover"><img src="{root}{it["collectorImage"]}" alt="" width="58"></button></div>'
         for e in it["editions"]:
-            e.setdefault("image", it["image"] if e["key"] == "print" else it["collectorImage"])
-            e.setdefault("imageAlt", it["imageAlt"] if e["key"] == "print" else it["collectorImageAlt"])
+            if not e.get("image"):
+                e["image"] = it["image"] if e["key"] == "print" else it["collectorImage"]
+                e["imageAlt"] = it["imageAlt"] if e["key"] == "print" else it["collectorImageAlt"]
     else:
         for e in it["editions"]:
-            e.setdefault("image", it["image"]); e.setdefault("imageAlt", it["imageAlt"])
+            if not e.get("image"):
+                e["image"] = it["image"]; e["imageAlt"] = it["imageAlt"]
     body = page_head(root, [("Home","index.html"),(f"Lectures in Print{TM}","lectures/index.html"),(f"No. {it['number']}",None)], esc(it["title"]), esc(it["subtitle"]) if it.get("subtitle") else None, f"Lectures in Print{TM} · Lecture No. {it['number']}") + f"""
   <section aria-label="Product">
     <div class="wrap product">
@@ -767,7 +880,7 @@ def build_ceu():
         <h2 id="about-title">Continuing education for clinicians and professionals</h2>
         <div class="rule left" aria-hidden="true"><span class="dia"></span></div>
         <!-- Fact below is published by the author on thecapelligroup.com: "State of Texas CEU Provider for Continuing Education". -->
-        <p class="lede">State of Texas CEU Provider for Continuing Education.</p>
+        <p class="lede">{tm(COPY['ceu']['lede'])}</p>
         {needs_copy("what the CEU workshops cover, who they are approved for (license types), how many units each session carries, the fee, and what attendees receive, in the author's words.")}
         <ul class="fact-list" style="margin-top:20px">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="1"/><path d="M3 9h18 M8 2v4 M16 2v4"/></svg><div><b>Cadence</b>Workshops are held monthly. <!-- COPY NEEDED: end of month or first of month (Q3). Dates come from the Institute calendar, not hand-edited copy. --></div></li>
@@ -798,7 +911,7 @@ def build_ceu():
       <p class="eyebrow">Online registration</p>
       <h2 id="register-title">Register for a CEU workshop</h2>
       <div class="rule left" aria-hidden="true"><span class="dia"></span></div>
-      <p class="lede" style="margin:20px 0 28px">This is the Institute's one program with online registration. Your registration is sent to the Institute, which confirms your place by email.</p>
+      <p class="lede" style="margin:20px 0 28px">{tm(COPY['ceu']['registerLede'])}</p>
       <!-- FORM: delivery endpoint is FORM_ENDPOINT in tools/build-pages.py (none on the preview build).
            No payment is collected here (Q5, Q14 open). -->
       {form_open("form", "ceu-registration", "ceu.html")}
@@ -964,7 +1077,7 @@ def build_workshops():
         <p class="eyebrow">On site, at your organization</p>
         <h2 id="about-title">Bring the Institute to your place of business</h2>
         <div class="rule left" aria-hidden="true"><span class="dia"></span></div>
-        <p class="lede">Organizations can request a workshop or seminar delivered at their own location.</p>
+        <p class="lede">{tm(COPY['workshops']['lede'])}</p>
         {needs_copy("the workshop and seminar offering: topics available, typical length, audience, and what an organization receives, in the author's words.")}
         <p class="eyebrow" style="margin-top:28px">Topics drawn from the Institute's published work</p>
         <ul class="fact-list">
@@ -1026,11 +1139,11 @@ def build_coming_soon():
 
 <main id="main" class="teaser">
   <div class="inner">
-    <p class="thesis">Advancing Clinical Education Through Research, Innovation, and Psychological Science.</p>
+    <p class="thesis">{tm(COPY['comingSoon']['thesis'])}</p>
     <h1>Coming Soon</h1>
-    <p class="when">Early January 2027</p>
+    <p class="when">{tm(COPY['comingSoon']['when'])}</p>
     <div class="rule center" aria-hidden="true"><span class="dia"></span></div>
-    <p class="platform">A comprehensive educational platform for clinicians, professionals, and seekers of knowledge.</p>
+    <p class="platform">{tm(COPY['comingSoon']['platform'])}</p>
 
     <ul class="teaser-cards" aria-label="What is coming">
 {mini}

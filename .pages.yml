@@ -1,0 +1,384 @@
+# Pages CMS configuration for The Capelli Institute site (app.pagescms.org).
+#
+# Sam edits two files through forms: the catalog (books, editions, prices, purchase links,
+# lectures) and the site copy. Everything else is code and stays out of the editor.
+#
+# Rules this file has to respect:
+#   - Pages CMS saves ONLY the keys declared below and drops every empty value, so every key in
+#     catalog.json is declared here, even the internal notes (hidden) and the art paths (readonly).
+#     tools/build-pages.py puts defaults back for anything that was dropped.
+#   - Art is supplied by Sam as files and placed by us, so image paths are read-only here.
+#   - Slugs and SKUs are read-only: they are the page addresses and the order identifiers.
+
+media:
+  input: assets/img
+  output: assets/img
+
+settings:
+  content:
+    merge: true
+
+components:
+  edition:
+    type: object
+    label: Edition
+    list:
+      collapsible:
+        collapsed: true
+        summary: "{name}"
+    fields:
+      - name: name
+        label: Edition name
+        type: string
+        required: true
+        description: As printed, for example Hardback Edition or Collector's Edition (Signed).
+      - name: price
+        label: Price (US dollars)
+        type: number
+        description: Numbers only, for example 29.95. Leave empty until the price is set; the page then says "to be announced".
+        options:
+          min: 0
+      - name: buyUrl
+        label: Buy link (Stripe Payment Link)
+        type: string
+        description: Paste the Payment Link for this edition from your Stripe dashboard. It starts with https://buy.stripe.com/. Empty means the page shows "Available soon".
+        pattern:
+          regex: "^(https://\\S+)?$"
+          message: "Paste the full link, starting with https://"
+      - name: amazonUrl
+        label: Amazon link (optional)
+        type: string
+        description: The Amazon page for this edition, if it is also sold there. Shown as a second button under Buy.
+        pattern:
+          regex: "^(https://\\S+)?$"
+          message: "Paste the full link, starting with https://"
+      - name: isbn
+        label: ISBN
+        type: string
+        description: For example 978-1-2345-6789-0. Leave empty until assigned.
+      - name: binding
+        label: Binding
+        type: string
+        description: For example Paperback, Hardback, or Leather bound, gold foil, signed by the author.
+      - name: tagline
+        label: Tagline
+        type: string
+        description: Short line under the edition name, for example Leather Bound · Gold Foil · Limited Edition.
+      - name: stock
+        label: Availability
+        type: select
+        options:
+          values:
+            - value: preorder
+              label: Pre-order
+            - value: in-stock
+              label: In stock
+            - value: sold-out
+              label: Sold out
+      - name: sku
+        label: SKU (order code)
+        type: string
+        readonly: true
+      - name: key
+        label: Edition key (internal)
+        type: string
+        readonly: true
+      - name: image
+        label: Cover art (placed by RGF)
+        type: string
+        readonly: true
+      - name: imageAlt
+        label: Cover description for screen readers
+        type: text
+      - name: _note
+        type: text
+        hidden: true
+      - name: _isbnNote
+        type: text
+        hidden: true
+
+  featureItem:
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: "{name}"
+    fields:
+      - name: name
+        type: string
+      - name: line
+        label: One line meaning
+        type: text
+      - name: traits
+        type: string
+        list: true
+      - name: key
+        type: string
+        readonly: true
+      - name: image
+        label: Symbol art (placed by RGF)
+        type: string
+        readonly: true
+
+content:
+  - name: catalog
+    label: Books and lectures
+    type: file
+    path: assets/data/catalog.json
+    format: json
+    fields:
+      - name: books
+        label: Books
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - name: title
+            type: string
+            required: true
+          - name: subtitle
+            type: string
+          - name: subtitle2
+            label: Second subtitle
+            type: string
+          - name: keywords
+            label: Keywords (the words on the cover)
+            type: string
+            list: true
+          - name: keywords2
+            label: Second keyword line
+            type: string
+            list: true
+          - name: seriesLine
+            label: Series line
+            type: string
+          - name: descriptionHeading
+            label: Synopsis heading
+            type: string
+          - name: description
+            label: Synopsis (one paragraph per item)
+            type: text
+            list: true
+          - name: pullQuote
+            label: Pull quote
+            type: text
+          - name: editions
+            label: Editions
+            component: edition
+          - name: slug
+            label: Page address (internal)
+            type: string
+            readonly: true
+          - name: backCoverImage
+            label: Back cover art (placed by RGF)
+            type: string
+            readonly: true
+          - name: feature
+            label: Feature section (symbols, concepts or pillars)
+            type: object
+            fields:
+              - name: type
+                type: string
+                readonly: true
+              - name: title
+                type: string
+              - name: kicker
+                type: string
+              - name: items
+                component: featureItem
+              - name: center
+                type: object
+                fields:
+                  - name: name
+                    type: string
+                  - name: kicker
+                    type: string
+                  - name: line
+                    type: text
+                  - name: image
+                    type: string
+                    readonly: true
+              - name: practices
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{name}"
+                fields:
+                  - name: name
+                    type: string
+                  - name: line
+                    type: string
+                  - name: image
+                    type: string
+                    readonly: true
+              - name: _kickerNote
+                type: text
+                hidden: true
+          - name: _descriptionNote
+            type: text
+            hidden: true
+          - name: _editionNote
+            type: text
+            hidden: true
+
+      - name: lectures
+        label: Lectures in Print
+        type: object
+        fields:
+          - name: items
+            label: Lectures
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "No. {number} · {title}"
+            fields:
+              - name: number
+                label: Lecture number
+                type: string
+                required: true
+              - name: title
+                type: string
+                required: true
+              - name: subtitle
+                type: string
+              - name: synopsis
+                label: Introduction (synopsis)
+                type: text
+              - name: excerpt
+                label: Excerpt from the lecture
+                type: text
+              - name: video
+                label: Video link (YouTube)
+                type: string
+                pattern:
+                  regex: "^(https://\\S+)?$"
+                  message: "Paste the full link, starting with https://"
+              - name: editions
+                label: Editions
+                component: edition
+              - name: slug
+                label: Page address (internal)
+                type: string
+                readonly: true
+              - name: image
+                label: Cover art (placed by RGF)
+                type: string
+                readonly: true
+              - name: imageAlt
+                label: Cover description for screen readers
+                type: text
+              - name: collectorImage
+                label: Leather bound cover art (placed by RGF)
+                type: string
+                readonly: true
+              - name: collectorImageAlt
+                type: text
+              - name: _numberNote
+                type: text
+                hidden: true
+          - name: brand
+            type: string
+            readonly: true
+          - name: tagline
+            type: string
+          - name: positioning
+            type: text
+          - name: values
+            label: Series values (five short phrases)
+            type: string
+            list: true
+          - name: pullQuote
+            type: text
+          - name: _numberingNote
+            type: text
+            hidden: true
+
+      - name: author
+        label: Author
+        type: object
+        fields:
+          - name: coverName
+            label: Name as printed on the covers
+            type: string
+          - name: _note
+            type: text
+            hidden: true
+      - name: publisher
+        type: string
+      - name: currency
+        type: string
+        readonly: true
+      - name: _about
+        type: text
+        hidden: true
+
+  - name: copy
+    label: Site copy
+    type: file
+    path: assets/data/copy.json
+    format: json
+    fields:
+      - name: contact
+        label: Contact
+        type: object
+        fields:
+          - name: phone
+            label: Phone, as shown
+            type: string
+          - name: phoneTel
+            label: Phone, dialable (+1 and digits only)
+            type: string
+            pattern:
+              regex: "^\\+1\\d{10}$"
+              message: "Use +1 followed by ten digits, for example +19157990614"
+          - name: address
+            type: string
+      - name: home
+        label: Home page
+        type: object
+        fields:
+          - name: thesis
+            label: Line under the title
+            type: text
+          - name: featuredHeading
+            label: Books section heading
+            type: string
+          - name: featuredLede
+            label: Books section paragraph
+            type: text
+      - name: ceu
+        label: CEU page
+        type: object
+        fields:
+          - name: lede
+            label: Opening line
+            type: text
+          - name: registerLede
+            label: Registration intro
+            type: text
+      - name: workshops
+        label: Workshops page
+        type: object
+        fields:
+          - name: lede
+            label: Opening line
+            type: text
+      - name: comingSoon
+        label: Launch notice
+        type: object
+        fields:
+          - name: thesis
+            type: text
+          - name: when
+            label: Launch timing
+            type: string
+          - name: platform
+            label: Description
+            type: text
+      - name: _about
+        type: text
+        hidden: true

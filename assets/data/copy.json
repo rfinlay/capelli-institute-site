@@ -1,0 +1,25 @@
+{
+  "_about": "Editable page copy for The Capelli Institute site. Every value here is rendered as-is by tools/build-pages.py; the trademark symbol in any string is turned into the small superscript mark automatically. Edit in Pages CMS (Site copy) or by hand, then the GitHub Action rebuilds the site.",
+  "contact": {
+    "phone": "915-799-0614",
+    "phoneTel": "+19157990614",
+    "address": "9739 Socorro Rd, El Paso, TX 79927"
+  },
+  "home": {
+    "thesis": "Advancing clinical education through research, innovation, and psychological science.",
+    "featuredHeading": "Five titles. Each in more than one edition.",
+    "featuredLede": "Paperback and hardback for everyday readers. Leather-bound, gold-foil collector's editions for the shelf. Every book is published by The Capelli Institute™ and written by its founder."
+  },
+  "ceu": {
+    "lede": "State of Texas CEU Provider for Continuing Education.",
+    "registerLede": "This is the Institute's one program with online registration. Your registration is sent to the Institute, which confirms your place by email."
+  },
+  "workshops": {
+    "lede": "Organizations can request a workshop or seminar delivered at their own location."
+  },
+  "comingSoon": {
+    "thesis": "Advancing Clinical Education Through Research, Innovation, and Psychological Science.",
+    "when": "Early January 2027",
+    "platform": "A comprehensive educational platform for clinicians, professionals, and seekers of knowledge."
+  }
+}

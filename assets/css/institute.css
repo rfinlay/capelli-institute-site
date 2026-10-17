@@ -363,6 +363,9 @@ main > section.alt{background:var(--navy-deep);}
 .price[data-placeholder]{color:var(--gold-deep);}
 .price[data-placeholder]::after{content:" to be announced"; font-family:var(--text); font-style:italic; font-size:15px; color:var(--body-dim); letter-spacing:0;}
 .sku .btn{margin-top:var(--s5); width:100%;}
+.sku .btn + .btn{margin-top:12px;}
+.sku [hidden]{display:none;}
+.sku .pay-note{margin:12px 0 0; font-size:14.5px; color:var(--body-dim);}
 .sku .ph-note{font-size:14.5px; color:var(--body-dim); font-style:italic; margin:12px 0 0;}
 .sku .ph-note::before{content:"\25C6"; color:var(--gold-deep); font-size:8px; vertical-align:middle; margin-right:8px;}
 .sku .channels{margin:14px 0 0; font-size:14.5px; color:var(--body-dim);}

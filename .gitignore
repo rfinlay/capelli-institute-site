@@ -2,3 +2,4 @@
 .netlify/
 /tools/__pycache__/
 /_verify/
+/_site/
