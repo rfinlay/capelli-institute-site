@@ -122,9 +122,9 @@ COPY_DEFAULTS = {
     "contact": {"phone": "915-799-0614", "phoneTel": "+19157990614", "address": "9739 Socorro Rd, El Paso, TX 79927"},
     "home": {"thesis": "Advancing clinical education through research, innovation, and psychological science.",
              "featuredHeading": "Five titles. Each in more than one edition.",
-             "featuredLede": "Paperback and hardback for everyday readers. Leather-bound, gold-foil collector's editions for the shelf. Every book is published by The Capelli Institute™ and written by its founder."},
+             "featuredLede": "Paperback and hardback for everyday readers. Leather-bound, gold-foil collector's editions for the shelf. Every book is published by The Capelli Institute™ and written by its founder, Dr. Samuel Capelli. The Institute was co-founded by Dr. Samuel Capelli and Prof. Sandra Capelli."},
     "ceu": {"lede": "State of Texas CEU Provider for Continuing Education.",
-            "registerLede": "This is the Institute's one program with online registration. Your registration is sent to the Institute, which confirms your place by email."},
+            "registerLede": "Registration opening soon. This is the Institute's one program with online registration. When it opens, your registration is sent to the Institute, which confirms your place by email."},
     "workshops": {"lede": "Organizations can request a workshop or seminar delivered at their own location."},
     "comingSoon": {"thesis": "Advancing Clinical Education Through Research, Innovation, and Psychological Science.",
                    "when": "Early January 2027",
@@ -155,6 +155,11 @@ CAT_VERSION = hashlib.sha1(open(os.path.join(ROOT, "assets/data/catalog.json"), 
 # that must use absolute URLs (404.html, served at any depth) is built against it. Change to "/"
 # when the site moves to its own domain.
 BASE_PATH = "/capelli-institute-site/"
+
+# The Institute's own domain (confirmed by Sam Capelli, Oct 20, 2026). Used for the canonical URL on every
+# page so the github.io preview never competes with the launch site. DNS is NOT pointed until launch;
+# BASE_PATH above keeps the preview working until then.
+SITE_URL = "https://thecapelliinstitute.com"
 
 # Form delivery. None = preview build: the three forms submit nowhere, the page says so, and
 # nothing is lost silently. At launch set this to the endpoint of the chosen form service
@@ -290,7 +295,7 @@ def footer(root):
       <p class="small" style="margin:10px 0 0">Enrollment for these programs is in person. Call <a href="tel:{PHONE_TEL}">{PHONE}</a>.</p>
     </div>
     <div class="legal">
-      <span>&copy; 2026 The Capelli Institute{TM} · El Paso, Texas · All written works &copy; Samuel Capelli</span>
+      <span>&copy; 2026 The Capelli Institute{TM} · El Paso, Texas · All written works &copy; Dr. Samuel Capelli</span>
       <span><a href="{root}legal/privacy.html">Privacy</a> · <a href="{root}legal/terms.html">Terms</a> · <a href="{root}coming-soon.html">Launch notice</a></span>
     </div>
   </div>
@@ -318,9 +323,16 @@ def needs_copy(ask):
     """Visible placeholder + machine-findable comment. `ask` is the exact thing Sam must supply."""
     return f'<!-- COPY NEEDED: {esc(ask)} -->\n<p class="needs-copy">{esc(ask)}</p>'
 
+def canonical(path):
+    """Absolute URL of a page on the final domain; index.html collapses to its directory."""
+    rel = path[:-len("index.html")] if path.endswith("index.html") else path
+    return SITE_URL + "/" + rel
+
 def write(path, content):
     full = os.path.join(ROOT, path)
     os.makedirs(os.path.dirname(full), exist_ok=True)
+    if path != "404.html" and '<link rel="canonical"' not in content:
+        content = content.replace('<meta name="theme-color"', f'<link rel="canonical" href="{esc(canonical(path))}">\n<meta name="theme-color"', 1)
     with open(full, "w") as f: f.write(content)
     print("wrote", path)
 
@@ -524,6 +536,7 @@ def build_books():
       </div>
       <div>
         <p class="eyebrow">About the author</p>
+        <p class="lede">Dr. Samuel Capelli, founder of The Capelli Institute{TM}. The Institute was co-founded with Prof. Sandra Capelli.</p>
         {needs_copy("author biography for the Books section, in the author's words.")}
       </div>
     </div>
@@ -694,6 +707,7 @@ def build_philosophy():
         <h2 id="intro-title">The Elements Within. The Architecture of a Purposeful Life.</h2>
         <div class="rule left" aria-hidden="true"><span class="dia"></span></div>
         <p class="lede">Awareness <span class="sep">·</span> Regulation <span class="sep">·</span> Adaptability <span class="sep">·</span> Structure <span class="sep">·</span> Purpose</p>
+        <p>The philosophy of The Capelli Institute{TM}, founded by Dr. Samuel Capelli and co-founded by Prof. Sandra Capelli, is set out in his books.</p>
         {needs_copy("an introduction to the philosophy section, in the author's words, drawn from the books.")}
       </div>
       <blockquote class="quote frame" style="margin:0">Knowledge Regulates. Responsibility Transforms. Education Creates a Higher Human Potential.<cite>The Capelli Institute{TM}</cite></blockquote>
@@ -813,7 +827,7 @@ def build_lectures():
       <p class="eyebrow">The series</p>
       <h2 id="catalog-title">Lectures</h2>
       <div class="rule left" aria-hidden="true"><span class="dia"></span></div>
-      <!-- COPY NEEDED: lecture numbering. The author's sheet labels two lectures 005; 006 assigned here (Q19). -->
+      <!-- Lecture numbering is provisional: Sam Capelli is preparing a master catalog (Oct 20, 2026). Current numbers stay until it arrives; 006 was assigned here where his sheet repeated 005. -->
       <ul class="lectures" style="margin-top:36px">
 {cards}
       </ul>
@@ -930,8 +944,8 @@ def build_ceu():
           <ul class="sessions">
             <li class="session">
               <div class="date"><b>—</b>Date to be announced</div>
-              <div><h3>Monthly CEU Workshop</h3><p class="meta">Topic, units and fee are announced with each date.</p></div>
-              <a class="btn sm" href="#register">Register</a>
+              <div><h3>Monthly CEU Workshop</h3><p class="meta">Topic, units and fee are announced with each date. Registration opens with the first scheduled workshop.</p></div>
+              <a class="btn sm" href="#register">Registration opening soon</a>
             </li>
           </ul>
           {needs_copy("the next three workshop dates, topics and CEU hours.")}
@@ -942,7 +956,7 @@ def build_ceu():
 
   <section id="register" class="alt" aria-labelledby="register-title">
     <div class="wrap narrow">
-      <p class="eyebrow">Online registration</p>
+      <p class="eyebrow">Registration opening soon</p>
       <h2 id="register-title">Register for a CEU workshop</h2>
       <div class="rule left" aria-hidden="true"><span class="dia"></span></div>
       <p class="lede" style="margin:20px 0 28px">{tm(COPY['ceu']['registerLede'])}</p>
@@ -1187,7 +1201,7 @@ def build_coming_soon():
     <div class="capture-wrap">
       <div class="qr">
         <!-- QR: the code from the author's own teaser art. COPY NEEDED: confirm the URL it encodes points at
-             this page on the final domain (Q1) BEFORE anything is printed. Regenerate if not. -->
+             this page on the final domain, thecapelliinstitute.com (confirmed Oct 20, 2026), BEFORE anything is printed. Regenerate if not. -->
         <img src="assets/img/brand/qr-from-sam.png" alt="QR code linking to the early access mailing list." width="228" height="228">
         <img class="qr-arrow" src="assets/img/brand/qr-arrow.png" alt="" width="314" height="158" aria-hidden="true">
       </div>
@@ -1271,7 +1285,7 @@ def build_legal():
       <h2>Trademark</h2>
       <p>The Capelli Institute{TM} and Lectures in Print{TM} are trademarks of The Capelli Institute. Registration is pending.</p>
       <h2>Copyright</h2>
-      <p>All written works, book covers and lecture texts shown on this site are &copy; Samuel Capelli. All rights reserved.</p>
+      <p>All written works, book covers and lecture texts shown on this site are &copy; Dr. Samuel Capelli. All rights reserved.</p>
       <h2>Continuing education and programs</h2>
       <p>CEU workshop registration is confirmed by the Institute by email. Enrollment in the BIPP Education Series, the Anger Resolution Series and the Cognitive Programs is completed in person at the office.</p>
     </div>

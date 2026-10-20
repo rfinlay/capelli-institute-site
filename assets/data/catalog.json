@@ -2,7 +2,7 @@
   "_about": "The Capelli Institute catalog. ONE source of truth for every book, edition, and lecture. Pages are generated from this file (tools/build-pages.py) and assets/data/catalog.js is derived from it for the in-page edition selector. Add a title here, run the generator, and the site has a product page. Commerce fields (price, sku, isbn, buyUrl, stock) are structured so a checkout can be attached later without a redesign. All copy below is transcribed from Sam Capelli's own cover art and sheets; nothing is invented. Fields set to null are awaiting the client.",
   "author": {
     "coverName": "Dr. Samuel Capelli",
-    "_note": "COVER-CONTEXT NAME ONLY. Every cover says 'Dr.'; his email signature says 'Prof.' Open question Q17 for Sam. Do not use the title outside product/book contexts."
+    "_note": "RESOLVED Oct 20, 2026: Sam confirmed 'Dr. Samuel Capelli' everywhere on the site (Q17 closed). Prof. Sandra Capelli is named as co-founder wherever the founders are named."
   },
   "publisher": "The Capelli Institute",
   "currency": "USD",
@@ -140,7 +140,7 @@
     "positioning": "Independent lectures that capture the authentic voice, teaching, and experience of Dr. Samuel Capelli. Each lecture stands alone as a written educational experience.",
     "values": ["Real Lectures", "Your Actual Words", "Practical Application", "Wide Range of Topics", "Education for Life"],
     "pullQuote": "Knowledge is spoken in the moment. These lectures preserve that moment so it can continue to teach, long after the room is empty.",
-    "_numberingNote": "Sam's sheet labels two lectures 005. Numbering below assigns 006 to the last one. Open question Q19.",
+    "_numberingNote": "PENDING SAM'S MASTER CATALOG (Oct 20, 2026): Sam is creating a master lecture catalog. Leave the numbering below as is until it arrives, then renumber from his catalog. Background: his sheet labeled two lectures 005, so 006 was assigned to the last one (Q19).",
     "items": [
       {
         "number": "001", "slug": "the-architecture-of-human-choice",
@@ -165,7 +165,7 @@
        "editions": [{"sku": "LIP-004-PB", "key": "print", "name": "Print Edition", "binding": "Printed lecture", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null}]},
       {"number": "005", "slug": "trauma-activation-and-choice", "title": "Trauma, Activation and Choice", "subtitle": null, "synopsis": null, "excerpt": null, "image": "assets/img/lectures/lecture-005.jpg", "imageAlt": "Lecture No. 005, Trauma, Activation and Choice. Balanced stones stacked beside still water at sunrise.", "video": null,
        "editions": [{"sku": "LIP-005-PB", "key": "print", "name": "Print Edition", "binding": "Printed lecture", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null}]},
-      {"number": "006", "slug": "relationships-boundaries-and-personal-power", "title": "Relationships, Boundaries, and Personal Power", "subtitle": null, "synopsis": null, "excerpt": null, "image": "assets/img/lectures/lecture-006.jpg", "imageAlt": "Lecture No. 006, Relationships, Boundaries, and Personal Power. A stone arch bridge over a river gorge at sunrise.", "video": null, "_numberNote": "Shown as 005 on Sam's sheet (duplicate). Q19.",
+      {"number": "006", "slug": "relationships-boundaries-and-personal-power", "title": "Relationships, Boundaries, and Personal Power", "subtitle": null, "synopsis": null, "excerpt": null, "image": "assets/img/lectures/lecture-006.jpg", "imageAlt": "Lecture No. 006, Relationships, Boundaries, and Personal Power. A stone arch bridge over a river gorge at sunrise.", "video": null, "_numberNote": "Shown as 005 on Sam's sheet (duplicate). Number pending Sam's master catalog (Oct 20, 2026).",
        "editions": [{"sku": "LIP-006-PB", "key": "print", "name": "Print Edition", "binding": "Printed lecture", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null}]}
     ]
   }
