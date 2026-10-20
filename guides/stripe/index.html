@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>The Capelli Institute — Stripe Setup Guide</title>
+<link rel="canonical" href="https://rfinlay.github.io/capelli-institute-site/guides/stripe/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23000C1E'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-size='36' fill='%23FCB367'%3EC%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#000C1E">
+<style>
+:root{--navy-0:#000C1E;--navy-1:#00162A;--navy-2:#002549;--navy-3:#000E1C;--card:#01132D;
+--gold:#FCB367;--gold-warm:#FDB868;--gold-deep:#C8913F;--parch:#F2E4C8;--body:#E8E2D4;
+--serif:"Palatino Linotype","Book Antiqua",Palatino,"Hoefler Text",Georgia,"Times New Roman",serif;}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--navy-3)}
+body{margin:0;font-family:var(--serif);font-size:17px;line-height:1.6;color:var(--body);
+background:var(--navy-3);overflow-x:hidden;overflow-wrap:anywhere}
+a{color:var(--gold);text-decoration-color:var(--gold-deep);text-underline-offset:3px}
+a:hover{color:var(--gold-warm)}
+header{background:var(--navy-0);border-bottom:1px solid var(--gold-deep);padding:2.4rem 1.25rem 1.8rem;text-align:center}
+.eyebrow{color:var(--gold);letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;margin:0 0 .9rem}
+h1{font-size:1.9rem;line-height:1.15;margin:0;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1 sup{font-size:.45em;vertical-align:top;letter-spacing:0}
+.subtitle{color:var(--parch);font-size:1.15rem;margin:.6rem 0 0;font-style:italic}
+.band{background:var(--navy-1);padding:1.2rem 1.25rem;border-bottom:1px solid var(--navy-2)}
+dl{max-width:44rem;margin:0 auto;display:grid;grid-template-columns:max-content 1fr;gap:.35rem 1rem;font-size:.95rem}
+dt{color:var(--gold);letter-spacing:.06em;text-transform:uppercase;font-size:.75rem;padding-top:.25rem}
+dd{margin:0}
+.actions{max-width:44rem;margin:1rem auto 0;display:flex;gap:.6rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:.6rem 1.1rem;border:1px solid var(--gold);border-radius:3px;color:var(--gold);
+text-decoration:none;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase}
+.btn:hover{background:var(--navy-2);color:var(--gold-warm)}
+main{max-width:44rem;margin:0 auto;padding:1rem 1.25rem 3rem}
+h2{color:var(--gold);font-size:1.35rem;line-height:1.25;font-weight:600;margin:2.6rem 0 .9rem;padding-top:1.4rem;
+border-top:1px solid var(--navy-2);letter-spacing:.02em}
+h3{color:var(--gold-warm);font-size:1.05rem;margin:1.6rem 0 .5rem;font-weight:600}
+p{margin:0 0 1rem}
+strong{color:var(--parch)}
+hr{display:none}
+blockquote{margin:1.4rem 0;padding:1rem 1.25rem;border-left:3px solid var(--gold);background:var(--card);
+font-size:1.12rem;color:var(--parch)}
+blockquote p{margin:0}
+ul,ol{padding-left:1.4rem;margin:0 0 1.1rem}
+li{margin:.35rem 0}
+li::marker{color:var(--gold)}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9em;color:var(--parch);background:var(--navy-1);padding:.1em .35em;border-radius:3px}
+s{color:var(--gold-deep);text-decoration-thickness:2px}
+table{width:100%;border-collapse:collapse;margin:1.1rem 0 1.4rem;background:var(--card);font-size:.95rem}
+th,td{padding:.7rem .8rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--navy-2)}
+th{color:var(--gold);font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:.75rem;background:var(--navy-1)}
+tr:last-child td{border-bottom:0}
+table.pricing{border:1px solid var(--gold-deep);font-size:1.05rem}
+table.pricing td{padding:1rem}
+table.pricing td:last-child{text-align:right;white-space:nowrap;font-size:1.25rem}
+table.pricing tr:last-child td{background:var(--navy-1);color:var(--gold);font-size:1.3rem}
+table.pricing tr:last-child td strong{color:var(--gold)}
+.cta{margin-top:2.5rem;padding:1.4rem 1.5rem;background:var(--card);border:1px solid var(--gold);border-radius:4px;
+font-size:1.15rem;color:var(--parch);text-align:center}
+footer{background:var(--navy-0);border-top:1px solid var(--navy-2);padding:1.5rem 1.25rem 2.5rem;text-align:center;font-size:.85rem;color:var(--gold-deep)}
+footer a{color:var(--gold)}
+@media (max-width:640px){
+ body{font-size:16px}
+ h1{font-size:1.45rem}
+ dl{grid-template-columns:1fr;gap:.1rem}
+ dt{margin-top:.6rem}
+ table:not(.pricing) thead{display:none}
+ table:not(.pricing) tr{display:block;padding:.4rem 0;border-bottom:1px solid var(--navy-2)}
+ table:not(.pricing) tr:last-child{border-bottom:0}
+ table:not(.pricing) td{display:block;border:0;padding:.3rem .8rem}
+ table:not(.pricing) td::before{content:attr(data-label);display:block;color:var(--gold);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+ table:not(.pricing) td:first-child{padding-top:.6rem;color:var(--parch);font-weight:600}
+ table:not(.pricing) td:first-child::before{display:none}
+ table.pricing td{padding:.8rem .7rem}
+ table.pricing td:last-child{font-size:1.1rem}
+ table.pricing tr:last-child td{font-size:1.15rem}
+}
+@media print{body{background:#fff;color:#000}header,.band,footer{background:#fff;color:#000}}
+
+main{padding-top:1.6rem}
+ol li{padding-left:.2rem}
+.guide-nav{max-width:44rem;margin:0 auto;padding:.9rem 1.25rem 0;font-size:.85rem;color:var(--gold-deep)}
+.guide-nav a{margin-right:1rem}
+</style>
+</head>
+<body>
+<header>
+<p class="eyebrow">Stripe Setup Guide</p>
+<h1>The Capelli Institute<sup>™</sup></h1>
+<p class="subtitle">Setting up Stripe for book sales: a guide for Sam</p>
+</header>
+<div class="band">
+<div class="actions">
+<a class="btn" href="Capelli-Institute-Stripe-Setup-Guide.pdf" download>Download as PDF</a>
+<a class="btn" href="https://rfinlay.github.io/capelli-institute-site/guides/editor/">Editor guide</a>
+<a class="btn" href="https://rfinlay.github.io/capelli-institute-site/offer/">Offer sheet</a>
+</div>
+</div>
+<main>
+<p>The site sells each edition through a Stripe Payment Link. Stripe is the checkout; the money goes straight into your own Stripe account and then to your bank. RGF never holds your money and never sees your card data. Stripe's fee on a card sale in the US is 2.9% plus 30 cents (about $1.17 on a $30 book). There is no monthly fee.</p>
+<h2>Part 1: open your Stripe account (about 20 minutes)</h2>
+<ol>
+<li>Go to stripe.com and click Start now. Sign up with your email. Use an email you check, because order notifications arrive there.</li>
+<li>Stripe asks for business details: your legal business name (The Capelli Institute, or whichever entity sells the books), the EIN or your SSN if you sell as an individual, the business address, a phone number, and a short description such as "Books and printed lectures by the author."</li>
+<li>Add the bank account that should receive the money. Payouts arrive on a rolling schedule, normally two business days after a sale once the account is established.</li>
+<li>Finish the identity check Stripe asks for. Until this is done the account can take test payments only.</li>
+<li>In Settings, under Branding, you can upload the Institute crest and set the gold and navy colors so the checkout page matches the site. The brand colors are navy 000C1E and gold FCB367.</li>
+</ol>
+<h2>Part 2: create one Payment Link per edition</h2>
+<p>Each edition for sale (paperback, hardback, collector's, each printed lecture) gets its own link. That is what makes the Buy button on the matching page sell the matching thing.</p>
+<ol>
+<li>In the Stripe dashboard, open Product catalog and click Add product.</li>
+<li>Name it exactly as it appears on the site, for example "The Capelli Doctrine, Hardback Edition." Add the price. Choose One time. Save.</li>
+<li>Open Payment Links and click New. Choose the product you just made.</li>
+<li>Under Options, turn on Collect customers' addresses, and choose Shipping addresses. Add the countries you will ship to (United States at least). This is how you learn where to send the book.</li>
+<li>If you charge for shipping, add a shipping rate here. If you collect Texas sales tax, Stripe Tax can calculate it for you; it costs a little extra per transaction, so decide with your accountant whether to turn it on.</li>
+<li>Under After payment, you can leave Stripe's confirmation page or send buyers back to the book's page on the site. The book page addresses are:
+   <a href="https://rfinlay.github.io/capelli-institute-site/books/">https://rfinlay.github.io/capelli-institute-site/books/</a> (then the title), for example
+   <a href="https://rfinlay.github.io/capelli-institute-site/books/the-capelli-doctrine.html">https://rfinlay.github.io/capelli-institute-site/books/the-capelli-doctrine.html</a>
+   These change to thecapelliinstitute.com addresses once the domain is pointed at the site.</li>
+<li>Click Create link. Copy the link. It looks like https://buy.stripe.com/ followed by letters and numbers.</li>
+<li>Repeat for every edition. Keep a simple list: edition name, price, link.</li>
+</ol>
+<h2>Part 3: put the links on the site</h2>
+<p>Open Pages CMS (see <a href="https://rfinlay.github.io/capelli-institute-site/guides/editor/">the editor guide</a>), open the edition, paste the link into Buy link (Stripe Payment Link), and save. The Buy button goes live within a couple of minutes. Or send the list from Part 2 to Rick and we paste them for you.</p>
+<h2>Part 4: when an order comes in</h2>
+<p>Stripe emails you for every sale. The Payments page in your dashboard shows the buyer's name, email, shipping address, and what they bought. You pack and ship the book, then mark it however you like (Stripe has a note field on each payment). Refunds are one click on the same page.</p>
+<h2>What to send us</h2>
+<ul>
+<li>The Payment Link for each edition, with the edition name (or just paste them in Pages CMS yourself).</li>
+<li>The price for each edition, so the page can show it next to the button.</li>
+<li>The ISBN for each edition that has one.</li>
+<li>Amazon page addresses for any edition that is also sold on Amazon.</li>
+<li>Your GitHub username, or the email address to invite, for the editor.</li>
+</ul>
+<h2>What never to send us</h2>
+<p>Your Stripe password, bank details, or any card numbers. We never need them, and Stripe will never ask you to share them with anyone.</p>
+</main>
+<footer>
+Prepared for Prof. Samuel Capelli · Prepared by RGF Global Ventures, LLC · Private guide, not for publication ·
+<a href="Capelli-Institute-Stripe-Setup-Guide.pdf" download>Download as PDF</a>
+</footer>
+</body>
+</html>

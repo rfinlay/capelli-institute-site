@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>The Capelli Institute — Editor Guide</title>
+<link rel="canonical" href="https://rfinlay.github.io/capelli-institute-site/guides/editor/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23000C1E'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-size='36' fill='%23FCB367'%3EC%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#000C1E">
+<style>
+:root{--navy-0:#000C1E;--navy-1:#00162A;--navy-2:#002549;--navy-3:#000E1C;--card:#01132D;
+--gold:#FCB367;--gold-warm:#FDB868;--gold-deep:#C8913F;--parch:#F2E4C8;--body:#E8E2D4;
+--serif:"Palatino Linotype","Book Antiqua",Palatino,"Hoefler Text",Georgia,"Times New Roman",serif;}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--navy-3)}
+body{margin:0;font-family:var(--serif);font-size:17px;line-height:1.6;color:var(--body);
+background:var(--navy-3);overflow-x:hidden;overflow-wrap:anywhere}
+a{color:var(--gold);text-decoration-color:var(--gold-deep);text-underline-offset:3px}
+a:hover{color:var(--gold-warm)}
+header{background:var(--navy-0);border-bottom:1px solid var(--gold-deep);padding:2.4rem 1.25rem 1.8rem;text-align:center}
+.eyebrow{color:var(--gold);letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;margin:0 0 .9rem}
+h1{font-size:1.9rem;line-height:1.15;margin:0;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1 sup{font-size:.45em;vertical-align:top;letter-spacing:0}
+.subtitle{color:var(--parch);font-size:1.15rem;margin:.6rem 0 0;font-style:italic}
+.band{background:var(--navy-1);padding:1.2rem 1.25rem;border-bottom:1px solid var(--navy-2)}
+dl{max-width:44rem;margin:0 auto;display:grid;grid-template-columns:max-content 1fr;gap:.35rem 1rem;font-size:.95rem}
+dt{color:var(--gold);letter-spacing:.06em;text-transform:uppercase;font-size:.75rem;padding-top:.25rem}
+dd{margin:0}
+.actions{max-width:44rem;margin:1rem auto 0;display:flex;gap:.6rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:.6rem 1.1rem;border:1px solid var(--gold);border-radius:3px;color:var(--gold);
+text-decoration:none;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase}
+.btn:hover{background:var(--navy-2);color:var(--gold-warm)}
+main{max-width:44rem;margin:0 auto;padding:1rem 1.25rem 3rem}
+h2{color:var(--gold);font-size:1.35rem;line-height:1.25;font-weight:600;margin:2.6rem 0 .9rem;padding-top:1.4rem;
+border-top:1px solid var(--navy-2);letter-spacing:.02em}
+h3{color:var(--gold-warm);font-size:1.05rem;margin:1.6rem 0 .5rem;font-weight:600}
+p{margin:0 0 1rem}
+strong{color:var(--parch)}
+hr{display:none}
+blockquote{margin:1.4rem 0;padding:1rem 1.25rem;border-left:3px solid var(--gold);background:var(--card);
+font-size:1.12rem;color:var(--parch)}
+blockquote p{margin:0}
+ul,ol{padding-left:1.4rem;margin:0 0 1.1rem}
+li{margin:.35rem 0}
+li::marker{color:var(--gold)}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9em;color:var(--parch);background:var(--navy-1);padding:.1em .35em;border-radius:3px}
+s{color:var(--gold-deep);text-decoration-thickness:2px}
+table{width:100%;border-collapse:collapse;margin:1.1rem 0 1.4rem;background:var(--card);font-size:.95rem}
+th,td{padding:.7rem .8rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--navy-2)}
+th{color:var(--gold);font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:.75rem;background:var(--navy-1)}
+tr:last-child td{border-bottom:0}
+table.pricing{border:1px solid var(--gold-deep);font-size:1.05rem}
+table.pricing td{padding:1rem}
+table.pricing td:last-child{text-align:right;white-space:nowrap;font-size:1.25rem}
+table.pricing tr:last-child td{background:var(--navy-1);color:var(--gold);font-size:1.3rem}
+table.pricing tr:last-child td strong{color:var(--gold)}
+.cta{margin-top:2.5rem;padding:1.4rem 1.5rem;background:var(--card);border:1px solid var(--gold);border-radius:4px;
+font-size:1.15rem;color:var(--parch);text-align:center}
+footer{background:var(--navy-0);border-top:1px solid var(--navy-2);padding:1.5rem 1.25rem 2.5rem;text-align:center;font-size:.85rem;color:var(--gold-deep)}
+footer a{color:var(--gold)}
+@media (max-width:640px){
+ body{font-size:16px}
+ h1{font-size:1.45rem}
+ dl{grid-template-columns:1fr;gap:.1rem}
+ dt{margin-top:.6rem}
+ table:not(.pricing) thead{display:none}
+ table:not(.pricing) tr{display:block;padding:.4rem 0;border-bottom:1px solid var(--navy-2)}
+ table:not(.pricing) tr:last-child{border-bottom:0}
+ table:not(.pricing) td{display:block;border:0;padding:.3rem .8rem}
+ table:not(.pricing) td::before{content:attr(data-label);display:block;color:var(--gold);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+ table:not(.pricing) td:first-child{padding-top:.6rem;color:var(--parch);font-weight:600}
+ table:not(.pricing) td:first-child::before{display:none}
+ table.pricing td{padding:.8rem .7rem}
+ table.pricing td:last-child{font-size:1.1rem}
+ table.pricing tr:last-child td{font-size:1.15rem}
+}
+@media print{body{background:#fff;color:#000}header,.band,footer{background:#fff;color:#000}}
+
+main{padding-top:1.6rem}
+ol li{padding-left:.2rem}
+.guide-nav{max-width:44rem;margin:0 auto;padding:.9rem 1.25rem 0;font-size:.85rem;color:var(--gold-deep)}
+.guide-nav a{margin-right:1rem}
+</style>
+</head>
+<body>
+<header>
+<p class="eyebrow">Editor Guide</p>
+<h1>The Capelli Institute<sup>™</sup></h1>
+<p class="subtitle">Editing your website: a one-page guide for Sam</p>
+</header>
+<div class="band">
+<div class="actions">
+<a class="btn" href="Capelli-Institute-Editor-Guide.pdf" download>Download as PDF</a>
+<a class="btn" href="https://rfinlay.github.io/capelli-institute-site/guides/stripe/">Stripe setup guide</a>
+<a class="btn" href="https://rfinlay.github.io/capelli-institute-site/offer/">Offer sheet</a>
+</div>
+</div>
+<main>
+<p>Your site is built from two small files: one holds the books and lectures (titles, editions, prices, buy links, ISBNs, synopses), the other holds the main page text. You edit both through a simple form-style editor called Pages CMS. You never touch code. A few minutes after you save, the live site updates on its own.</p>
+<h2>One-time setup</h2>
+<ol>
+<li>Create a free GitHub account at github.com if you do not have one, and send us the username. We add you to the site repository. (If you would rather not have a GitHub account, tell us; Pages CMS can also invite you by email, with a smaller set of permissions.)</li>
+<li>Go to app.pagescms.org and click Sign in with GitHub.</li>
+<li>When it asks, install the Pages CMS app and allow it to see the repository called capelli-institute-site.</li>
+<li>Open capelli-institute-site. You will see two sections on the left: Books and lectures, and Site copy.</li>
+</ol>
+<h2>Editing a price</h2>
+<ol>
+<li>Open Books and lectures.</li>
+<li>Under Books, click the title. Under Editions, click the edition you want (Paperback, Hardback, Collector's, and so on).</li>
+<li>In Price, type the number only, for example 29.95. No dollar sign.</li>
+<li>Click Save at the top right. The page says Saved. Within about two minutes the live site shows the new price.</li>
+</ol>
+<h2>Adding a buy button (your Stripe Payment Link)</h2>
+<ol>
+<li>In your Stripe dashboard, copy the Payment Link for that edition. It starts with https://buy.stripe.com/ (the separate guide, <a href="https://rfinlay.github.io/capelli-institute-site/guides/stripe/">the Stripe setup guide</a>, walks through creating them).</li>
+<li>In Pages CMS, open the same edition and paste the link into Buy link (Stripe Payment Link).</li>
+<li>Save. The book page now shows a gold Buy this edition button that opens your Stripe checkout. Until a link is pasted, the button reads Available soon and cannot be clicked, so nothing on the site ever points at a dead checkout.</li>
+<li>If the edition is also sold on Amazon, paste that page's address into Amazon link. A second button, Also on Amazon, appears under the buy button.</li>
+</ol>
+<h2>Other things you can change the same way</h2>
+<ul>
+<li>ISBN, binding, tagline, and availability for each edition.</li>
+<li>The synopsis, pull quote, keywords, and subtitle for each book.</li>
+<li>Each lecture's introduction, excerpt, and YouTube link.</li>
+<li>Site copy: the phone number and address in the footer, the line under the title on the home page, and the opening lines of the CEU, Workshops and Launch pages.</li>
+</ul>
+<p>Fields marked read-only (page addresses, SKUs, cover art paths) are set by us. Send us new art or a new title and we place it; your edits keep working around it.</p>
+<h2>Publishing</h2>
+<p>Saving is publishing. Each save makes a small record in the site's history with your name and the time, so any change can be undone. If a save is refused with a red message, the message says which field and why (for example, a buy link that does not start with https://). Fix it and save again.</p>
+<p>If the site does not update after five minutes, or something looks wrong, text or email Rick. We can see every save and can put any page back the way it was.</p>
+</main>
+<footer>
+Prepared for Prof. Samuel Capelli · Prepared by RGF Global Ventures, LLC · Private guide, not for publication ·
+<a href="Capelli-Institute-Editor-Guide.pdf" download>Download as PDF</a>
+</footer>
+</body>
+</html>
