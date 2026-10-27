@@ -11,7 +11,13 @@
       "slug": "five-elemental-philosophy",
       "title": "A Five Elemental Philosophy",
       "subtitle": "A Practical Guide to Balance, Resilience, and Purposeful Living",
-      "keywords": ["Awareness", "Regulation", "Adaptability", "Structure", "Purpose"],
+      "keywords": [
+        "Awareness",
+        "Regulation",
+        "Adaptability",
+        "Structure",
+        "Purpose"
+      ],
       "seriesLine": "The Elements Within ◆ The Architecture of a Purposeful Life",
       "description": null,
       "_descriptionNote": "COPY NEEDED: back-cover synopsis. Not on any sheet Sam sent.",
@@ -21,17 +27,98 @@
         "title": "The Five Elements",
         "kicker": "Symbols and Meanings",
         "items": [
-          {"key": "void", "name": "Void", "traits": ["Stillness", "Awareness", "Integration"], "line": "The space of infinite potential. The source within.", "image": "assets/img/symbols/void.png"},
-          {"key": "wind", "name": "Wind", "traits": ["Perception", "Adaptability", "Movement"], "line": "The flow of thought, perspective, and change.", "image": "assets/img/symbols/wind.png"},
-          {"key": "fire", "name": "Fire", "traits": ["Activation", "Transformation", "Will"], "line": "The energy of action, discernment, and purposeful intensity.", "image": "assets/img/symbols/fire.png"},
-          {"key": "water", "name": "Water", "traits": ["Regulation", "Flexibility", "Depth"], "line": "The flow of emotion, intuition, and renewal.", "image": "assets/img/symbols/water.png"},
-          {"key": "earth", "name": "Earth", "traits": ["Structure", "Stability", "Manifestation"], "line": "The foundation of discipline, responsibility, and grounded action.", "image": "assets/img/symbols/earth.png"}
+          {
+            "key": "void",
+            "name": "Void",
+            "traits": [
+              "Stillness",
+              "Awareness",
+              "Integration"
+            ],
+            "line": "The space of infinite potential. The source within.",
+            "image": "assets/img/symbols/void.png"
+          },
+          {
+            "key": "wind",
+            "name": "Wind",
+            "traits": [
+              "Perception",
+              "Adaptability",
+              "Movement"
+            ],
+            "line": "The flow of thought, perspective, and change.",
+            "image": "assets/img/symbols/wind.png"
+          },
+          {
+            "key": "fire",
+            "name": "Fire",
+            "traits": [
+              "Activation",
+              "Transformation",
+              "Will"
+            ],
+            "line": "The energy of action, discernment, and purposeful intensity.",
+            "image": "assets/img/symbols/fire.png"
+          },
+          {
+            "key": "water",
+            "name": "Water",
+            "traits": [
+              "Regulation",
+              "Flexibility",
+              "Depth"
+            ],
+            "line": "The flow of emotion, intuition, and renewal.",
+            "image": "assets/img/symbols/water.png"
+          },
+          {
+            "key": "earth",
+            "name": "Earth",
+            "traits": [
+              "Structure",
+              "Stability",
+              "Manifestation"
+            ],
+            "line": "The foundation of discipline, responsibility, and grounded action.",
+            "image": "assets/img/symbols/earth.png"
+          }
         ],
-        "center": {"name": "The Central Diamond", "kicker": "The Self and Gnosis", "line": "Represents the conscious individual and the realized state achieved through the integration of all five elements. The point of balance where awareness becomes action, and potential becomes purpose.", "image": "assets/img/symbols/diamond.png"}
+        "center": {
+          "name": "The Central Diamond",
+          "kicker": "The Self and Gnosis",
+          "line": "Represents the conscious individual and the realized state achieved through the integration of all five elements. The point of balance where awareness becomes action, and potential becomes purpose.",
+          "image": "assets/img/symbols/diamond.png"
+        }
       },
       "editions": [
-        {"sku": "FEP-PB", "key": "paperback", "name": "Paperback Edition", "tagline": "Accessible · Professional · For Everyday Readers", "binding": "Paperback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/five-elemental-paperback.jpg", "imageAlt": "A Five Elemental Philosophy, paperback edition. Five elemental roundels, Void, Wind, Fire, Water and Earth, arranged around a seated figure within a glowing diamond, above a mountain lake at sunrise."},
-        {"sku": "FEP-CE", "key": "collector", "name": "Collector's Edition (Signed)", "tagline": "Leather Bound · Gold Foil · Limited Edition · For Collectors", "binding": "Leather bound, gold foil, signed by the author", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/five-elemental-collector.jpg", "imageAlt": "A Five Elemental Philosophy, Collector's Edition. Black leather binding with the five elemental symbols and central diamond stamped in gold foil."}
+        {
+          "sku": "FEP-PB",
+          "key": "paperback",
+          "name": "Paperback Edition",
+          "tagline": "Accessible · Professional · For Everyday Readers",
+          "binding": "Paperback",
+          "isbn": null,
+          "price": null,
+          "stock": "preorder",
+          "buyUrl": null,
+          "amazonUrl": null,
+          "image": "assets/img/covers/five-elemental-paperback.jpg",
+          "imageAlt": "A Five Elemental Philosophy, paperback edition. Five elemental roundels, Void, Wind, Fire, Water and Earth, arranged around a seated figure within a glowing diamond, above a mountain lake at sunrise."
+        },
+        {
+          "sku": "FEP-CE",
+          "key": "collector",
+          "name": "Collector's Edition (Signed)",
+          "tagline": "Leather Bound · Gold Foil · Limited Edition · For Collectors",
+          "binding": "Leather bound, gold foil, signed by the author",
+          "isbn": null,
+          "price": null,
+          "stock": "preorder",
+          "buyUrl": null,
+          "amazonUrl": null,
+          "image": "assets/img/covers/five-elemental-collector.jpg",
+          "imageAlt": "A Five Elemental Philosophy, Collector's Edition. Black leather binding with the five elemental symbols and central diamond stamped in gold foil."
+        }
       ]
     },
     {
@@ -39,22 +126,62 @@
       "title": "The Capelli Doctrine",
       "subtitle": "37 Principles to Live By",
       "subtitle2": "A Practical Guide to Self-Mastery, Discipline, and a Purposeful Life",
-      "keywords": ["Awareness", "Responsibility", "Discipline", "Purpose", "Gnosis"],
+      "keywords": [
+        "Awareness",
+        "Responsibility",
+        "Discipline",
+        "Purpose",
+        "Gnosis"
+      ],
       "seriesLine": null,
       "description": null,
       "_descriptionNote": "COPY NEEDED: back-cover synopsis. Only the front cover was sent.",
       "pullQuote": null,
       "feature": null,
       "editions": [
-        {"sku": "TCD-HB", "key": "hardback", "name": "Hardback Edition", "tagline": null, "binding": "Hardback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/doctrine-hardback.jpg", "imageAlt": "The Capelli Doctrine, 37 Principles to Live By. A cloaked figure stands between two stone pillars facing a sunlit valley, beneath the five elemental symbols around a central diamond.", "_note": "COPY NEEDED: edition list for this title. Sam's sheet shows one cover and names no editions; hardback is assumed from his stated hardback + leather model."},
-        {"sku": "TCD-LB", "key": "collector", "name": "Leather Bound Edition", "tagline": null, "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": null, "imageAlt": null, "_note": "COPY NEEDED: no leather-bound cover art was sent for this title."}
+        {
+          "sku": "TCD-HB",
+          "key": "hardback",
+          "name": "Hardback Edition",
+          "tagline": null,
+          "binding": "Hardback",
+          "isbn": null,
+          "price": null,
+          "stock": "preorder",
+          "buyUrl": null,
+          "amazonUrl": null,
+          "image": "assets/img/covers/doctrine-hardback.jpg",
+          "imageAlt": "The Capelli Doctrine, 37 Principles to Live By. A cloaked figure stands between two stone pillars facing a sunlit valley, beneath the five elemental symbols around a central diamond.",
+          "_note": "COPY NEEDED: edition list for this title. Sam's sheet shows one cover and names no editions; hardback is assumed from his stated hardback + leather model."
+        },
+        {
+          "sku": "TCD-LB",
+          "key": "collector",
+          "name": "Leather Bound Edition",
+          "tagline": null,
+          "binding": "Leather bound",
+          "isbn": null,
+          "price": null,
+          "stock": "preorder",
+          "buyUrl": null,
+          "amazonUrl": null,
+          "image": null,
+          "imageAlt": null,
+          "_note": "COPY NEEDED: no leather-bound cover art was sent for this title."
+        }
       ]
     },
     {
       "slug": "the-architecture-of-universal-order",
       "title": "The Architecture of Universal Order",
       "subtitle": "Laws of Consciousness, Balance, and Evolution",
-      "keywords": ["Awareness", "Balance", "Responsibility", "Evolution", "Gnosis"],
+      "keywords": [
+        "Awareness",
+        "Balance",
+        "Responsibility",
+        "Evolution",
+        "Gnosis"
+      ],
       "seriesLine": "Knowledge ◆ Alignment ◆ Purpose ◆ A Higher You",
       "descriptionHeading": "Discover the structure that connects all things.",
       "description": [
@@ -65,16 +192,61 @@
       "backCoverImage": "assets/img/covers/architecture-back.jpg",
       "feature": null,
       "editions": [
-        {"sku": "AUO-HB", "key": "hardback", "name": "Hardback Edition", "tagline": null, "binding": "Hardback", "isbn": "978-1-7360000-0-0", "_isbnNote": "Printed on the back-cover art Sam sent. Open question Q20: real or placeholder art? Confirm before any Amazon listing.", "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/architecture-hardback.jpg", "imageAlt": "The Architecture of Universal Order, hardback. A seated figure before a golden tree of light framed by stone pillars, mountains and a sunlit valley beyond."},
-        {"sku": "AUO-SE", "key": "collector", "name": "Special Edition — Leather Bound", "tagline": "Collector's Edition", "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/architecture-collector.jpg", "imageAlt": "The Architecture of Universal Order, Special Edition. Black leather binding with a gold-foil tree of life and crown."},
-        {"sku": "AUO-PB", "key": "paperback", "name": "Paperback Edition", "tagline": "More Affordable", "binding": "Paperback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/architecture-paperback.jpg", "imageAlt": "The Architecture of Universal Order, paperback edition, same cover art as the hardback."}
+        {
+          "sku": "AUO-HB",
+          "key": "hardback",
+          "name": "Hardback Edition",
+          "tagline": null,
+          "binding": "Hardback",
+          "isbn": "978-1-7360000-0-0",
+          "_isbnNote": "Printed on the back-cover art Sam sent. Open question Q20: real or placeholder art? Confirm before any Amazon listing.",
+          "price": null,
+          "stock": "preorder",
+          "buyUrl": null,
+          "amazonUrl": null,
+          "image": "assets/img/covers/architecture-hardback.jpg",
+          "imageAlt": "The Architecture of Universal Order, hardback. A seated figure before a golden tree of light framed by stone pillars, mountains and a sunlit valley beyond."
+        },
+        {
+          "sku": "AUO-SE",
+          "key": "collector",
+          "name": "Special Edition — Leather Bound",
+          "tagline": "Collector's Edition",
+          "binding": "Leather bound",
+          "isbn": null,
+          "price": null,
+          "stock": "preorder",
+          "buyUrl": null,
+          "amazonUrl": null,
+          "image": "assets/img/covers/architecture-collector.jpg",
+          "imageAlt": "The Architecture of Universal Order, Special Edition. Black leather binding with a gold-foil tree of life and crown."
+        },
+        {
+          "sku": "AUO-PB",
+          "key": "paperback",
+          "name": "Paperback Edition",
+          "tagline": "More Affordable",
+          "binding": "Paperback",
+          "isbn": null,
+          "price": null,
+          "stock": "preorder",
+          "buyUrl": null,
+          "amazonUrl": null,
+          "image": "assets/img/covers/architecture-paperback.jpg",
+          "imageAlt": "The Architecture of Universal Order, paperback edition, same cover art as the hardback."
+        }
       ]
     },
     {
       "slug": "the-void-in-separation-theory",
       "title": "The Void in Separation Theory",
       "subtitle": "Understanding the Space Between Stimulus and Response",
-      "keywords": ["Awareness", "Perception", "Separation", "Choice"],
+      "keywords": [
+        "Awareness",
+        "Perception",
+        "Separation",
+        "Choice"
+      ],
       "seriesLine": null,
       "description": null,
       "_descriptionNote": "COPY NEEDED: back-cover synopsis. The sheet gives the four concepts and the quote only.",
@@ -85,15 +257,61 @@
         "kicker": "From activation to choice",
         "_kickerNote": "Section heading is a label, not Sam's copy; his sheet lists the four concepts without a heading.",
         "items": [
-          {"key": "awareness", "name": "Awareness", "line": "Recognize the activation before reaction.", "image": "assets/img/symbols/void-awareness.png"},
-          {"key": "perception", "name": "Perception", "line": "Understand how internal state alters reality.", "image": "assets/img/symbols/void-perception.png"},
-          {"key": "separation", "name": "Separation", "line": "Create space between stimulus and response.", "image": "assets/img/symbols/void-separation.png"},
-          {"key": "choice", "name": "Choice", "line": "Respond with clarity rather than reactivity.", "image": "assets/img/symbols/void-choice.png"}
+          {
+            "key": "awareness",
+            "name": "Awareness",
+            "line": "Recognize the activation before reaction.",
+            "image": "assets/img/symbols/void-awareness.png"
+          },
+          {
+            "key": "perception",
+            "name": "Perception",
+            "line": "Understand how internal state alters reality.",
+            "image": "assets/img/symbols/void-perception.png"
+          },
+          {
+            "key": "separation",
+            "name": "Separation",
+            "line": "Create space between stimulus and response.",
+            "image": "assets/img/symbols/void-separation.png"
+          },
+          {
+            "key": "choice",
+            "name": "Choice",
+            "line": "Respond with clarity rather than reactivity.",
+            "image": "assets/img/symbols/void-choice.png"
+          }
         ]
       },
       "editions": [
-        {"sku": "VST-HB", "key": "hardback", "name": "Hardback Edition", "tagline": null, "binding": "Hardback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/void-paperback.jpg", "imageAlt": "The Void in Separation Theory, hardback. An eclipse replaces the O of VOID above an ancient stone terrace, an olive tree and a misty valley at sunrise."},
-        {"sku": "VST-LB", "key": "collector", "name": "Leather Bound Edition", "tagline": null, "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/void-collector.jpg", "imageAlt": "The Void in Separation Theory, leather bound edition. Navy leather with a gold-foil eclipse over a pillared gateway and stepping stones across still water."}
+        {
+          "sku": "VST-HB",
+          "key": "hardback",
+          "name": "Hardback Edition",
+          "tagline": null,
+          "binding": "Hardback",
+          "isbn": null,
+          "price": null,
+          "stock": "preorder",
+          "buyUrl": null,
+          "amazonUrl": null,
+          "image": "assets/img/covers/void-paperback.jpg",
+          "imageAlt": "The Void in Separation Theory, hardback. An eclipse replaces the O of VOID above an ancient stone terrace, an olive tree and a misty valley at sunrise."
+        },
+        {
+          "sku": "VST-LB",
+          "key": "collector",
+          "name": "Leather Bound Edition",
+          "tagline": null,
+          "binding": "Leather bound",
+          "isbn": null,
+          "price": null,
+          "stock": "preorder",
+          "buyUrl": null,
+          "amazonUrl": null,
+          "image": "assets/img/covers/void-collector.jpg",
+          "imageAlt": "The Void in Separation Theory, leather bound edition. Navy leather with a gold-foil eclipse over a pillared gateway and stepping stones across still water."
+        }
       ],
       "_editionNote": "Sam's sheet shows two bindings unlabeled. Hardback + leather follow his stated model; confirm names."
     },
@@ -102,8 +320,20 @@
       "title": "ZenPai",
       "subtitle": "Balanced Conscious Movement",
       "subtitle2": "Integrating Mind, Body, Emotion, and Spirit for a Purposeful Life",
-      "keywords": ["Movement", "Awareness", "Regulation", "Discipline", "Integration"],
-      "keywords2": ["Discipline", "Clarity", "Balance", "Health", "Purpose"],
+      "keywords": [
+        "Movement",
+        "Awareness",
+        "Regulation",
+        "Discipline",
+        "Integration"
+      ],
+      "keywords2": [
+        "Discipline",
+        "Clarity",
+        "Balance",
+        "Health",
+        "Purpose"
+      ],
       "seriesLine": null,
       "description": null,
       "_descriptionNote": "COPY NEEDED: back-cover synopsis.",
@@ -113,23 +343,94 @@
         "title": "Five Pillars",
         "kicker": "Mind · Body · Emotion · Spirit · Integration",
         "items": [
-          {"key": "mind", "name": "Mind", "line": "Clarity, perception, focus, and conscious awareness.", "image": "assets/img/symbols/zenpai-mind.png"},
-          {"key": "body", "name": "Body", "line": "Movement, strength, coordination, and resilience.", "image": "assets/img/symbols/zenpai-body.png"},
-          {"key": "emotion", "name": "Emotion", "line": "Regulation, balance, and release.", "image": "assets/img/symbols/zenpai-emotion.png"},
-          {"key": "spirit", "name": "Spirit", "line": "Connection, meaning, and purpose.", "image": "assets/img/symbols/zenpai-spirit.png"},
-          {"key": "integration", "name": "Integration", "line": "Harmony of all elements in daily life.", "image": "assets/img/symbols/zenpai-integration.png"}
+          {
+            "key": "mind",
+            "name": "Mind",
+            "line": "Clarity, perception, focus, and conscious awareness.",
+            "image": "assets/img/symbols/zenpai-mind.png"
+          },
+          {
+            "key": "body",
+            "name": "Body",
+            "line": "Movement, strength, coordination, and resilience.",
+            "image": "assets/img/symbols/zenpai-body.png"
+          },
+          {
+            "key": "emotion",
+            "name": "Emotion",
+            "line": "Regulation, balance, and release.",
+            "image": "assets/img/symbols/zenpai-emotion.png"
+          },
+          {
+            "key": "spirit",
+            "name": "Spirit",
+            "line": "Connection, meaning, and purpose.",
+            "image": "assets/img/symbols/zenpai-spirit.png"
+          },
+          {
+            "key": "integration",
+            "name": "Integration",
+            "line": "Harmony of all elements in daily life.",
+            "image": "assets/img/symbols/zenpai-integration.png"
+          }
         ],
         "practices": [
-          {"name": "Meditation", "line": "Stillness builds clarity", "image": "assets/img/symbols/zenpai-practice-1.jpg"},
-          {"name": "Martial Movement", "line": "Discipline in action", "image": "assets/img/symbols/zenpai-practice-2.jpg"},
-          {"name": "Breathwork", "line": "Regulation in the moment", "image": "assets/img/symbols/zenpai-practice-3.jpg"},
-          {"name": "Functional Living", "line": "Balance in daily life", "image": "assets/img/symbols/zenpai-practice-4.jpg"},
-          {"name": "Integration", "line": "Purpose in motion", "image": "assets/img/symbols/zenpai-practice-5.jpg"}
+          {
+            "name": "Meditation",
+            "line": "Stillness builds clarity",
+            "image": "assets/img/symbols/zenpai-practice-1.jpg"
+          },
+          {
+            "name": "Martial Movement",
+            "line": "Discipline in action",
+            "image": "assets/img/symbols/zenpai-practice-2.jpg"
+          },
+          {
+            "name": "Breathwork",
+            "line": "Regulation in the moment",
+            "image": "assets/img/symbols/zenpai-practice-3.jpg"
+          },
+          {
+            "name": "Functional Living",
+            "line": "Balance in daily life",
+            "image": "assets/img/symbols/zenpai-practice-4.jpg"
+          },
+          {
+            "name": "Integration",
+            "line": "Purpose in motion",
+            "image": "assets/img/symbols/zenpai-practice-5.jpg"
+          }
         ]
       },
       "editions": [
-        {"sku": "ZEN-HB", "key": "hardback", "name": "Hardback Edition", "tagline": null, "binding": "Hardback", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/zenpai-paperback.jpg", "imageAlt": "ZenPai, Balanced Conscious Movement, hardback. A martial artist holds a wide stance on a rocky summit above cloud-filled valleys at sunrise."},
-        {"sku": "ZEN-LB", "key": "collector", "name": "Leather Bound Edition", "tagline": null, "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null, "amazonUrl": null, "image": "assets/img/covers/zenpai-collector.jpg", "imageAlt": "ZenPai, leather bound edition. Black leather with a gold-foil martial figure inside a brushed enso circle and the zen character in red."}
+        {
+          "sku": "ZEN-HB",
+          "key": "hardback",
+          "name": "Hardback Edition",
+          "tagline": null,
+          "binding": "Hardback",
+          "isbn": null,
+          "price": null,
+          "stock": "preorder",
+          "buyUrl": null,
+          "amazonUrl": null,
+          "image": "assets/img/covers/zenpai-paperback.jpg",
+          "imageAlt": "ZenPai, Balanced Conscious Movement, hardback. A martial artist holds a wide stance on a rocky summit above cloud-filled valleys at sunrise."
+        },
+        {
+          "sku": "ZEN-LB",
+          "key": "collector",
+          "name": "Leather Bound Edition",
+          "tagline": null,
+          "binding": "Leather bound",
+          "isbn": null,
+          "price": null,
+          "stock": "preorder",
+          "buyUrl": null,
+          "amazonUrl": null,
+          "image": "assets/img/covers/zenpai-collector.jpg",
+          "imageAlt": "ZenPai, leather bound edition. Black leather with a gold-foil martial figure inside a brushed enso circle and the zen character in red."
+        }
       ],
       "_editionNote": "Sam's sheet shows two bindings unlabeled. Confirm names."
     }
@@ -138,35 +439,243 @@
     "brand": "Lectures in Print",
     "tagline": "Knowledge Spoken. Wisdom Preserved.",
     "positioning": "Independent lectures that capture the authentic voice, teaching, and experience of Dr. Samuel Capelli. Each lecture stands alone as a written educational experience.",
-    "values": ["Real Lectures", "Your Actual Words", "Practical Application", "Wide Range of Topics", "Education for Life"],
+    "values": [
+      "Real Lectures",
+      "Your Actual Words",
+      "Practical Application",
+      "Wide Range of Topics",
+      "Education for Life"
+    ],
     "pullQuote": "Knowledge is spoken in the moment. These lectures preserve that moment so it can continue to teach, long after the room is empty.",
-    "_numberingNote": "PENDING SAM'S MASTER CATALOG (Oct 20, 2026): Sam is creating a master lecture catalog. Leave the numbering below as is until it arrives, then renumber from his catalog. Background: his sheet labeled two lectures 005, so 006 was assigned to the last one (Q19).",
     "items": [
       {
-        "number": "001", "slug": "the-architecture-of-human-choice",
-        "title": "The Architecture of Human Choice", "subtitle": "Understanding the Mind Before the Action",
-        "synopsis": "This lecture explores how awareness, perception, emotion, and behavior interact in the moment of choice. It provides a foundation for understanding human decision-making and how disciplined awareness creates a different outcome.",
+        "number": "001",
+        "slug": "the-architecture-of-human-choice",
+        "title": "The Architecture of Human Choice",
+        "subtitle": "Understanding the Mind Before the Action",
+        "synopsis": "Human behavior does not begin with action. It begins with perception, thought, interpretation, and the emotional responses that influence our decisions. In this lecture, I examine the architecture of human choice and the processes that occur before behavior becomes visible. We explore how subconscious programming and emotional activation can influence our responses, often without conscious evaluation. The objective is to recognize the difference between reacting and choosing. When we develop awareness, examine the facts, and consider consequences before acting, we begin directing our lives with greater purpose. Choice is not simply the freedom to act. It is the responsibility to understand what we are choosing and why.",
         "excerpt": "When we talk about choice, most people believe they are choosing. But what is actually happening is a reaction based on perception, emotion, and conditioning. The first step is awareness. If you are not aware of what is happening inside you, then you are not choosing. You are reacting. And reaction is not freedom. Reaction is conditioning…",
-        "image": "assets/img/lectures/lecture-001-hardback.jpg",
-        "imageAlt": "Lectures in Print, Lecture No. 001, The Architecture of Human Choice. An armillary sphere and open book on a stone balustrade overlooking a river valley at sunrise.",
-        "collectorImage": "assets/img/lectures/lecture-001-collector.jpg",
+        "image": "assets/img/lectures/the-architecture-of-human-choice.jpg",
+        "imageAlt": "Lecture No. 001, The Architecture of Human Choice. Lectures in Print, Lecture No. 001, The Architecture of Human Choice. An armillary sphere and open book on a stone balustrade overlooking a river valley at sunrise.",
+        "collectorImage": "assets/img/lectures/the-architecture-of-human-choice-collector.jpg",
         "collectorImageAlt": "Lecture No. 001, leather bound. Navy leather with the Lectures in Print open-book emblem in gold foil.",
         "video": null,
         "editions": [
-          {"sku": "LIP-001-PB", "key": "print", "name": "Print Edition", "binding": "Printed lecture", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null},
-          {"sku": "LIP-001-LB", "key": "collector", "name": "Leather Bound Edition", "binding": "Leather bound", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null}
+          {
+            "sku": "LIP-001-PB",
+            "key": "print",
+            "name": "Print Edition",
+            "binding": "Printed lecture",
+            "isbn": null,
+            "price": null,
+            "stock": "preorder",
+            "buyUrl": null
+          },
+          {
+            "sku": "LIP-001-LB",
+            "key": "collector",
+            "name": "Leather Bound Edition",
+            "binding": "Leather bound",
+            "isbn": null,
+            "price": null,
+            "stock": "preorder",
+            "buyUrl": null
+          }
         ]
       },
-      {"number": "002", "slug": "emotional-regulation-in-real-life", "title": "Emotional Regulation in Real Life", "subtitle": null, "synopsis": null, "excerpt": null, "image": "assets/img/lectures/lecture-002.jpg", "imageAlt": "Lecture No. 002, Emotional Regulation in Real Life. A glowing brain illustration above a sunlit landscape.", "video": null,
-       "editions": [{"sku": "LIP-002-PB", "key": "print", "name": "Print Edition", "binding": "Printed lecture", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null}]},
-      {"number": "003", "slug": "the-thinking-model-of-assessment", "title": "The Thinking Model of Assessment", "subtitle": null, "synopsis": null, "excerpt": null, "image": "assets/img/lectures/lecture-003.jpg", "imageAlt": "Lecture No. 003, The Thinking Model of Assessment. A stone stairway climbs toward mountains at dawn.", "video": null,
-       "editions": [{"sku": "LIP-003-PB", "key": "print", "name": "Print Edition", "binding": "Printed lecture", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null}]},
-      {"number": "004", "slug": "responsibility-as-a-life-system", "title": "Responsibility as a Life System", "subtitle": null, "synopsis": null, "excerpt": null, "image": "assets/img/lectures/lecture-004.jpg", "imageAlt": "Lecture No. 004, Responsibility as a Life System. A lone tree on a hillside at sunrise.", "video": null,
-       "editions": [{"sku": "LIP-004-PB", "key": "print", "name": "Print Edition", "binding": "Printed lecture", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null}]},
-      {"number": "005", "slug": "trauma-activation-and-choice", "title": "Trauma, Activation and Choice", "subtitle": null, "synopsis": null, "excerpt": null, "image": "assets/img/lectures/lecture-005.jpg", "imageAlt": "Lecture No. 005, Trauma, Activation and Choice. Balanced stones stacked beside still water at sunrise.", "video": null,
-       "editions": [{"sku": "LIP-005-PB", "key": "print", "name": "Print Edition", "binding": "Printed lecture", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null}]},
-      {"number": "006", "slug": "relationships-boundaries-and-personal-power", "title": "Relationships, Boundaries, and Personal Power", "subtitle": null, "synopsis": null, "excerpt": null, "image": "assets/img/lectures/lecture-006.jpg", "imageAlt": "Lecture No. 006, Relationships, Boundaries, and Personal Power. A stone arch bridge over a river gorge at sunrise.", "video": null, "_numberNote": "Shown as 005 on Sam's sheet (duplicate). Number pending Sam's master catalog (Oct 20, 2026).",
-       "editions": [{"sku": "LIP-006-PB", "key": "print", "name": "Print Edition", "binding": "Printed lecture", "isbn": null, "price": null, "stock": "preorder", "buyUrl": null}]}
-    ]
+      {
+        "number": "002",
+        "slug": "healthy-relationships",
+        "title": "Healthy Relationships",
+        "subtitle": null,
+        "synopsis": "Healthy relationships require more than affection, attraction, or the desire to remain together. They require individuals who understand communication, trust, responsibility, and respect. In this lecture, I examine the thinking and behavioral patterns that strengthen relationships and those that gradually create conflict, misunderstanding, and instability. We explore how personal perceptions, entitlement, emotional reactions, and the unwillingness to accept accountability can interfere with healthy communication. The objective is not to determine who is right or wrong, but to understand how our individual behavior contributes to the relationship. Before evaluating another person, we must first be willing to examine ourselves.",
+        "excerpt": null,
+        "image": "assets/img/lectures/cover-pending.jpg",
+        "imageAlt": "Lecture No. 002, Healthy Relationships. Cover art to come; the Lectures in Print emblem on navy.",
+        "_artNote": "COPY NEEDED: cover art for this lecture. Placeholder shows the Lectures in Print emblem until Sam sends the cover.",
+        "video": null,
+        "editions": [
+          {
+            "sku": "LIP-002-PB",
+            "key": "print",
+            "name": "Print Edition",
+            "binding": "Printed lecture",
+            "isbn": null,
+            "price": null,
+            "stock": "preorder",
+            "buyUrl": null
+          }
+        ]
+      },
+      {
+        "number": "003",
+        "slug": "emotional-regulation-in-real-life",
+        "title": "Emotional Regulation in Real Life",
+        "subtitle": null,
+        "synopsis": "Emotions are alarms. They communicate that something requires our attention, but they do not necessarily establish what is true or determine how we should respond. In this lecture, I examine the relationship among perception, subconscious programming, physiological activation, and behavioral choice. Through the Law of Order and the Law of Disorder, we explore how individuals can move from automatic reactions toward deliberate evaluation. Emotional regulation does not require us to eliminate anger, fear, frustration, or disappointment. It requires us to recognize the activation, investigate its meaning, examine the consequences, and determine an appropriate response. The objective is to learn how to experience emotion without surrendering responsibility for our behavior.",
+        "excerpt": null,
+        "image": "assets/img/lectures/emotional-regulation-in-real-life.jpg",
+        "imageAlt": "Lecture No. 003, Emotional Regulation in Real Life. A glowing brain illustration above a sunlit landscape.",
+        "_artNote": "Sam's cover art for this lecture still carries the interim number 002; his master catalog (Oct 26, 2026) makes it No. 003. Replace the art when he sends the renumbered cover.",
+        "video": null,
+        "editions": [
+          {
+            "sku": "LIP-003-PB",
+            "key": "print",
+            "name": "Print Edition",
+            "binding": "Printed lecture",
+            "isbn": null,
+            "price": null,
+            "stock": "preorder",
+            "buyUrl": null
+          }
+        ]
+      },
+      {
+        "number": "004",
+        "slug": "the-thinking-model-of-assessment",
+        "title": "The Thinking Model of Assessment™",
+        "subtitle": null,
+        "synopsis": "Thinking and evaluating are not necessarily the same process. Individuals can spend considerable time thinking while never questioning the accuracy of their assumptions or the consequences of their conclusions. In this lecture, I introduce the Thinking Model of Assessment™ as a structured approach to examining information, separating facts from interpretation, and evaluating decisions before they become actions. We explore the influence of emotion, perception, and previous experiences upon judgment. The objective is to develop disciplined thinking that does not simply defend what we already believe, but examines whether those beliefs are supported by the available information. Better decisions begin with better assessment.",
+        "excerpt": null,
+        "image": "assets/img/lectures/the-thinking-model-of-assessment.jpg",
+        "imageAlt": "Lecture No. 004, The Thinking Model of Assessment™. A stone stairway climbs toward mountains at dawn.",
+        "_artNote": "Sam's cover art for this lecture still carries the interim number 003; his master catalog (Oct 26, 2026) makes it No. 004. Replace the art when he sends the renumbered cover.",
+        "video": null,
+        "editions": [
+          {
+            "sku": "LIP-004-PB",
+            "key": "print",
+            "name": "Print Edition",
+            "binding": "Printed lecture",
+            "isbn": null,
+            "price": null,
+            "stock": "preorder",
+            "buyUrl": null
+          }
+        ]
+      },
+      {
+        "number": "005",
+        "slug": "responsibility-as-a-life-system",
+        "title": "Responsibility Is a Life System",
+        "subtitle": null,
+        "synopsis": "Responsibility is not an occasional act of admitting a mistake. It is a continuous system through which we direct our thinking, behavior, relationships, and decisions. In this lecture, I examine responsibility as a principle of daily living, emphasizing the importance of accepting what belongs to us while recognizing what remains beyond our control. We explore the relationship among personal accountability, emotional regulation, behavioral consistency, and the consequences of our actions. The objective is to move beyond explanations and justifications toward meaningful application. We cannot continually demand different outcomes while repeating the same patterns. Responsibility begins when we become willing to examine our participation and make the necessary changes.",
+        "excerpt": null,
+        "image": "assets/img/lectures/responsibility-as-a-life-system.jpg",
+        "imageAlt": "Lecture No. 005, Responsibility Is a Life System. A lone tree on a hillside at sunrise.",
+        "_artNote": "Sam's cover art for this lecture still carries the interim number 004; his master catalog (Oct 26, 2026) makes it No. 005. Replace the art when he sends the renumbered cover.",
+        "video": null,
+        "editions": [
+          {
+            "sku": "LIP-005-PB",
+            "key": "print",
+            "name": "Print Edition",
+            "binding": "Printed lecture",
+            "isbn": null,
+            "price": null,
+            "stock": "preorder",
+            "buyUrl": null
+          }
+        ]
+      },
+      {
+        "number": "006",
+        "slug": "trauma-activation-and-choice",
+        "title": "Trauma, Activation, and Choice",
+        "subtitle": null,
+        "synopsis": "Our past experiences can influence how we interpret present circumstances, particularly when those experiences involve fear, uncertainty, or psychological distress. In this lecture, I examine the relationship among trauma, subconscious activation, emotional regulation, and behavioral choice. We explore how previous experiences may influence perception and how the nervous system can respond to situations associated with earlier distress. The objective is not to dismiss the impact of trauma or suggest that every reaction is easily controlled. It is to understand the importance of awareness, therapeutic regulation, and the gradual development of purposeful responses. The past may influence our present, but understanding that influence creates opportunities for change.",
+        "excerpt": null,
+        "image": "assets/img/lectures/trauma-activation-and-choice.jpg",
+        "imageAlt": "Lecture No. 006, Trauma, Activation, and Choice. Balanced stones stacked beside still water at sunrise.",
+        "_artNote": "Sam's cover art for this lecture still carries the interim number 005; his master catalog (Oct 26, 2026) makes it No. 006. Replace the art when he sends the renumbered cover.",
+        "video": null,
+        "editions": [
+          {
+            "sku": "LIP-006-PB",
+            "key": "print",
+            "name": "Print Edition",
+            "binding": "Printed lecture",
+            "isbn": null,
+            "price": null,
+            "stock": "preorder",
+            "buyUrl": null
+          }
+        ]
+      },
+      {
+        "number": "007",
+        "slug": "relationships-boundaries-and-personal-power",
+        "title": "Relationships, Boundaries, and Personal Power",
+        "subtitle": null,
+        "synopsis": "Personal power begins with the ability to direct ourselves, not with the ability to control another individual. In this lecture, I examine the relationship among personal boundaries, emotional responsibility, communication, and respect for individual rights. We explore why healthy boundaries require clarity, consistency, and an understanding of what belongs to our responsibility. Boundaries are not instruments of punishment or domination. They establish how we choose to participate in relationships and what behaviors we are willing to accept. The objective is to develop relationships in which personal freedom and mutual respect can exist together. We must learn to direct our own lives without attempting to take ownership of someone else's.",
+        "excerpt": null,
+        "image": "assets/img/lectures/relationships-boundaries-and-personal-power.jpg",
+        "imageAlt": "Lecture No. 007, Relationships, Boundaries, and Personal Power. A stone arch bridge over a river gorge at sunrise.",
+        "_artNote": "Sam's cover art for this lecture still carries the interim number 006; his master catalog (Oct 26, 2026) makes it No. 007. Replace the art when he sends the renumbered cover.",
+        "video": null,
+        "editions": [
+          {
+            "sku": "LIP-007-PB",
+            "key": "print",
+            "name": "Print Edition",
+            "binding": "Printed lecture",
+            "isbn": null,
+            "price": null,
+            "stock": "preorder",
+            "buyUrl": null
+          }
+        ]
+      },
+      {
+        "number": "008",
+        "slug": "the-capelli-respect-model",
+        "title": "The Capelli Respect Model™",
+        "subtitle": null,
+        "synopsis": "Respect begins with a fundamental principle: direct your life toward your own desires and dreams without violating the rights of others. In this lecture, I examine the meaning of that principle and the discipline required to put it into practice. We explore self-direction, behavioral control, emotional rights, disciplined thinking, and the importance of evaluating facts and consequences before acting. Respect is not simply politeness, agreement, or something we expect others to demonstrate. It is reflected in how we conduct ourselves, particularly when our desires conflict with another person's rights. The objective is not merely to understand the Respect Model, but to become the model through consistent application.",
+        "excerpt": null,
+        "image": "assets/img/lectures/cover-pending.jpg",
+        "imageAlt": "Lecture No. 008, The Capelli Respect Model™. Cover art to come; the Lectures in Print emblem on navy.",
+        "_artNote": "COPY NEEDED: cover art for this lecture. Placeholder shows the Lectures in Print emblem until Sam sends the cover.",
+        "video": null,
+        "editions": [
+          {
+            "sku": "LIP-008-PB",
+            "key": "print",
+            "name": "Print Edition",
+            "binding": "Printed lecture",
+            "isbn": null,
+            "price": null,
+            "stock": "preorder",
+            "buyUrl": null
+          }
+        ]
+      },
+      {
+        "number": "009",
+        "slug": "healthy-relationships-and-anchors",
+        "title": "Healthy Relationships and Anchors",
+        "subtitle": null,
+        "synopsis": "A healthy relationship requires a foundation that can withstand disagreement, emotional activation, and the challenges of daily life. In this lecture, I examine four essential foundations: communication, trust, responsibility, and respect. We also explore the concept of anchors—patterns of thinking and behavior that prevent individuals and relationships from moving forward. These may include repeated mistakes, resistance to change, unresolved emotional patterns, and the unwillingness to accept accountability. The objective is to recognize how these anchors influence our decisions and what we must do to address them. Before asking whether someone else has become an anchor in our lives, we must examine whether we have become an anchor in our own.",
+        "excerpt": null,
+        "image": "assets/img/lectures/cover-pending.jpg",
+        "imageAlt": "Lecture No. 009, Healthy Relationships and Anchors. Cover art to come; the Lectures in Print emblem on navy.",
+        "_artNote": "COPY NEEDED: cover art for this lecture. Placeholder shows the Lectures in Print emblem until Sam sends the cover.",
+        "video": null,
+        "editions": [
+          {
+            "sku": "LIP-009-PB",
+            "key": "print",
+            "name": "Print Edition",
+            "binding": "Printed lecture",
+            "isbn": null,
+            "price": null,
+            "stock": "preorder",
+            "buyUrl": null
+          }
+        ]
+      }
+    ],
+    "_numberingNote": "Numbering and titles follow Sam Capelli's master catalog, 'Official Website Lecture Synopses' (received Oct 26, 2026). It supersedes the interim numbering. Synopses are his text verbatim."
   }
 }

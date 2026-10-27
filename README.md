@@ -22,14 +22,16 @@ ships as a `<meta>` tag in every page.
 | `index.html` | Home |
 | `books/index.html`, `books/<slug>.html` | Book catalog and one product page per title (5) |
 | `philosophy.html` | The Five Elements and the systems from the books |
-| `lectures/index.html`, `lectures/<slug>.html` | Lectures in Print™ catalog and one page per lecture (6) |
+| `lectures/index.html`, `lectures/<slug>.html` | Lectures in Print™ catalog and one page per lecture (9, numbered 001–009 from the client's master catalog of Oct 26, 2026) |
+| `resonant-mind.html` | Resonant Mind™, the Institute's video channel: the client's banner, what the channel carries, a "Videos coming soon" panel. The channel address is **one value**, `resonantMind.channelUrl` in `copy.json`; while it is empty no "Visit the channel" button is rendered |
+| `sitemap.xml`, `robots.txt` | Generated with the pages, on the final domain (same URLs as the canonical tags) |
 | `ceu.html` | Continuing Education Units. **The only program with online registration.** |
 | `programs/bipp.html`, `programs/anger-resolution.html`, `programs/cognitive-programs.html` | **Information + phone number only. No form, by client instruction.** |
 | `workshops.html` | Workshops & Seminars, with an organization inquiry form |
 | `coming-soon.html` | Standalone launch teaser with QR and email capture |
 | `404.html`, `legal/privacy.html`, `legal/terms.html` | Not-found page and client-supplied legal placeholders |
 | `assets/data/catalog.json` | **Single source of truth** for books, editions, SKUs, ISBNs, prices, buy links and lectures |
-| `assets/data/copy.json` | Editable page copy: contact details, home page lines, CEU / workshops / launch intros |
+| `assets/data/copy.json` | Editable page copy: contact details, home page lines, CEU / workshops / launch intros, the Resonant Mind channel link and lines |
 | `assets/data/catalog.js` | Derived from the JSON for the in-page edition selector. Do not edit by hand. |
 | `.pages.yml` | Pages CMS form definitions for the two data files. Every catalog key must be declared here (the CMS drops undeclared keys and empty values on save; the generator restores defaults) |
 | `.github/workflows/pages.yml` | Build, commit-back and publish on every push to `main` |
@@ -45,6 +47,12 @@ ships as a `<meta>` tag in every page.
   with no `buyUrl` renders "Available soon" with no href at all, never a placeholder link. Both must be
   `https://` or the build refuses.
 - **Header, nav, footer:** edit the functions at the top of `tools/build-pages.py`, regenerate, commit.
+- **Resonant Mind channel link:** set `resonantMind.channelUrl` in `assets/data/copy.json` (or Pages CMS → Site copy →
+  Resonant Mind), regenerate, commit. Must be `https://` or the build refuses. Each lecture's own `video` field in the
+  catalog adds a "Watch on Resonant Mind" button to that lecture page.
+- **Lecture cover art** is named by slug in `assets/img/lectures/`. Three lectures (002, 008, 009) use
+  `cover-pending.jpg` (the Lectures in Print emblem on navy) until the client sends covers; the covers for 003–007 still
+  carry the interim numbers printed on the art, noted per lecture in `_artNote`.
 - **™ → ®:** when the registration is granted, replace `™` inside `<span class="tm">` across the site (one find-and-replace).
 - **Copy the client still owes:** every spot is marked with an HTML comment starting `COPY NEEDED:` and a visible
   dashed box. `grep -rn "COPY NEEDED" --include=*.html .` lists them all.

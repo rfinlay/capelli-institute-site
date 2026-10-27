@@ -280,6 +280,9 @@ content:
               - name: _numberNote
                 type: text
                 hidden: true
+              - name: _artNote
+                type: text
+                hidden: true
           - name: brand
             type: string
             readonly: true
@@ -381,6 +384,23 @@ content:
             type: string
           - name: platform
             label: Description
+            type: text
+      - name: resonantMind
+        label: Resonant Mind (video channel)
+        type: object
+        fields:
+          - name: channelUrl
+            label: Channel link
+            type: string
+            description: The address of the Resonant Mind channel, starting with https://. Leave empty until the channel is live; the page then says "Videos coming soon" with no button. Paste the link and the "Visit the channel" button appears.
+            pattern:
+              regex: "^(https://\\S+)?$"
+              message: "Paste the full link, starting with https://"
+          - name: tagline
+            label: Line under the banner
+            type: string
+          - name: intro
+            label: What the channel carries
             type: text
       - name: _about
         type: text

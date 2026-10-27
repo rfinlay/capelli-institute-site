@@ -455,6 +455,26 @@ main > section.alt{background:var(--navy-deep);}
 .form.sent{display:none;}
 .form.sent + .form-ok{display:block;}
 
+/* ---------- resonant mind (video channel) ---------- */
+.rm-hero{background:var(--navy-mid); border-bottom:1px solid var(--hair);}
+.rm-hero .wrap{padding:var(--s6) 24px var(--s7);}
+.rm-hero h1{font-size:clamp(22px,3vw,36px); letter-spacing:.08em; margin:0 0 var(--s5);}
+.rm-hero h1 .bar{color:var(--gold-deep); font-weight:400; margin:0 .25em;}
+.rm-banner{display:block; border:1px solid var(--hair-strong); box-shadow:var(--shadow); background:var(--navy);}
+.rm-banner img{display:block; width:100%; height:auto;}
+.rm-hero .thesis{font-family:var(--display); font-size:clamp(13px,1.5vw,17px); letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin:var(--s5) 0 0; line-height:1.7; text-align:center;}
+.rm-kinds{list-style:none; margin:var(--s5) 0 0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:10px 28px; font-size:18px; color:var(--parchment);}
+.rm-kinds li{display:flex; gap:12px; align-items:flex-start; line-height:1.4;}
+.rm-kinds .dia{flex:none; width:7px; height:7px; margin-top:9px; background:var(--gold); transform:rotate(45deg);}
+@media(max-width:639px){.rm-kinds{grid-template-columns:1fr;}}
+.rm-videos{text-align:center;}
+.rm-videos h3{color:var(--parchment); font-size:22px; letter-spacing:.06em; margin:6px 0 0;}
+.rm-videos .btn{margin-top:4px;}
+.rm-videos .pay-note{margin:12px 0 0; font-size:14.5px; color:var(--body-dim);}
+.rm-screen{position:relative; aspect-ratio:16/9; display:grid; place-items:center; background:var(--navy); border:1px solid var(--hair); overflow:hidden;}
+.rm-screen img{width:38%; max-width:180px; height:auto; opacity:.16; filter:grayscale(1) sepia(1) saturate(2);}
+.rm-screen svg{position:absolute; width:64px; height:64px; color:var(--gold);}
+
 /* ---------- coming soon ---------- */
 .teaser-page{min-height:100vh; display:grid; grid-template-rows:auto 1fr auto; position:relative; isolation:isolate; overflow:hidden; background:var(--navy);}
 /* Sam's teaser poster sits on the same full-width panorama as the homepage: show the WHOLE photo across the

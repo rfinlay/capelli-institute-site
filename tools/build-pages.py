@@ -129,6 +129,12 @@ COPY_DEFAULTS = {
     "comingSoon": {"thesis": "Advancing Clinical Education Through Research, Innovation, and Psychological Science.",
                    "when": "Early January 2027",
                    "platform": "A comprehensive educational platform for clinicians, professionals, and seekers of knowledge."},
+    # Resonant Mind: the Institute's video channel. channelUrl is THE one place the channel address lives.
+    # Empty = not announced yet: the page shows "Videos coming soon" and no "Visit the channel" button is rendered,
+    # so the site never carries a dead link. Paste the https:// address (copy.json or Pages CMS) and the button appears.
+    "resonantMind": {"channelUrl": "",
+                     "tagline": "Where Knowledge Resonates Beyond the Classroom.",
+                     "intro": "Recorded lectures, philosophical discussions, educational presentations, research-related content, other original productions, and clinical explanations of mental health conditions and interviews."},
 }
 
 def load_copy():
@@ -142,6 +148,8 @@ def load_copy():
         errors.append(f"copy.json contact.phone must be digits, spaces, dots, dashes or parentheses (got {out['contact']['phone']!r})")
     if not re.fullmatch(r"\+[0-9]{8,15}", out["contact"]["phoneTel"]):
         errors.append(f"copy.json contact.phoneTel must be + followed by 8 to 15 digits (got {out['contact']['phoneTel']!r})")
+    if out["resonantMind"]["channelUrl"] and not HTTPS.match(out["resonantMind"]["channelUrl"]):
+        errors.append(f"copy.json resonantMind.channelUrl must be a full https:// address, or empty until the channel is announced (got {out['resonantMind']['channelUrl']!r})")
     if errors:
         print("copy.json has problems; nothing was built:", file=sys.stderr)
         for e in errors: print("  - " + e, file=sys.stderr)
@@ -181,6 +189,7 @@ NAV = [
     ("books", "books/index.html", "Books"),
     ("philosophy", "philosophy.html", "Philosophy"),
     ("lectures", "lectures/index.html", f"Lectures<br>in Print{TM}"),
+    ("resonant", "resonant-mind.html", "Resonant<br>Mind"),
     ("ceu", "ceu.html", "CEU's"),
     ("bipp", "programs/bipp.html", "BIPP<br>Education Series"),
     ("anger", "programs/anger-resolution.html", "Anger<br>Resolution Series"),
@@ -247,7 +256,7 @@ def header(root, current):
   </div>
 </header>
 
-<!-- Primary navigation. Nine sections. There is deliberately NO global "Register" control:
+<!-- Primary navigation. Ten sections. There is deliberately NO global "Register" control:
      the BIPP, Anger Resolution and Cognitive pages must never carry a registration affordance. -->
 <nav class="nav" aria-label="Primary">
   <div class="wrap">
@@ -281,6 +290,7 @@ def footer(root):
         <li><a href="{root}books/index.html">Books</a></li>
         <li><a href="{root}philosophy.html">Philosophy</a></li>
         <li><a href="{root}lectures/index.html">Lectures in Print{TM}</a></li>
+        <li><a href="{root}resonant-mind.html">Resonant Mind</a></li>
         <li><a href="{root}ceu.html">Continuing Education Units</a></li>
         <li><a href="{root}workshops.html">Workshops &amp; Seminars</a></li>
       </ul>
@@ -328,13 +338,25 @@ def canonical(path):
     rel = path[:-len("index.html")] if path.endswith("index.html") else path
     return SITE_URL + "/" + rel
 
+SITEMAP = []   # every generated page with a canonical URL, in build order
+
 def write(path, content):
     full = os.path.join(ROOT, path)
     os.makedirs(os.path.dirname(full), exist_ok=True)
     if path != "404.html" and '<link rel="canonical"' not in content:
         content = content.replace('<meta name="theme-color"', f'<link rel="canonical" href="{esc(canonical(path))}">\n<meta name="theme-color"', 1)
+        if path.endswith(".html") and path != "coming-soon.html": SITEMAP.append(canonical(path))
     with open(full, "w") as f: f.write(content)
     print("wrote", path)
+
+def build_sitemap():
+    """sitemap.xml on the final domain (the same URLs as the canonical tags) and a robots.txt that points to it."""
+    urls = "\n".join(f"  <url><loc>{esc(u)}</loc></url>" for u in SITEMAP)
+    with open(os.path.join(ROOT, "sitemap.xml"), "w") as f:
+        f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n')
+    with open(os.path.join(ROOT, "robots.txt"), "w") as f:
+        f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
+    print("wrote sitemap.xml, robots.txt")
 
 # ---------------------------------------------------------------------------
 # Shared fragments
@@ -797,7 +819,7 @@ def build_lectures():
         <div class="art"><span class="num">No. {it['number']}</span><img src="{root}{it['image']}" alt="{esc(it['imageAlt'])}" width="400" loading="lazy"></div>
         <div class="body">
           <span class="series">Lectures in Print{TM}</span>
-          <h3><a href="{it['slug']}.html">{esc(it['title'])}</a></h3>
+          <h3><a href="{it['slug']}.html">{tm(it['title'])}</a></h3>
           {f'<p class="st">{esc(it["subtitle"])}</p>' if it.get('subtitle') else ''}
           <div class="foot"><span>{esc(CAT['author']['coverName'])}</span><span>Read the synopsis →</span></div>
         </div>
@@ -827,7 +849,7 @@ def build_lectures():
       <p class="eyebrow">The series</p>
       <h2 id="catalog-title">Lectures</h2>
       <div class="rule left" aria-hidden="true"><span class="dia"></span></div>
-      <!-- Lecture numbering is provisional: Sam Capelli is preparing a master catalog (Oct 20, 2026). Current numbers stay until it arrives; 006 was assigned here where his sheet repeated 005. -->
+      <!-- Numbering, titles and synopses follow Sam Capelli's master catalog, "Official Website Lecture Synopses" (Oct 26, 2026). -->
       <ul class="lectures" style="margin-top:36px">
 {cards}
       </ul>
@@ -847,11 +869,13 @@ def build_lectures():
   </section>
 
   <section class="alt tight" aria-labelledby="watch-title">
-    <div class="wrap">
-      <p class="eyebrow">Watch</p>
-      <h2 id="watch-title">The Capelli Institute channel</h2>
-      <!-- COPY NEEDED: YouTube channel ID after the "Resident Mind" rename (Q8). Embed by channel ID, not vanity URL. Each lecture will link to its video. -->
-      {needs_copy("the YouTube channel link once the channel is renamed from Resident Mind to The Capelli Institute, and a video link for each lecture.")}
+    <div class="wrap" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center">
+      <div>
+        <p class="eyebrow">Watch</p>
+        <h2 id="watch-title" style="font-size:24px">Resonant Mind{TM}</h2>
+        <p class="dim" style="margin:8px 0 0">Recorded lectures and more, on the Institute's channel.</p>
+      </div>
+      <a class="btn" href="{root}resonant-mind.html">Resonant Mind <span class="arrow" aria-hidden="true">→</span></a>
     </div>
   </section>
 """
@@ -867,7 +891,7 @@ def build_lecture(it):
     <div class="wrap narrow">
       <div class="excerpt">
         <p class="eyebrow">Lecture No. {it['number']} · The Lecture</p>
-        <h3 id="excerpt-title">{esc(it['title'])}</h3>
+        <h3 id="excerpt-title">{tm(it['title'])}</h3>
         <p style="margin-top:14px">“{esc(it['excerpt'])}”</p>
         <cite>{esc(CAT['author']['coverName'])}</cite>
       </div>
@@ -884,7 +908,7 @@ def build_lecture(it):
         for e in it["editions"]:
             if not e.get("image"):
                 e["image"] = it["image"]; e["imageAlt"] = it["imageAlt"]
-    body = page_head(root, [("Home","index.html"),(f"Lectures in Print{TM}","lectures/index.html"),(f"No. {it['number']}",None)], esc(it["title"]), esc(it["subtitle"]) if it.get("subtitle") else None, f"Lectures in Print{TM} · Lecture No. {it['number']}") + f"""
+    body = page_head(root, [("Home","index.html"),(f"Lectures in Print{TM}","lectures/index.html"),(f"No. {it['number']}",None)], tm(it["title"]), esc(it["subtitle"]) if it.get("subtitle") else None, f"Lectures in Print{TM} · Lecture No. {it['number']}") + f"""
   <section aria-label="Product">
     <div class="wrap product">
       <figure class="cover-stage" style="margin:0">
@@ -898,7 +922,8 @@ def build_lecture(it):
         <p class="author">{esc(CAT['author']['coverName'])}</p>
         <h3 style="color:var(--parchment);font-size:14px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px">Introduction</h3>
         {syn}
-        <!-- VIDEO: each lecture gets a video on the Institute's channel. Set "video" in catalog.json once the channel is renamed (Q8). -->
+        <!-- VIDEO: each lecture can link to its video on Resonant Mind. Set "video" in catalog.json (Pages CMS: Video link) and the button below appears. -->
+        {f'<p style="margin:0 0 24px"><a class="btn ghost sm" href="{esc(it["video"])}" target="_blank" rel="noopener">Watch on Resonant Mind <span class="arrow" aria-hidden="true">→</span></a></p>' if it.get('video') else ''}
 {product_block(root, "lecture", it, it['editions'], it['imageAlt'])}
       </div>
     </div>
@@ -1129,7 +1154,7 @@ def build_workshops():
         {needs_copy("the workshop and seminar offering: topics available, typical length, audience, and what an organization receives, in the author's words.")}
         <p class="eyebrow" style="margin-top:28px">Topics drawn from the Institute's published work</p>
         <ul class="fact-list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7c4-2 7-2 8 1 1-3 4-3 8-1v12c-4-2-7-2-8 1-1-3-4-3-8-1Z M12 8v12"/></svg><div><b>Lectures in Print{TM}</b>{"; ".join(esc(i["title"]) for i in CAT["lectures"]["items"])}.</div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7c4-2 7-2 8 1 1-3 4-3 8-1v12c-4-2-7-2-8 1-1-3-4-3-8-1Z M12 8v12"/></svg><div><b>Lectures in Print{TM}</b>{"; ".join(tm(i["title"]) for i in CAT["lectures"]["items"])}.</div></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="5"/><circle cx="8" cy="15" r="5"/><circle cx="16" cy="15" r="5"/></svg><div><b>Philosophy</b>The Five Elements; separation theory; balanced conscious movement; the Capelli Doctrine.</div></li>
         </ul>
       </div>
@@ -1245,6 +1270,7 @@ def build_404():
         <a class="btn" href="{root}index.html">Home <span class="arrow" aria-hidden="true">→</span></a>
         <a class="btn ghost" href="{root}books/index.html">Books</a>
         <a class="btn ghost" href="{root}lectures/index.html">Lectures in Print{TM}</a>
+        <a class="btn ghost" href="{root}resonant-mind.html">Resonant Mind</a>
       </div>
     </div>
   </section>
@@ -1298,7 +1324,82 @@ def build_catalog_js():
     data = json.dumps(CAT, ensure_ascii=False, separators=(",", ":"))
     write("assets/data/catalog.js", "/* DERIVED FILE — generated from assets/data/catalog.json by tools/build-pages.py. Edit the JSON, not this. */\nwindow.CAPELLI_CATALOG=" + data + ";\n")
 
+# ---------------------------------------------------------------------------
+# RESONANT MIND — the Institute's video channel
+# ---------------------------------------------------------------------------
+def build_resonant_mind():
+    root = ""
+    rm = COPY["resonantMind"]
+    url = rm["channelUrl"]
+    # Honest states only (same rule as the buy buttons): a real https link renders the button; no link, no button.
+    if url:
+        visit = f'<a class="btn solid" href="{esc(url)}" target="_blank" rel="noopener">Visit the channel <span class="arrow" aria-hidden="true">→</span></a>'
+        note = '<p class="pay-note">Opens the channel in a new tab.</p>'
+    else:
+        visit = ""
+        note = '<p class="small dim" style="margin:0">The channel address is announced at launch. This page carries no link until it is live.</p>'
+    kinds = ["Recorded lectures", "Philosophical discussions", "Educational presentations", "Research-related content", "Original productions", "Clinical explanations of mental health conditions and interviews"]
+    kind_items = "\n".join(f'        <li><span class="dia" aria-hidden="true"></span>{esc(k)}</li>' for k in kinds)
+    banner = "assets/img/brand/resonant-mind-banner"
+    body = f"""  <section class="rm-hero" aria-labelledby="rm-title">
+    <div class="wrap">
+      <ol class="crumbs" aria-label="Breadcrumb"><li><a href="index.html">Home</a></li><li aria-current="page">Resonant Mind{TM}</li></ol>
+      <h1 id="rm-title">The Capelli Institute <span class="bar" aria-hidden="true">|</span> Resonant Mind</h1>
+      <!-- Sam Capelli's own Resonant Mind banner, served responsive: WebP first, JPG fallback, three widths. -->
+      <picture class="rm-banner">
+        <source type="image/webp" srcset="{banner}-900.webp 900w, {banner}-1400.webp 1400w, {banner}-1983.webp 1983w" sizes="(min-width: 1408px) 1360px, calc(100vw - 48px)">
+        <img src="{banner}-1400.jpg" srcset="{banner}-900.jpg 900w, {banner}-1400.jpg 1400w, {banner}-1983.jpg 1983w" sizes="(min-width: 1408px) 1360px, calc(100vw - 48px)" width="1983" height="793" alt="Resonant Mind, from The Capelli Institute. A bronze statue of a thinking man beside the channel name in gold, a sound wave beneath it, and the line Where Knowledge Resonates Beyond the Classroom, over a Mediterranean coast at sunset. Education, Philosophy, Psychology, Human Behavior." fetchpriority="high">
+      </picture>
+      <p class="thesis">{tm(rm['tagline'])}</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="rm-about">
+    <div class="wrap two wide-left">
+      <div>
+        <p class="eyebrow">The channel</p>
+        <h2 id="rm-about">Where the Institute speaks</h2>
+        <div class="rule left" aria-hidden="true"><span class="dia"></span></div>
+        <p class="lede">{tm(rm['intro'])}</p>
+        <ul class="rm-kinds" aria-label="What the channel carries">
+{kind_items}
+        </ul>
+        <p class="kw" style="margin-top:28px">{seps(["Education","Philosophy","Psychology","Human Behavior"])}</p>
+      </div>
+      <div class="sticky">
+        <div class="frame rm-videos" aria-labelledby="rm-videos-title">
+          <div class="rm-screen" aria-hidden="true">
+            <img src="assets/img/brand/roundel.png" width="200" height="200" alt="" loading="lazy">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="32" cy="32" r="30"/><path d="M26 20v24l20-12Z"/></svg>
+          </div>
+          <p class="eyebrow" style="margin-top:22px">Resonant Mind{TM}</p>
+          <h3 id="rm-videos-title">Videos coming soon</h3>
+          <p class="dim" style="margin:10px 0 20px">Recorded lectures and new productions appear here as they are published.</p>
+          <!-- CHANNEL: the address lives in ONE place, resonantMind.channelUrl in assets/data/copy.json (Pages CMS: Site copy > Resonant Mind).
+               Empty means no button; the site never shows a link to nowhere. -->
+          {visit}
+          {note}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt tight" aria-label="Lectures in Print">
+    <div class="wrap" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center">
+      <div>
+        <p class="eyebrow">In print</p>
+        <h2 style="font-size:24px">Lectures in Print{TM}</h2>
+        <p class="dim" style="margin:8px 0 0">{esc(CAT['lectures']['tagline'])} The lectures, as written.</p>
+      </div>
+      <a class="btn" href="lectures/index.html">See the lectures <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+"""
+    write("resonant-mind.html", head(f"Resonant Mind™ | {rm['tagline']} | {SITE}™",
+        f"Resonant Mind, the video channel of The Capelli Institute. {rm['intro']}", root)
+        + header(root, "resonant") + body + footer(root))
+
 if __name__ == "__main__":
-    build_home(); build_books(); build_philosophy(); build_lectures(); build_ceu()
+    build_home(); build_books(); build_philosophy(); build_lectures(); build_resonant_mind(); build_ceu()
     build_bipp(); build_anger(); build_cognitive(); build_workshops()
-    build_coming_soon(); build_404(); build_legal(); build_catalog_js()
+    build_coming_soon(); build_404(); build_legal(); build_catalog_js(); build_sitemap()
