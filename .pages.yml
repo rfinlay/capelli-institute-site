@@ -392,10 +392,33 @@ content:
           - name: channelUrl
             label: Channel link
             type: string
-            description: The address of the Resonant Mind channel, starting with https://. Leave empty until the channel is live; the page then says "Videos coming soon" with no button. Paste the link and the "Visit the channel" button appears.
+            description: The address of the Resonant Mind channel, starting with https://. Empty means the page says "Videos coming soon" with no button. With the link in place the page shows "Subscribe on YouTube" and "Visit the channel" buttons.
             pattern:
               regex: "^(https://\\S+)?$"
               message: "Paste the full link, starting with https://"
+          - name: channelId
+            label: Channel ID (for the automatic video list)
+            type: string
+            description: The channel's 24-character ID starting with UC (YouTube Studio > Settings > Channel > Advanced settings). The site reads the channel's public feed with it every day and shows the latest uploads by itself. Set once; only change it if the channel itself changes.
+            pattern:
+              regex: "^(UC[A-Za-z0-9_-]{22})?$"
+              message: "A channel ID is 24 characters and starts with UC"
+          - name: featured
+            label: Featured videos (optional)
+            type: object
+            list: true
+            description: Videos to show first, ahead of the automatic latest-uploads list. Paste the video's YouTube link; the title is optional (the channel's own title is used when the video is a recent upload).
+            fields:
+              - name: video
+                label: Video link
+                type: string
+                required: true
+                pattern:
+                  regex: "^(https://\\S+|[A-Za-z0-9_-]{11})$"
+                  message: "Paste the YouTube link of the video"
+              - name: title
+                label: Title (optional)
+                type: string
           - name: tagline
             label: Line under the banner
             type: string

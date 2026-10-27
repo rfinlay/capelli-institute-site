@@ -23,7 +23,9 @@
     "platform": "A comprehensive educational platform for clinicians, professionals, and seekers of knowledge."
   },
   "resonantMind": {
-    "channelUrl": "",
+    "channelUrl": "https://www.youtube.com/@ResonantMindPsych",
+    "channelId": "UCQLWzFAe-_0OCJhs9v1W44g",
+    "featured": [],
     "tagline": "Where Knowledge Resonates Beyond the Classroom.",
     "intro": "Recorded lectures, philosophical discussions, educational presentations, research-related content, other original productions, and clinical explanations of mental health conditions and interviews."
   }

@@ -11,6 +11,11 @@ name: Build and publish
 on:
   push:
     branches: [main]
+  schedule:
+    # Daily at 06:17 UTC: refresh the Resonant Mind video list from the channel's public feed so a new
+    # upload appears on the site without anyone touching the repository. (Not on the hour: GitHub
+    # delays and drops scheduled runs that pile up at :00.)
+    - cron: '17 6 * * *'
   workflow_dispatch:
 
 permissions:
@@ -28,6 +33,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Pull the latest Resonant Mind uploads
+        # Writes assets/data/videos.json and the posters in assets/img/videos/ from the channel feed.
+        # Never fails the build: if YouTube cannot be reached the previous list stays.
+        run: python3 tools/fetch-videos.py
+
       - name: Generate pages from the catalog
         run: python3 tools/build-pages.py
 
@@ -36,14 +46,14 @@ jobs:
         # run finds nothing to commit, so there is no loop).
         if: github.actor != 'github-actions[bot]'
         run: |
-          if git diff --quiet; then
+          git add -A -- . ':!_site'
+          if git diff --cached --quiet; then
             echo "Pages already match the catalog."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- . ':!_site'
-          git commit -m "Rebuild pages from catalog edit"
+          git commit -m "${{ github.event_name == 'schedule' && 'Refresh Resonant Mind videos from the channel feed' || 'Rebuild pages from catalog edit' }}"
           git pull --rebase origin main
           git push origin HEAD:main
 

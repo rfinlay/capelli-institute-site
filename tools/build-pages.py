@@ -132,10 +132,24 @@ COPY_DEFAULTS = {
     # Resonant Mind: the Institute's video channel. channelUrl is THE one place the channel address lives.
     # Empty = not announced yet: the page shows "Videos coming soon" and no "Visit the channel" button is rendered,
     # so the site never carries a dead link. Paste the https:// address (copy.json or Pages CMS) and the button appears.
-    "resonantMind": {"channelUrl": "",
+    # channelId (UC...) is what tools/fetch-videos.py reads to pull the latest uploads into assets/data/videos.json.
+    # featured is the editor's own list of videos (id + optional title) shown ahead of the automatic uploads.
+    "resonantMind": {"channelUrl": "https://www.youtube.com/@ResonantMindPsych",
+                     "channelId": "UCQLWzFAe-_0OCJhs9v1W44g",
+                     "featured": [],
                      "tagline": "Where Knowledge Resonates Beyond the Classroom.",
                      "intro": "Recorded lectures, philosophical discussions, educational presentations, research-related content, other original productions, and clinical explanations of mental health conditions and interviews."},
 }
+VIDEO_ID = re.compile(r"^[A-Za-z0-9_-]{11}$")
+CHANNEL_ID = re.compile(r"^UC[A-Za-z0-9_-]{22}$")
+
+def video_id_of(s):
+    """A YouTube video id from an id, a watch URL, a youtu.be link or an embed URL; None for anything else."""
+    if not isinstance(s, str): return None
+    s = s.strip()
+    if VIDEO_ID.match(s): return s
+    m = re.search(r"(?:[?&]v=|youtu\.be/|/embed/|/shorts/|/live/)([A-Za-z0-9_-]{11})(?:[?&#/]|$)", s)
+    return m.group(1) if m else None
 
 def load_copy():
     raw = load_json("assets/data/copy.json")
@@ -144,6 +158,22 @@ def load_copy():
         got = raw.get(section) or {}
         out[section] = {k: (got[k].strip() if isinstance(got.get(k), str) and got[k].strip() else v) for k, v in defaults.items()}
     errors = []
+    # The featured list is the one non-string copy value: a list of {video, title} objects from Pages CMS.
+    # Each `video` may be an id or any YouTube link; it is reduced to the id here. A row that is not a video is a build error
+    # (the editor sees which row), never a silent drop.
+    featured = []
+    for i, row in enumerate((raw.get("resonantMind") or {}).get("featured") or [], 1):
+        row = row if isinstance(row, dict) else {"video": row}
+        vid = video_id_of(row.get("video"))
+        if not vid:
+            errors.append(f"copy.json resonantMind.featured row {i}: video must be a YouTube link or 11-character video id (got {row.get('video')!r})")
+            continue
+        if vid not in [f["id"] for f in featured]:
+            featured.append({"id": vid, "title": (row.get("title") or "").strip() if isinstance(row.get("title"), str) else ""})
+    out["resonantMind"]["featured"] = featured
+    cid = out["resonantMind"]["channelId"]
+    if cid and not CHANNEL_ID.match(cid):
+        errors.append(f"copy.json resonantMind.channelId must be the 24-character channel id starting with UC (got {cid!r})")
     if not re.fullmatch(r"[0-9 ().+-]{7,20}", out["contact"]["phone"]):
         errors.append(f"copy.json contact.phone must be digits, spaces, dots, dashes or parentheses (got {out['contact']['phone']!r})")
     if not re.fullmatch(r"\+[0-9]{8,15}", out["contact"]["phoneTel"]):
@@ -157,6 +187,21 @@ def load_copy():
     return out
 
 COPY = load_copy()
+
+def load_videos():
+    """assets/data/videos.json, written by tools/fetch-videos.py from the channel feed. Missing or malformed = no uploads
+    (the page then shows the coming-soon panel); the build never fails on it because it is machine-written, not edited."""
+    path = os.path.join(ROOT, "assets/data/videos.json")
+    if not os.path.exists(path): return []
+    try:
+        data = load_json("assets/data/videos.json")
+        items = data.get("items") if isinstance(data, dict) else None
+        return [it for it in (items or []) if isinstance(it, dict) and VIDEO_ID.match(str(it.get("id", ""))) and it.get("title")]
+    except (ValueError, AttributeError):
+        print("warning: assets/data/videos.json is not readable; building with no uploads", file=sys.stderr)
+        return []
+
+VIDEOS = load_videos()
 CAT_VERSION = hashlib.sha1(open(os.path.join(ROOT, "assets/data/catalog.json"), "rb").read()).hexdigest()[:8]
 
 # Where the site is served. GitHub Pages serves this repo under a project path, so the one page
@@ -213,10 +258,13 @@ def form_open(cls, name, back):
         return f'<form class="{cls}" name="{name}" method="POST" action="{esc(FORM_ENDPOINT)}" data-form="live">'
     return f'<form class="{cls}" name="{name}" method="POST" action="{back}?sent=1" data-form="preview">'
 
-def head(title, desc, root, body_class=""):
+def head(title, desc, root, body_class="", frames=False):
     # GitHub Pages cannot set response headers, so the content security policy ships as a meta tag.
     # (frame-ancestors is header-only and is omitted; everything else holds.)
-    csp = f"default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; form-action 'self'{form_origin()}; base-uri 'self'; object-src 'none'"
+    # frames=True (Resonant Mind only) admits the cookieless YouTube player as a frame, and nothing else from YouTube:
+    # posters are copies in assets/img/videos/, so no request leaves this site until a visitor presses play.
+    frame_src = " frame-src https://www.youtube-nocookie.com;" if frames else ""
+    csp = f"default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';{frame_src} form-action 'self'{form_origin()}; base-uri 'self'; object-src 'none'"
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1327,18 +1375,85 @@ def build_catalog_js():
 # ---------------------------------------------------------------------------
 # RESONANT MIND — the Institute's video channel
 # ---------------------------------------------------------------------------
+def video_list():
+    """The videos the page shows: the editor's featured list first, then the channel's latest uploads, no duplicates."""
+    seen, out = set(), []
+    feed_titles = {v["id"]: v for v in VIDEOS}
+    for f in COPY["resonantMind"]["featured"]:
+        if f["id"] in seen: continue
+        seen.add(f["id"])
+        v = dict(feed_titles.get(f["id"], {"id": f["id"], "title": "", "published": ""}))
+        if f["title"]: v["title"] = f["title"]
+        if not v["title"]: v["title"] = "Resonant Mind video"
+        out.append(v)
+    for v in VIDEOS:
+        if v["id"] not in seen:
+            seen.add(v["id"]); out.append(v)
+    return out
+
+def pretty_date(iso):
+    try:
+        import datetime as _dt
+        d = _dt.date.fromisoformat(iso[:10])
+        return d.strftime("%B %-d, %Y")
+    except (ValueError, TypeError):
+        return ""
+
+def video_facade(root, v):
+    """A video as a poster and a play button. The real player (an iframe from youtube-nocookie.com) is created by
+    institute.js only when the visitor presses play, so no request reaches YouTube before that. Without JavaScript the
+    same element is a plain link to the video on YouTube. The poster is this site's own copy (tools/fetch-videos.py)."""
+    vid, title = v["id"], v["title"]
+    poster = f"assets/img/videos/{vid}.jpg"
+    if os.path.exists(os.path.join(ROOT, poster)):
+        img = f'<img src="{root}{poster}" width="1280" height="720" alt="" loading="lazy">'
+    else:
+        img = '<span class="yt-blank" aria-hidden="true"></span>'
+    when = pretty_date(v.get("published", ""))
+    return f"""        <li class="yt-item">
+          <a class="yt" href="https://www.youtube.com/watch?v={vid}" target="_blank" rel="noopener" data-yt="{vid}" data-title="{esc(title)}" aria-label="Play: {esc(title)}">
+            {img}
+            <span class="yt-play" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="32" cy="32" r="30"/><path d="M26 20v24l20-12Z" fill="currentColor"/></svg></span>
+          </a>
+          <h3>{tm(title)}</h3>
+          {f'<p class="small dim" style="margin:4px 0 0">{when}</p>' if when else ''}
+        </li>"""
+
 def build_resonant_mind():
     root = ""
     rm = COPY["resonantMind"]
     url = rm["channelUrl"]
-    # Honest states only (same rule as the buy buttons): a real https link renders the button; no link, no button.
+    videos = video_list()
+    # Honest states only (same rule as the buy buttons): a real https link renders the buttons; no link, no button.
     if url:
-        visit = f'<a class="btn solid" href="{esc(url)}" target="_blank" rel="noopener">Visit the channel <span class="arrow" aria-hidden="true">→</span></a>'
-        note = '<p class="pay-note">Opens the channel in a new tab.</p>'
+        sub = url + ("&" if "?" in url else "?") + "sub_confirmation=1"
+        visit = (f'<div class="btn-row" style="justify-content:center"><a class="btn solid" href="{esc(sub)}" target="_blank" rel="noopener">Subscribe on YouTube <span class="arrow" aria-hidden="true">→</span></a>'
+                 f'<a class="btn ghost" href="{esc(url)}" target="_blank" rel="noopener">Visit the channel <span class="arrow" aria-hidden="true">→</span></a></div>')
+        note = '<p class="pay-note">Both open YouTube in a new tab.</p>'
     else:
         visit = ""
         note = '<p class="small dim" style="margin:0">The channel address is announced at launch. This page carries no link until it is live.</p>'
-    kinds = ["Recorded lectures", "Philosophical discussions", "Educational presentations", "Research-related content", "Original productions", "Clinical explanations of mental health conditions and interviews"]
+    if videos:
+        panel_title, panel_text = "On YouTube", f"{len(videos)} video{'s' if len(videos) != 1 else ''} below. New uploads appear here by themselves."
+        latest = f"""
+  <section class="alt" aria-labelledby="rm-latest">
+    <div class="wrap">
+      <p class="eyebrow">From the channel</p>
+      <h2 id="rm-latest">Latest videos</h2>
+      <div class="rule left" aria-hidden="true"><span class="dia"></span></div>
+      <p class="small dim" style="margin:12px 0 0">Press play to load the player from YouTube. Nothing is loaded from YouTube until you do.</p>
+      <!-- VIDEOS: the automatic list comes from assets/data/videos.json (tools/fetch-videos.py, run by the GitHub Action on every
+           push and daily). To pin a video ahead of the list, add it under Site copy > Resonant Mind > Featured videos in Pages CMS. -->
+      <ul class="yt-grid">
+{chr(10).join(video_facade(root, v) for v in videos)}
+      </ul>
+    </div>
+  </section>
+"""
+    else:
+        panel_title, panel_text = ("First videos coming soon" if url else "Videos coming soon"), "Recorded lectures and new productions appear here as they are published."
+        latest = ""
+    kinds =["Recorded lectures", "Philosophical discussions", "Educational presentations", "Research-related content", "Original productions", "Clinical explanations of mental health conditions and interviews"]
     kind_items = "\n".join(f'        <li><span class="dia" aria-hidden="true"></span>{esc(k)}</li>' for k in kinds)
     banner = "assets/img/brand/resonant-mind-banner"
     body = f"""  <section class="rm-hero" aria-labelledby="rm-title">
@@ -1373,8 +1488,8 @@ def build_resonant_mind():
             <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="32" cy="32" r="30"/><path d="M26 20v24l20-12Z"/></svg>
           </div>
           <p class="eyebrow" style="margin-top:22px">Resonant Mind{TM}</p>
-          <h3 id="rm-videos-title">Videos coming soon</h3>
-          <p class="dim" style="margin:10px 0 20px">Recorded lectures and new productions appear here as they are published.</p>
+          <h3 id="rm-videos-title">{panel_title}</h3>
+          <p class="dim" style="margin:10px 0 20px">{panel_text}</p>
           <!-- CHANNEL: the address lives in ONE place, resonantMind.channelUrl in assets/data/copy.json (Pages CMS: Site copy > Resonant Mind).
                Empty means no button; the site never shows a link to nowhere. -->
           {visit}
@@ -1383,8 +1498,8 @@ def build_resonant_mind():
       </div>
     </div>
   </section>
-
-  <section class="alt tight" aria-label="Lectures in Print">
+{latest}
+  <section class="{'' if videos else 'alt '}tight" aria-label="Lectures in Print">
     <div class="wrap" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center">
       <div>
         <p class="eyebrow">In print</p>
@@ -1396,7 +1511,7 @@ def build_resonant_mind():
   </section>
 """
     write("resonant-mind.html", head(f"Resonant Mind™ | {rm['tagline']} | {SITE}™",
-        f"Resonant Mind, the video channel of The Capelli Institute. {rm['intro']}", root)
+        f"Resonant Mind, the video channel of The Capelli Institute. {rm['intro']}", root, frames=bool(videos))
         + header(root, "resonant") + body + footer(root))
 
 if __name__ == "__main__":

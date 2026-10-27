@@ -160,6 +160,33 @@
       }
     });
   });
+  /* ---- Resonant Mind video facades ----
+     Each video is a link to YouTube carrying data-yt="<video id>". On activation (click, Enter, Space) the link is
+     replaced by the cookieless player (youtube-nocookie.com) with autoplay, so YouTube is contacted only once the
+     visitor has asked for that video. Without this script the link simply opens the video on YouTube. */
+  var facades = document.querySelectorAll('a.yt[data-yt]');
+  Array.prototype.forEach.call(facades, function (a) {
+    var id = a.getAttribute('data-yt') || '';
+    if (!/^[A-Za-z0-9_-]{11}$/.test(id)) { return; }
+    a.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) { return; } // let "open in new tab" through
+      e.preventDefault();
+      var title = a.getAttribute('data-title') || 'Resonant Mind video';
+      var box = document.createElement('div');
+      box.className = 'yt-frame';
+      var f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0';
+      f.title = title;
+      f.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      f.setAttribute('allowfullscreen', '');
+      f.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      f.setAttribute('loading', 'eager');
+      box.appendChild(f);
+      a.parentNode.replaceChild(box, a);
+      f.focus();
+    });
+  });
+
   /* A live endpoint that redirects back with ?sent=1 lands here and shows the real confirmation. */
   if (/[?&]sent=1/.test(location.search)) {
     var sentForm = document.querySelector('form[data-form="live"]');

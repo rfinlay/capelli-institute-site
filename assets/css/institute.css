@@ -474,6 +474,23 @@ main > section.alt{background:var(--navy-deep);}
 .rm-screen{position:relative; aspect-ratio:16/9; display:grid; place-items:center; background:var(--navy); border:1px solid var(--hair); overflow:hidden;}
 .rm-screen img{width:38%; max-width:180px; height:auto; opacity:.16; filter:grayscale(1) sepia(1) saturate(2);}
 .rm-screen svg{position:absolute; width:64px; height:64px; color:var(--gold);}
+.rm-videos .btn-row{margin-top:4px; gap:10px;}
+
+/* Video facades: the poster is this site's own copy, the player is an iframe created on play (institute.js). */
+.yt-grid{list-style:none; margin:var(--s5) 0 0; padding:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:32px 28px;}
+.yt-grid h3{font-family:var(--display); font-weight:400; font-size:17px; letter-spacing:.04em; color:var(--parchment); margin:14px 0 0; line-height:1.4;}
+.yt-item{min-width:0;}
+.yt{position:relative; display:block; aspect-ratio:16/9; background:var(--navy); border:1px solid var(--hair-strong); box-shadow:var(--shadow); overflow:hidden; color:var(--gold); text-decoration:none;}
+.yt img,.yt-blank{display:block; width:100%; height:100%; object-fit:cover;}
+.yt-blank{background:radial-gradient(ellipse at center, var(--navy-raised), var(--navy) 70%);}
+.yt-play{position:absolute; inset:0; display:grid; place-items:center; background:linear-gradient(to top, rgba(0,12,30,.55), rgba(0,12,30,0) 55%); transition:background .2s;}
+.yt-play svg{width:72px; height:72px; filter:drop-shadow(0 2px 10px rgba(0,0,0,.6)); transition:transform .2s;}
+.yt:hover .yt-play,.yt:focus-visible .yt-play{background:linear-gradient(to top, rgba(0,12,30,.7), rgba(0,12,30,.15) 55%);}
+.yt:hover .yt-play svg,.yt:focus-visible .yt-play svg{transform:scale(1.08);}
+.yt:focus-visible{outline:2px solid var(--gold); outline-offset:3px;}
+.yt-frame{position:relative; aspect-ratio:16/9; border:1px solid var(--hair-strong); box-shadow:var(--shadow); background:#000;}
+.yt-frame iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
+@media(prefers-reduced-motion:reduce){.yt-play,.yt-play svg{transition:none;} .yt:hover .yt-play svg{transform:none;}}
 
 /* ---------- coming soon ---------- */
 .teaser-page{min-height:100vh; display:grid; grid-template-rows:auto 1fr auto; position:relative; isolation:isolate; overflow:hidden; background:var(--navy);}

@@ -29,7 +29,7 @@ Your site is built from two small files: one holds the books and lectures (title
 - The synopsis, pull quote, keywords, and subtitle for each book.
 - Each lecture's introduction, excerpt, and YouTube link.
 - Site copy: the phone number and address in the footer, the line under the title on the home page, and the opening lines of the CEU, Workshops and Launch pages.
-- Resonant Mind: under Site copy, the Resonant Mind section holds the Channel link. Until you paste it, the page says "Videos coming soon" and shows no button. Paste the channel's address (starting with https://) and save; a "Visit the channel" button appears. Each lecture's Video link works the same way on its own page.
+- Resonant Mind: under Site copy, the Resonant Mind section holds the Channel link (already set to youtube.com/@ResonantMindPsych) and the Channel ID (already set). The page shows "Subscribe on YouTube" and "Visit the channel" buttons, and your latest uploads appear on it by themselves: the site checks the channel once a day, so a video you publish today is on the site by tomorrow morning. You do not need to do anything. To pin a particular video at the top of the list (for example one that is not a recent upload), add it under Featured videos: paste the video's YouTube link and, if you like, a title. Each lecture's Video link works the same way on its own page: paste the YouTube link of that lecture's video and a "Watch on Resonant Mind" button appears there.
 
 Fields marked read-only (page addresses, SKUs, cover art paths) are set by us. Send us new art or a new title and we place it; your edits keep working around it.
 
