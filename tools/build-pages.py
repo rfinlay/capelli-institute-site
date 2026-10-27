@@ -188,13 +188,13 @@ NAV = [
     ("home", "index.html", "Home"),
     ("books", "books/index.html", "Books"),
     ("philosophy", "philosophy.html", "Philosophy"),
-    ("lectures", "lectures/index.html", f"Lectures<br>in Print{TM}"),
-    ("resonant", "resonant-mind.html", "Resonant<br>Mind"),
+    ("lectures", "lectures/index.html", f"Lectures <br>in Print{TM}"),
+    ("resonant", "resonant-mind.html", "Resonant <br>Mind"),
     ("ceu", "ceu.html", "CEU's"),
-    ("bipp", "programs/bipp.html", "BIPP<br>Education Series"),
-    ("anger", "programs/anger-resolution.html", "Anger<br>Resolution Series"),
-    ("cognitive", "programs/cognitive-programs.html", "Cognitive<br>Programs"),
-    ("workshops", "workshops.html", "Workshops<br>Seminars"),
+    ("bipp", "programs/bipp.html", "BIPP <br>Education Series"),
+    ("anger", "programs/anger-resolution.html", "Anger <br>Resolution Series"),
+    ("cognitive", "programs/cognitive-programs.html", "Cognitive <br>Programs"),
+    ("workshops", "workshops.html", "Workshops <br>Seminars"),
 ]
 
 def esc(s): return html.escape(s, quote=True)
