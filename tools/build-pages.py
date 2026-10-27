@@ -134,8 +134,10 @@ COPY_DEFAULTS = {
     # so the site never carries a dead link. Paste the https:// address (copy.json or Pages CMS) and the button appears.
     # channelId (UC...) is what tools/fetch-videos.py reads to pull the latest uploads into assets/data/videos.json.
     # featured is the editor's own list of videos (id + optional title) shown ahead of the automatic uploads.
-    "resonantMind": {"channelUrl": "https://www.youtube.com/@ResonantMindPsych",
-                     "channelId": "UCQLWzFAe-_0OCJhs9v1W44g",
+    # Both defaults stay EMPTY on purpose: the live values live in copy.json, and an editor who clears a field in Pages CMS
+    # must get the empty state (no buttons, no feed), not the value silently put back.
+    "resonantMind": {"channelUrl": "",
+                     "channelId": "",
                      "featured": [],
                      "tagline": "Where Knowledge Resonates Beyond the Classroom.",
                      "intro": "Recorded lectures, philosophical discussions, educational presentations, research-related content, other original productions, and clinical explanations of mental health conditions and interviews."},
@@ -190,12 +192,18 @@ COPY = load_copy()
 
 def load_videos():
     """assets/data/videos.json, written by tools/fetch-videos.py from the channel feed. Missing or malformed = no uploads
-    (the page then shows the coming-soon panel); the build never fails on it because it is machine-written, not edited."""
+    (the page then shows the coming-soon panel); the build never fails on it because it is machine-written, not edited.
+    The file names the channel it was pulled from; it is used only while that is still the configured channel, so a
+    channel change whose first fetch failed (the fetcher keeps the old file) never shows the previous channel's uploads."""
     path = os.path.join(ROOT, "assets/data/videos.json")
     if not os.path.exists(path): return []
     try:
         data = load_json("assets/data/videos.json")
-        items = data.get("items") if isinstance(data, dict) else None
+        if not isinstance(data, dict) or data.get("channelId") != COPY["resonantMind"]["channelId"]:
+            if isinstance(data, dict) and data.get("items"):
+                print("warning: assets/data/videos.json was pulled from a different channel than copy.json names; building with no uploads until the next fetch", file=sys.stderr)
+            return []
+        items = data.get("items")
         return [it for it in (items or []) if isinstance(it, dict) and VIDEO_ID.match(str(it.get("id", ""))) and it.get("title")]
     except (ValueError, AttributeError):
         print("warning: assets/data/videos.json is not readable; building with no uploads", file=sys.stderr)
