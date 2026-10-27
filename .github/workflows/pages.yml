@@ -46,7 +46,8 @@ jobs:
         # run finds nothing to commit, so there is no loop).
         if: github.actor != 'github-actions[bot]'
         run: |
-          git add -A -- . ':!_site'
+          # _site does not exist yet at this step (it is staged below), so a plain add is exact.
+          git add -A
           if git diff --cached --quiet; then
             echo "Pages already match the catalog."
             exit 0
